@@ -1,12 +1,15 @@
 import { FaRegUser } from "react-icons/fa";
-import Button from "./Button";
+import FloatingButton from "./FloatingButton";
 
-function CallWaiter({ onClick }) {
+function CallWaiter() {
+  const handleCall = () => {
+    window.alert("Waiter!!!");
+  };
   return (
     <div className="absolute bottom-10 right-8">
-      <Button fab onClick={onClick}>
+      <FloatingButton onClick={handleCall} size="large">
         <FaRegUser />
-      </Button>
+      </FloatingButton>
     </div>
   );
 }

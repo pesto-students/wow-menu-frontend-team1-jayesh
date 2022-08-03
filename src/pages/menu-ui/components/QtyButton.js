@@ -1,32 +1,17 @@
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
 const classes = {
-  base: "select-none flex items-center justify-between w-full rounded justify-among",
+  base: "select-none flex items-center justify-between w-full rounded justify-among shadow-glow active:shadow-sm",
   variant: {
-    fill: "bg-primary ",
-    outline: "border-2 border-primary py-1",
+    fill: "bg-primary py-1",
+    outline:
+      "border-2 border-primary bg-light-base3 text-light-text1 dark:bg-dark-base3 dark:text-dark-text1 py-1.5",
   },
-  theme: {
-    light: "bg-light-base3 text-light-text1",
-    dark: "bg-dark-base3 text-dark-text1",
-  },
-  buttonBase:
-    "flex items-center justify-center p-2 grow shadow-glow active:shadow-sm",
+  buttonBase: "flex items-center justify-center p-2 grow",
 };
-function QtyButton({
-  qty,
-  onInc,
-  onDec,
-  theme = "light",
-  variant = "fill",
-  className,
-}) {
+function QtyButton({ qty, onInc, onDec, variant = "fill", className }) {
   return (
-    <div
-      className={`${classes.base} ${classes.variant[variant]} ${
-        variant === "outline" ? classes.theme[theme] : ""
-      }`}
-    >
+    <div className={`${classes.base} ${classes.variant[variant]}`}>
       <button
         type="button"
         className={`${classes.buttonBase} ${className}`}

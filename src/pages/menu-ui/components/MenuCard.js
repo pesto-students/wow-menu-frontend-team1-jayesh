@@ -14,48 +14,48 @@ function MenuCard({
   img,
   onInc,
   onDec,
-  onTouchEnd,
-  theme,
+  onClick,
 }) {
   return (
-    <Card className={`bg-${theme}-base2 ${className}`}>
+    <Card className={`bg-light-base2 dark:bg-dark-base2 ${className}`}>
       <div className="grid grid-cols-3 gap-1">
-        <div className="col-span-2" onTouchEnd={onTouchEnd}>
-          <h2 className={`text-${theme}-text1 font-medium`}>{name}</h2>
-          <div className="flex items-center">
-            <div className="flex items-center">
-              <BiRupee className={`text-${theme}-text1 text-sm mr-1`} />
-              <p className={`text-${theme}-text1 text-sm`}>{price}</p>
-            </div>
-            <div className="flex items-center ml-3">
-              <AiOutlineClockCircle
-                className={`text-${theme}-text1 text-sm mr-1`}
-              />
-              <p className={`text-${theme}-text1 text-sm`}>{waitingTime}</p>
-            </div>
-          </div>
-          <p
-            className={`line-clamp-2 overflow-hidden text-${theme}-text2 text-sm`}
-          >
+        <button
+          type="button"
+          className="col-span-2 text-start"
+          onClick={onClick}
+        >
+          <h2 className="font-medium text-light-text1 dark:text-dark-text1">
+            {name}
+          </h2>
+          <span className="flex items-center">
+            <span className="flex items-center">
+              <BiRupee className="mr-1 text-sm text-light-text1 dark:text-dark-text1" />
+              <p className="text-sm text-light-text1 dark:text-dark-text1">
+                {price}
+              </p>
+            </span>
+            <span className="flex items-center ml-3">
+              <AiOutlineClockCircle className="mr-1 text-sm text-light-text1 dark:text-dark-text1" />
+              <p className="text-sm text-light-text1 dark:text-dark-text1">
+                {waitingTime}
+              </p>
+            </span>
+          </span>
+          <p className="overflow-hidden text-sm line-clamp-2 text-light-text2 dark:text-dark-text2">
             {desc}
           </p>
-        </div>
+        </button>
         <div className="relative">
           <img className="mx-auto rounded-full" src={img} alt={name} />
           <div className="absolute inset-x-0 bottom-0">
             {qty === 0 ? (
-              <Button
-                variant="outline"
-                size="block"
-                theme={theme}
-                onClick={onInc}
-              >
+              <Button variant="outline" size="block" onClick={onInc}>
                 <AiOutlinePlus className="mr-2" />
                 ADD
               </Button>
             ) : (
               <QtyButton
-                qty={1}
+                qty={qty}
                 onInc={onInc}
                 onDec={onDec}
                 className="text-white"

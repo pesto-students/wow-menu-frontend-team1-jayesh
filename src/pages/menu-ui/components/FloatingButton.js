@@ -1,5 +1,5 @@
 const classes = {
-  base: "select-none z-10 rounded-full text-xl bg-primary text-dark-text1 shadow-primary shadow-md active:shadow-sm",
+  base: "select-none z-10 rounded-full text-xl bg-primary text-dark-text1 shadow-lg active:shadow-sm",
   size: {
     large: "p-6",
     regular: "p-4",

@@ -1,6 +1,4 @@
-// import ItemInDetail from "./ItemInDetail";
 import MenuCard from "../components/MenuCard";
-// import pic from "../../../assets/images/img1.png";
 
 const handleInc = () => {
   // console.log(`${idx} is inc`);
@@ -8,13 +6,13 @@ const handleInc = () => {
 const handleDec = () => {
   // console.log(`${idx} is dec`);
 };
-const itemDetails = () => {
-  // console.log("In ItemDetails");
-  // console.log(`${JSON.stringify(item)}`);
-  // window.alert("itemDetails", item );
-};
+// const itemDetails = () => {
+// console.log("In ItemDetails");
+// console.log(`${JSON.stringify(item)}`);
+// window.alert("itemDetails", item );
+// };
 
-function Menu({ items, theme }) {
+function Menu({ items, onClick }) {
   return (
     <div className="mt-4 mb-36">
       <div>
@@ -26,12 +24,11 @@ function Menu({ items, theme }) {
             desc={item.desc}
             price={item.price}
             waitingTime={item.waitingTime}
-            qty={item.qty}
+            qty={1}
             onInc={() => handleInc(idx)}
             onDec={() => handleDec(idx)}
             img={item.img}
-            theme={theme}
-            onTouchEnd={() => itemDetails(item)}
+            onClick={() => onClick(item)}
           />
         ))}
       </div>
