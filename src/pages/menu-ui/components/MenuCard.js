@@ -46,7 +46,12 @@ function MenuCard({
           </p>
         </button>
         <div className="relative">
-          <img className="mx-auto rounded-full" src={img} alt={name} />
+          <img
+            className="mx-auto rounded-full"
+            src={img}
+            alt={name}
+            width={150}
+          />
           <div className="absolute inset-x-0 bottom-0">
             {qty === 0 ? (
               <Button variant="outline" size="block" onClick={onInc}>

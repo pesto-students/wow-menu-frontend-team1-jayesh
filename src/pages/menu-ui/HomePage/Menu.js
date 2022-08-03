@@ -6,11 +6,6 @@ const handleInc = () => {
 const handleDec = () => {
   // console.log(`${idx} is dec`);
 };
-// const itemDetails = () => {
-// console.log("In ItemDetails");
-// console.log(`${JSON.stringify(item)}`);
-// window.alert("itemDetails", item );
-// };
 
 function Menu({ items, onClick }) {
   return (
@@ -18,8 +13,9 @@ function Menu({ items, onClick }) {
       <div>
         {items.map((item, idx) => (
           <MenuCard
-            key={item.name}
+            key={item.id}
             className="my-2"
+            id={item.id}
             name={item.name}
             desc={item.desc}
             price={item.price}

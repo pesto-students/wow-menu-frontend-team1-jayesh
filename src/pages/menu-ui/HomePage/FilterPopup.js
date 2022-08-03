@@ -10,7 +10,7 @@ function FilterPopup({ onClose }) {
       <div className="flex justify-center my-5">
         <CloseButton onClick={onClose} />
       </div>
-      <Card className="bg-light-base2 dark:bg-dark-base2">
+      <Card className="pb-20 bg-light-base2 dark:bg-dark-base2">
         <div className="py-1">
           <div className="flex items-center justify-between p-2 form-check">
             <p className="flex text-light-text1 dark:text-dark-text1">
@@ -35,7 +35,7 @@ function FilterPopup({ onClose }) {
             />
           </div>
           <hr className="my-2 border-light-base2 dark:border-dark-base2" />
-          <p className="pl-2 text-lg font-semibold  text-light-text1 dark:text-dark-text1">
+          <p className="pl-2 text-lg font-semibold text-light-text1 dark:text-dark-text1">
             Spicy
           </p>
           <div className="flex items-center justify-between p-2 form-check">

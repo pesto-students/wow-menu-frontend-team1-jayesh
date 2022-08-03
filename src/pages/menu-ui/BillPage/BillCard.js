@@ -11,7 +11,6 @@ function BillCard({
   items,
   cgst,
   sgst,
-  theme,
 }) {
   const subtotal = items.reduce((a, c) => {
     return a + c.qty * c.price;
@@ -19,29 +18,29 @@ function BillCard({
   const cgstAmt = (cgst / 100) * subtotal;
   const sgstAmt = (sgst / 100) * subtotal;
   return (
-    <Card className={`bg-${theme}-base2 ${className}`}>
+    <Card className={`bg-light-base2 dark:bg-dark-base2 ${className}`}>
       {/* heading */}
       <div>
-        <h2 className={`text-${theme}-text1 text-lg font-semibold text-center`}>
+        <h2 className="text-lg font-semibold text-center text-light-text1 dark:text-dark-text1">
           {restaurant.name}
         </h2>
-        <p className={`text-${theme}-text1 text-center`}>
+        <p className="text-center text-light-text1 dark:text-dark-text1">
           {restaurant.address}
         </p>
         <hr />
-        <h2
-          className={`text-${theme}-text1 my-3 text-xl font-semibold text-center`}
-        >
+        <h2 className="my-3 text-xl font-semibold text-center text-light-text1 dark:text-dark-text1">
           TAX INVOICE
         </h2>
-        <div className={`text-${theme}-text1 flex justify-between mb-2`}>
+        <div className="flex justify-between mb-2 text-light-text1 dark:text-dark-text1">
           <div>
             <p>
-              <span className={`text-${theme}-text1 font-medium`}>Date: </span>
+              <span className="font-medium text-light-text1 dark:text-dark-text1">
+                Date:{" "}
+              </span>
               {moment().format("D-mm-yyyy")}
             </p>
             <p>
-              <span className={`text-${theme}-text1 font-medium`}>
+              <span className="font-medium text-light-text1 dark:text-dark-text1">
                 Table No:{" "}
               </span>{" "}
               {table}
@@ -49,13 +48,15 @@ function BillCard({
           </div>
           <div>
             <h2>
-              <span className={`text-${theme}-text1 font-medium`}>
+              <span className="font-medium text-light-text1 dark:text-dark-text1">
                 Bill No:{" "}
               </span>{" "}
               {billno}
             </h2>
             <p>
-              <span className={`text-${theme}-text1 font-medium`}>Host: </span>{" "}
+              <span className="font-medium text-light-text1 dark:text-dark-text1">
+                Host:{" "}
+              </span>{" "}
               {manager.name}
             </p>
           </div>
@@ -63,57 +64,72 @@ function BillCard({
       </div>
       {/* items */}
       <div>
-        <div className={`text-${theme}-text1 grid grid-cols-6 gap-1`}>
-          <p className={`text-${theme}-text1 col-span-4 font-medium`}>
+        <div className="grid grid-cols-6 gap-1 text-light-text1 dark:text-dark-text1">
+          <p className="col-span-4 font-medium text-light-text1 dark:text-dark-text1">
             Particulars
           </p>
-          <p className={`text-${theme}-text1 font-medium text-end`}>Rate</p>
-          <p className={`text-${theme}-text1 font-medium text-end`}>Amt</p>
+          <p className="font-medium text-light-text1 dark:text-dark-text1 text-end">
+            Rate
+          </p>
+          <p className="font-medium text-light-text1 dark:text-dark-text1 text-end">
+            Amt
+          </p>
         </div>
         {items.map((item) => {
           return (
             <div
               key={item.id}
-              className={`text-${theme}-text1 grid grid-cols-6 gap-1 mb-1`}
+              className="grid grid-cols-6 gap-1 mb-1 text-light-text1 dark:text-dark-text1"
             >
-              <p className={`text-${theme}-text1 col-span-4 text-md`}>
+              <p className="col-span-4 text-light-text1 dark:text-dark-text1 text-md">
                 {item.qty} x {item.name}
               </p>
-              <p className={`text-${theme}-text1 flex justify-end text-md`}>
-                <BiRupee className={`text-${theme}-text1 mt-1`} /> {item.price}
+              <p className="flex justify-end text-light-text1 dark:text-dark-text1 text-md">
+                <BiRupee className="mt-1 text-light-text1 dark:text-dark-text1" />{" "}
+                {item.price}
               </p>
-              <p className={`text-${theme}-text1 flex justify-end text-md`}>
-                <BiRupee className={`text-${theme}-text1 mt-1`} />
+              <p className="flex justify-end text-light-text1 dark:text-dark-text1 text-md">
+                <BiRupee className="mt-1 text-light-text1 dark:text-dark-text1" />
                 {item.qty * item.price}
               </p>
             </div>
           );
         })}
         <hr />
-        <div className={`text-${theme}-text1 flex justify-between`}>
-          <p className={`text-${theme}-text1 font-medium`}>Subtotal</p>
-          <p className={`text-${theme}-text1 flex items-center`}>
-            <BiRupee className={`text-${theme}-text1`} /> {subtotal}
+        <div className="flex justify-between text-light-text1 dark:text-dark-text1">
+          <p className="font-medium text-light-text1 dark:text-dark-text1">
+            Subtotal
+          </p>
+          <p className="flex items-center text-light-text1 dark:text-dark-text1">
+            <BiRupee className="text-light-text1 dark:text-dark-text1" />{" "}
+            {subtotal}
           </p>
         </div>
-        <div className={`text-${theme}-text1 flex justify-between`}>
-          <p className={`text-${theme}-text1 font-medium`}>CGST</p>
-          <p className={`text-${theme}-text1 flex items-center`}>
-            <BiRupee className={`text-${theme}-text1`} />
+        <div className="flex justify-between text-light-text1 dark:text-dark-text1">
+          <p className="font-medium text-light-text1 dark:text-dark-text1">
+            CGST
+          </p>
+          <p className="flex items-center text-light-text1 dark:text-dark-text1">
+            <BiRupee className="text-light-text1 dark:text-dark-text1" />
             {cgstAmt}
           </p>
         </div>
-        <div className={`text-${theme}-text1 flex justify-between`}>
-          <p className={`text-${theme}-text1 font-medium`}>SGST</p>
-          <p className={`text-${theme}-text1 flex items-center`}>
-            <BiRupee className={`text-${theme}-text1`} /> {sgstAmt}
+        <div className="flex justify-between text-light-text1 dark:text-dark-text1">
+          <p className="font-medium text-light-text1 dark:text-dark-text1">
+            SGST
+          </p>
+          <p className="flex items-center text-light-text1 dark:text-dark-text1">
+            <BiRupee className="text-light-text1 dark:text-dark-text1" />{" "}
+            {sgstAmt}
           </p>
         </div>
         <hr />
         <div className="flex justify-between my-3">
-          <p className={`text-${theme}-text1 text-lg font-semibold`}>Total</p>
+          <p className="text-lg font-semibold text-light-text1 dark:text-dark-text1">
+            Total
+          </p>
 
-          <p className={`text-${theme}-text1 flex items-center`}>
+          <p className="flex items-center text-light-text1 dark:text-dark-text1">
             <BiRupee />
             {subtotal + cgstAmt + sgstAmt}
           </p>

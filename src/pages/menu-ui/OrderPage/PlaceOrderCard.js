@@ -5,54 +5,46 @@ import Button from "../components/Button";
 
 // style for different props
 const classes = {
-  base: "absolute inset-x-0 bottom-0 pt-10 pb-7 shadow-lg",
-  amt: {
-    light: "text-light-text1 text-lg",
-    dark: "text-dark-text1 text-lg",
-  },
-  bg: {
-    light: "bg-light-base3",
-    dark: "bg-dark-base3",
-  },
+  base: "absolute inset-x-0 bottom-0 pt-10 pb-20 shadow-lg bg-light-base3 dark:bg-dark-base3",
+  amt: "text-light-text1 dark:text-dark-text1 text-lg",
 };
 
-function PlaceOrderCard({ className, subtotal, cgst, sgst, theme = "light" }) {
+function PlaceOrderCard({ className, subtotal, cgst, sgst }) {
   return (
     <Card
       className={`
       ${classes.base}
-      ${classes.bg[theme]}
       ${className}
   `}
     >
       <div>
         <div className="flex justify-between">
-          <p className={`${classes.amt[theme]}`}>Subtotal</p>
+          <p className={`${classes.amt}`}>Subtotal</p>
           <div className="flex items-center">
-            <BiRupee className={`${classes.amt[theme]}`} />
-            <p className={`${classes.amt[theme]}`}>{subtotal}</p>
+            <BiRupee className={`${classes.amt}`} />
+            <p className={`${classes.amt}`}>{subtotal}</p>
           </div>
         </div>
         <div className="flex justify-between">
-          <p className={`${classes.amt[theme]}`}>CGST</p>
+          <p className={`${classes.amt}`}>CGST</p>
           <div className="flex items-center">
-            <BiRupee className={`${classes.amt[theme]}`} />
-            <p className={`${classes.amt[theme]}`}>{cgst}</p>
+            <BiRupee className={`${classes.amt}`} />
+            <p className={`${classes.amt}`}>{cgst}</p>
           </div>
         </div>
         <div className="flex justify-between">
-          <p className={`${classes.amt[theme]}`}>SGST</p>
+          <p className={`${classes.amt}`}>SGST</p>
           <div className="flex items-center">
-            <BiRupee className={`${classes.amt[theme]}`} />
-            <p className={`${classes.amt[theme]}`}>{sgst}</p>
+            <BiRupee className={`${classes.amt}`} />
+            <p className={`${classes.amt}`}>{sgst}</p>
           </div>
         </div>
         <hr className="my-2" />
         <div className="flex justify-between mb-2">
-          <p className={`${classes.amt[theme]}`}>Total</p>
+          <p className={`${classes.amt}`}>Total</p>
           <div className="flex items-center">
-            <BiRupee className={`${classes.amt[theme]}`} />
-            <p className={`${classes.amt[theme]}`}>{subtotal + cgst + sgst}</p>
+            <BiRupee className={`${classes.amt}`} />
+            <p className={`${classes.amt}`}>{subtotal + cgst + sgst}</p>
           </div>
         </div>
       </div>

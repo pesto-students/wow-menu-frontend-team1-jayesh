@@ -1,14 +1,13 @@
 import { FaRegUser } from "react-icons/fa";
 import FloatingButton from "../components/FloatingButton";
 
-function HandleClick() {
-  // window.alert("Called Waiter");
-}
-
 function CallWaiter() {
+  const handleCall = () => {
+    window.alert("Waiter!!!");
+  };
   return (
     <div className="absolute bottom-20 right-8">
-      <FloatingButton size="large" onClick={HandleClick}>
+      <FloatingButton onClick={handleCall} size="large">
         <FaRegUser />
       </FloatingButton>
     </div>

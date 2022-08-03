@@ -7,31 +7,16 @@ import Textfield from "../components/Textfield";
 
 // style for different props
 const classes = {
-  bg: {
-    light: "bg-light-base2",
-    dark: "bg-dark-base2",
-  },
-  title: {
-    light: "text-light-text1 font-medium",
-    dark: "text-dark-text1 font-medium",
-  },
-  subtitle: {
-    light: "text-light-text1",
-    dark: "text-dark-text1",
-  },
+  bg: "bg-light-base2 dark:bg-dark-base2",
+  title: "text-light-text1 dark:text-dark-text1 font-medium",
+  subtitle: "text-light-text1 dark:text-dark-text1",
 };
 
-function OrderCard({
-  className,
-  items = [],
-  variant = "details",
-  status,
-  theme = "light",
-}) {
+function OrderCard({ className, items = [], variant = "details", status }) {
   return (
     <Card
       className={`
-      ${classes.bg[theme]}
+      ${classes.bg}
       ${className}
     `}
     >
@@ -42,19 +27,17 @@ function OrderCard({
               <div className="col-span-2">
                 <div className="flex">
                   <GrSquare
-                    className={item.isVeg ? "text-green-600" : "text-red-800"}
-                    size="24"
+                    className={
+                      item.isVeg ? "text-green-600 mt-1" : "text-red-800 mt-1"
+                    }
+                    size="18"
                   />
                   <div className="ml-2">
-                    <h2 className={`${classes.title[theme]}`}>{item.name}</h2>
+                    <h2 className={`${classes.title}`}>{item.name}</h2>
                     {variant === "details" && (
                       <div className="flex items-center">
-                        <BiRupee
-                          className={`${classes.subtitle[theme]} mr-1`}
-                        />
-                        <p className={`${classes.subtitle[theme]}`}>
-                          {item.price}
-                        </p>
+                        <BiRupee className={`${classes.subtitle} mr-1`} />
+                        <p className={`${classes.subtitle}`}>{item.price}</p>
                       </div>
                     )}
                   </div>
@@ -66,14 +49,12 @@ function OrderCard({
                     {variant === "details" ? (
                       <QtyButton qty={item.qty} className="text-white" />
                     ) : (
-                      <StatusChip status={status} theme={theme}>
-                        {status}
-                      </StatusChip>
+                      <StatusChip status={status}>{status}</StatusChip>
                     )}
                   </div>
                   <div className="flex items-center justify-end mt-2">
-                    <BiRupee className={`${classes.subtitle[theme]} mr-1`} />
-                    <p className={`${classes.subtitle[theme]}`}>
+                    <BiRupee className={`${classes.subtitle} mr-1`} />
+                    <p className={`${classes.subtitle}`}>
                       {item.qty * item.price}
                     </p>
                   </div>
@@ -86,8 +67,7 @@ function OrderCard({
       {variant === "details" && (
         <div className="text-center">
           <hr />
-          {/* <TextButton theme={theme}>Write instruction for Chef</TextButton> */}
-          <Textfield theme={theme} placeholder="Write instruction for Chef" />
+          <Textfield placeholder="Write instruction for Chef" />
         </div>
       )}
     </Card>

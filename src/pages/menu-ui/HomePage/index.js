@@ -51,10 +51,10 @@ function HomePage() {
         />
         <Menu items={getMenuByCategory(category)} onClick={showDetail} />
       </div>
-      <CallWaiter />
 
-      {/* <ViewCard qty={5} price={240} theme={theme} /> */}
-      {/* <GenerateBillCard theme={theme} /> */}
+      {/* <ViewCard qty={5} price={240} />
+      <GenerateBillCard /> */}
+      <CallWaiter />
 
       {detail.show && <ItemInDetail item={detail.item} onClose={hideDetail} />}
       {filter && <FilterPopup onClose={toggleFilter} />}

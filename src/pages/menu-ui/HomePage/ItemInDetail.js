@@ -9,7 +9,7 @@ import CloseButton from "../components/CloseButton";
 // style for different props
 const classes = {
   base: "h-full flex flex-col z-20",
-  bg: "bg-light-base2 dark:bg-dark-base2",
+  bg: "bg-light-base2 dark:bg-dark-base2 pb-20",
   title: "font-medium text-xl mt-1 text-light-text1 dark:text-dark-text1",
   desc: "my-2 text-light-text2 dark:text-dark-text2",
 };
