@@ -3,14 +3,14 @@ import { BsFilter } from "react-icons/bs";
 import IconButton from "./IconButton";
 import FilterDropdown from "./FilterDropdown";
 
-function FilterButton({ theme }) {
+function FilterButton({ theme, className }) {
   const [show, setShow] = useState(false);
   const handleClick = () => {
     setShow(!show);
   };
   return (
     <div>
-      <IconButton theme={theme} onClick={handleClick}>
+      <IconButton theme={theme} onClick={handleClick} className={className}>
         <BsFilter size="26" />
       </IconButton>
       {show && <FilterDropdown theme={theme} />}

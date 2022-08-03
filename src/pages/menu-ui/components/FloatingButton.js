@@ -1,14 +1,16 @@
 const classes = {
-  base: "rounded-full p-4 text-xl",
+  base: "select-none z-10 rounded-full text-xl bg-primary text-dark-text1 shadow-primary shadow-md active:shadow-sm",
+  size: {
+    large: "p-6",
+    regular: "p-4",
+  },
 };
 
-function TextButton({ children, onClick, theme, active = false }) {
+function FloatingButton({ children, size = "regular", onClick }) {
   return (
     <button
       type="button"
-      className={`
-    ${classes.base} 
-    ${active ? classes.active : classes.theme[theme]}`}
+      className={` ${classes.base} ${classes.size[size]}`}
       onClick={onClick}
     >
       {children}
@@ -16,4 +18,4 @@ function TextButton({ children, onClick, theme, active = false }) {
   );
 }
 
-export default TextButton;
+export default FloatingButton;

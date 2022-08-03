@@ -1,6 +1,6 @@
 // style for different props
 const classes = {
-  base: "w-full rounded shadow-lg p-4",
+  base: "select-none w-full rounded p-4 shadow-lg",
 };
 
 function Card({ children, className }) {

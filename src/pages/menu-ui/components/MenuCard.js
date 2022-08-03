@@ -14,12 +14,13 @@ function MenuCard({
   img,
   onInc,
   onDec,
+  onTouchEnd,
   theme,
 }) {
   return (
     <Card className={`bg-${theme}-base2 ${className}`}>
       <div className="grid grid-cols-3 gap-1">
-        <div className="col-span-2">
+        <div className="col-span-2" onTouchEnd={onTouchEnd}>
           <h2 className={`text-${theme}-text1 font-medium`}>{name}</h2>
           <div className="flex items-center">
             <div className="flex items-center">
@@ -53,7 +54,12 @@ function MenuCard({
                 ADD
               </Button>
             ) : (
-              <QtyButton qty={1} onInc={onInc} onDec={onDec} />
+              <QtyButton
+                qty={1}
+                onInc={onInc}
+                onDec={onDec}
+                className="text-white"
+              />
             )}
           </div>
         </div>
