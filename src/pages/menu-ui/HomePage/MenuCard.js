@@ -1,8 +1,8 @@
 import { BiRupee } from "react-icons/bi";
 import { AiOutlineClockCircle, AiOutlinePlus } from "react-icons/ai";
-import Card from "./Card";
-import Button from "./Button";
-import QtyButton from "./QtyButton";
+import Card from "../components/Card";
+import Button from "../components/Button";
+import QtyButton from "../components/QtyButton";
 
 function MenuCard({
   className,
@@ -34,12 +34,14 @@ function MenuCard({
                 {price}
               </p>
             </span>
-            <span className="flex items-center ml-3">
-              <AiOutlineClockCircle className="mr-1 text-sm text-light-text1 dark:text-dark-text1" />
-              <p className="text-sm text-light-text1 dark:text-dark-text1">
-                {waitingTime}
-              </p>
-            </span>
+            {waitingTime > 0 && (
+              <span className="flex items-center ml-3">
+                <AiOutlineClockCircle className="mr-1 text-sm text-light-text1 dark:text-dark-text1" />
+                <p className="text-sm text-light-text1 dark:text-dark-text1">
+                  {waitingTime}m
+                </p>
+              </span>
+            )}
           </span>
           <p className="overflow-hidden text-sm line-clamp-2 text-light-text2 dark:text-dark-text2">
             {desc}

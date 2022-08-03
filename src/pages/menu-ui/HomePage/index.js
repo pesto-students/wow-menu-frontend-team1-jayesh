@@ -1,29 +1,30 @@
-import { useState } from "react";
-import { groupBy } from "lodash";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductByCategory } from "../../../redux/reducers/menuReducer";
 import Header from "./Header";
 import IconSet from "./IconSet";
 import Slider from "./Slider";
 import Menu from "./Menu";
 import CallWaiter from "./CallWaiter";
-import mockData from "../../../assets/js/mock_data.json";
-// import ViewCard from "./ViewCard";
-// import GenerateBillCard from "./GenerateBillCard";
 import ItemInDetail from "./ItemInDetail";
 import FilterPopup from "./FilterPopup";
-
-const groupByCategory = () => groupBy(mockData, "category");
-const getMenuByCategory = (category) => groupByCategory()[category];
-const categories = Object.keys(groupByCategory());
+// import ViewCard from "./ViewCard";
+// import GenerateBillCard from "./GenerateBillCard";
 
 function HomePage() {
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => state.menu.categories);
+  const dishesByCategory = useSelector((state) => state.menu.dishesByCategory);
   const [category, setCategory] = useState(categories[0]);
   const [detail, setDetail] = useState({
     item: "",
     show: false,
   });
   const [filter, setFilter] = useState(false);
+
   const handleCategory = (item) => {
     setCategory(item);
+    dispatch(getProductByCategory(item));
   };
   const hideDetail = () => {
     setDetail({ ...detail, show: !detail.show });
@@ -34,6 +35,10 @@ function HomePage() {
   const toggleFilter = () => {
     setFilter(!filter);
   };
+
+  useEffect(() => {
+    dispatch(getProductByCategory(category));
+  }, [dispatch]);
 
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">
@@ -49,7 +54,7 @@ function HomePage() {
           active={category}
           onClick={handleCategory}
         />
-        <Menu items={getMenuByCategory(category)} onClick={showDetail} />
+        <Menu items={dishesByCategory} onClick={showDetail} />
       </div>
 
       {/* <ViewCard qty={5} price={240} />
