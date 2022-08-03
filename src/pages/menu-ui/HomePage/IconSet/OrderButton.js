@@ -1,5 +1,5 @@
 import { BsBookmarkDash } from "react-icons/bs";
-import IconButton from "./IconButton";
+import IconButton from "../../components/IconButton";
 
 function OrderButton({ onClick }) {
   return (

@@ -1,26 +1,15 @@
-import { useState } from "react";
 import TextButton from "../components/TextButton";
 
-const classes = {
-  base: "flex whitespace-nowrap snap-x",
-  wrapper: "overflow-auto touch-pan-x w-100 mt-3 scroll-smooth",
-};
-
-function Slider({ categories, theme }) {
-  const [active, setActive] = useState(categories[0]);
-  const handleClick = (category) => {
-    setActive(category);
-  };
+function Slider({ categories, active, onClick }) {
   return (
-    <div className={`${classes.wrapper}`}>
-      <div className={`${classes.base}`}>
+    <div className="mt-3 overflow-auto touch-pan-x w-100 scroll-smooth slider">
+      <div className="flex whitespace-nowrap snap-x">
         {categories.map((category) => (
           <TextButton
             key={category}
-            theme={theme}
             className="snap-start"
             active={category === active}
-            onClick={() => handleClick(category)}
+            onClick={() => onClick(category)}
           >
             {category}
           </TextButton>

@@ -7,17 +7,14 @@ import Button from "../components/Button";
 // style for different props
 const classes = {
   base: "absolute inset-x-0 bottom-0 pt-10 pb-7",
-  bg: {
-    light: "bg-light-base2",
-    dark: "bg-dark-base2",
-  },
+  bg: "bg-light-base2 dark:bg-dark-base2 pb-20",
 };
 
-const ViewCard = forwardRef(({ className, price, qty, theme = "light" }) => (
+const ViewCard = forwardRef(({ className, price, qty }) => (
   <Card
     className={`
       ${classes.base}
-      ${classes.bg[theme]}
+      ${classes.bg}
       ${className}
   `}
   >

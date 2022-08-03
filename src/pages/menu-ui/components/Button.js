@@ -15,11 +15,7 @@ const classes = {
   variant: {
     fill: "bg-primary text-dark-text1 shadow-glow active:shadow-sm",
     outline:
-      "border-2 border-primary text-primary shadow-glow active:shadow-sm",
-  },
-  theme: {
-    light: "bg-light-base3 text-light-text1",
-    dark: "bg-dark-base3 text-dark-text1",
+      "border-2 border-primary text-primary bg-light-base3 text-light-text1 dark:bg-dark-base3 dark:text-dark-text1 shadow-glow active:shadow-sm",
   },
   disabled: "opacity-50 cursor-not-allowed",
 };
@@ -30,7 +26,6 @@ const Button = forwardRef(
       children,
       className,
       disabled = false,
-      theme = "light",
       align = "packed",
       variant = "fill",
       size = "normal",
@@ -47,7 +42,6 @@ const Button = forwardRef(
       ${classes.size[size]}
       ${size === "block" && classes.align[align]}
       ${classes.variant[variant]}
-      ${variant !== "fill" && classes.theme[theme]}
       ${disabled && classes.disabled}
       ${className}
       `}

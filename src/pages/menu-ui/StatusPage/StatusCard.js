@@ -4,25 +4,15 @@ import StatusChip from "../components/StatusChip";
 
 // style for different props
 const classes = {
-  bg: {
-    light: "bg-light-base2",
-    dark: "bg-dark-base2",
-  },
-  title: {
-    light: "text-light-text1 font-medium",
-    dark: "text-dark-text1 font-medium",
-  },
-  subtitle: {
-    light: "text-light-text1",
-    dark: "text-dark-text1",
-  },
+  bg: "bg-light-base2 dark:bg-dark-base2",
+  title: "text-light-text1 dark:text-dark-text1 font-medium",
 };
 
-function OrderCard({ className, items = [], status, theme = "light" }) {
+function OrderCard({ className, items = [], status }) {
   return (
     <Card
       className={`
-      ${classes.bg[theme]}
+      ${classes.bg}
       ${className}
     `}
     >
@@ -33,21 +23,19 @@ function OrderCard({ className, items = [], status, theme = "light" }) {
               <div className="flex mb-5">
                 <GrSquare
                   className={
-                    item.isVeg ? "mt-2 text-green-600" : "mt-2 text-red-800"
+                    item.isVeg ? "mt-1 text-green-600" : "mt-1 text-red-800"
                   }
-                  size="24"
+                  size="18"
                 />
                 <div className="ml-2">
-                  <h2 className={`${classes.title[theme]}`}>{item.name}</h2>
+                  <h2 className={`${classes.title}`}>{item.name}</h2>
                 </div>
               </div>
             );
           })}
         </div>
         <div className="flex items-start justify-end">
-          <StatusChip status={status} theme={theme}>
-            {status}
-          </StatusChip>
+          <StatusChip status={status}>{status}</StatusChip>
         </div>
       </div>
     </Card>

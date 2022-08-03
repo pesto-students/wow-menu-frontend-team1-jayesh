@@ -1,21 +1,13 @@
-import BackButton from "../components/BackButton";
+import PageHeader from "../components/PageHeader";
 import StatusCard from "./StatusCard";
 
-const index = ({ theme = "light" }) => {
+const index = () => {
   return (
-    <div
-      className={`relative w-screen h-screen bg-${theme}-base1 overflow-hidden`}
-    >
+    <div className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">
       <div className="h-full p-4 overflow-y-auto bg-lightPattern">
-        <BackButton />
-        <div className="text-center">
-          <h2 className={`text-2xl font-semibold text-${theme}-text1`}>
-            Order Status
-          </h2>
-        </div>
+        <PageHeader name="Order Status" />
         <div className="mt-5 mb-64">
           <StatusCard
-            theme={theme}
             className="my-3"
             status="Preparing"
             items={[
@@ -34,10 +26,15 @@ const index = ({ theme = "light" }) => {
             ]}
           />
           <StatusCard
-            theme={theme}
             className="my-5"
             status="Completed"
             items={[
+              {
+                name: "Spicy seasoned seafood noodles",
+                isVeg: true,
+                price: 269,
+                qty: 2,
+              },
               {
                 name: "Spicy seasoned seafood noodles",
                 isVeg: true,

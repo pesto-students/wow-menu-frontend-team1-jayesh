@@ -1,20 +1,14 @@
 import BillCard from "./BillCard";
 import PaymentCard from "./PaymentCard";
-import BackButton from "../components/BackButton";
+import PageHeader from "../components/PageHeader";
 
-const index = ({ theme = "light" }) => {
+const index = () => {
   return (
-    <div
-      className={`relative w-screen h-screen bg-${theme}-base1 overflow-hidden`}
-    >
+    <div className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">
       <div className="h-full p-4 overflow-y-auto bg-lightPattern">
-        <BackButton />
-        <div className="text-center">
-          <h2 className={`text-2xl font-semibold text-${theme}-text1`}>Bill</h2>
-        </div>
+        <PageHeader name="Bill" />
         <div className="mt-5 mb-64">
           <BillCard
-            theme={theme}
             restaurant={{
               name: "Zeeshan",
               address: "5,1 Ho Chi Migh Street-700056",
@@ -50,7 +44,7 @@ const index = ({ theme = "light" }) => {
           />
         </div>
       </div>
-      <PaymentCard theme={theme} />
+      <PaymentCard />
     </div>
   );
 };
