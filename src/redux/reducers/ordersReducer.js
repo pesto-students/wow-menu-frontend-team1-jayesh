@@ -6,13 +6,22 @@ export const placeOrder = (payload) => ({
 });
 
 const initialState = {
-  orders: [],
+  list: [],
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case PLACE_ORDER:
-      return [...state.orders, { ...action.payload, status: "Pending" }];
+      return {
+        list: [
+          ...state.list,
+          {
+            items: action.payload,
+            status: "Pending",
+            id: state.list.length + 1,
+          },
+        ],
+      };
     default:
       return state;
   }

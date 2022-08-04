@@ -1,8 +1,27 @@
+// import { useSelector } from "react-redux";
 import BillCard from "./BillCard";
 import PaymentCard from "./PaymentCard";
 import PageHeader from "../components/PageHeader";
 
-const index = () => {
+function BillPage() {
+  // const orders = useSelector((state) => state.order.list);
+  // const filteredOrders = orders.filter((order) => order.status !== "Rejected");
+  // const orderItems = filteredOrders
+  //   .map((order) => {
+  //     return order.items;
+  //   })
+  //   .flat();
+  // const itemMaps = new Map();
+  // orderItems.map((item) => {
+  //   if (!itemMaps.has(item.id)) itemMaps.set(item.id, item);
+  //   else
+  //     itemMaps.set(item.id, {
+  //       ...itemMaps.get(item.id),
+  //       qty: itemMaps.get(item.id).qty + itemMaps.qty,
+  //     });
+  // });
+
+  // console.log(itemMaps);
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">
       <div className="h-full p-4 overflow-y-auto bg-lightPattern">
@@ -15,7 +34,7 @@ const index = () => {
             }}
             table={3}
             manager={{
-              name: "Jamestax",
+              name: "John Doe",
               id: "745sd568ds4",
             }}
             billno={301}
@@ -47,6 +66,6 @@ const index = () => {
       <PaymentCard />
     </div>
   );
-};
+}
 
-export default index;
+export default BillPage;

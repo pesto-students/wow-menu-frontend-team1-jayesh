@@ -1,5 +1,4 @@
-import { BiRupee } from "react-icons/bi";
-import { GrSquare } from "react-icons/gr";
+import { BiRupee, BiFoodTag } from "react-icons/bi";
 import { GiChiliPepper } from "react-icons/gi";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -52,7 +51,7 @@ function ItemInDetail({ className, onClose }) {
           />
         </div>
         <div className="flex">
-          <GrSquare
+          <BiFoodTag
             className={item.isVeg ? "text-green-600" : "text-red-800"}
             size="24"
           />

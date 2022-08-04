@@ -5,7 +5,7 @@ import Card from "../components/Card";
 import Button from "../components/Button";
 
 const classes = {
-  base: "absolute inset-x-0 bottom-0 pt-10 pb-7 bg-light-base2 dark:bg-dark-base2 pb-20",
+  base: "absolute inset-x-0 bottom-0 pt-10 bg-light-base3 dark:bg-dark-base3 pb-20",
 };
 
 function ViewCard({ className, qty }) {

@@ -1,5 +1,4 @@
-import { BiRupee } from "react-icons/bi";
-import { GrSquare } from "react-icons/gr";
+import { BiRupee, BiFoodTag } from "react-icons/bi";
 import Card from "../components/Card";
 import QtyButton from "../components/QtyButton";
 import StatusChip from "../components/StatusChip";
@@ -26,7 +25,7 @@ function OrderCard({ className, items = [], variant = "details", status }) {
             <div className="grid grid-cols-3 gap-1 mb-5" key={item.id}>
               <div className="col-span-2">
                 <div className="flex">
-                  <GrSquare
+                  <BiFoodTag
                     className={
                       item.isVeg ? "text-green-600 mt-1" : "text-red-800 mt-1"
                     }

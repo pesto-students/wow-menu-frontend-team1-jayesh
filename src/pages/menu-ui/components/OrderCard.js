@@ -1,5 +1,4 @@
-import { BiRupee } from "react-icons/bi";
-import { GrSquare } from "react-icons/gr";
+import { BiRupee, BiFoodTag } from "react-icons/bi";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import Card from "./Card";
 import Button from "./Button";
@@ -40,7 +39,7 @@ function OrderCard({
             <div className="grid grid-cols-3 gap-1 mb-5">
               <div className="col-span-2">
                 <div className="flex">
-                  <GrSquare
+                  <BiFoodTag
                     className={item.isVeg ? "text-green-600" : "text-red-800"}
                     size="24"
                   />

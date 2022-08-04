@@ -8,10 +8,11 @@ import CallWaiter from "./CallWaiter";
 import ItemInDetail from "./ItemInDetail";
 import FilterPopup from "./FilterPopup";
 import ViewCard from "./ViewCard";
-// import GenerateBillCard from "./GenerateBillCard";
+import GenerateBillCard from "./GenerateBillCard";
 
 function HomePage() {
   const itemsInCart = useSelector((state) => state.menu.itemsInCart);
+  const orders = useSelector((state) => state.order.list);
   const [showDetail, setShowDetail] = useState(false);
   const [showfilter, setShowFilter] = useState(false);
 
@@ -32,11 +33,9 @@ function HomePage() {
         <Slider />
         <Menu onClick={toggleDetail} />
       </div>
-
-      {itemsInCart > 0 && <ViewCard qty={itemsInCart} />}
-      {/* <GenerateBillCard /> */}
       <CallWaiter />
-
+      {orders.length > 0 && <GenerateBillCard />}
+      {itemsInCart > 0 && <ViewCard qty={itemsInCart} />}
       {showDetail && <ItemInDetail onClose={toggleDetail} />}
       {showfilter && <FilterPopup onClose={toggleFilter} />}
     </div>
