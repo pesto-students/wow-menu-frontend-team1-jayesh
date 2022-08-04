@@ -1,4 +1,9 @@
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import {
+  increaseQuantity,
+  decreaseQuantity,
+} from "../../../redux/reducers/menuReducer";
 
 const classes = {
   base: "select-none flex items-center justify-between w-full rounded justify-among shadow-glow active:shadow-sm",
@@ -9,13 +14,21 @@ const classes = {
   },
   buttonBase: "flex items-center justify-center p-2 grow",
 };
-function QtyButton({ qty, onInc, onDec, variant = "fill", className }) {
+
+function QtyButton({ qty, id, onInc, onDec, variant = "fill", className }) {
+  const dispatch = useDispatch();
+  const handleInc = () => {
+    dispatch(increaseQuantity(id));
+  };
+  const handleDec = () => {
+    dispatch(decreaseQuantity(id));
+  };
   return (
     <div className={`${classes.base} ${classes.variant[variant]}`}>
       <button
         type="button"
         className={`${classes.buttonBase} ${className}`}
-        onClick={onDec}
+        onClick={id ? handleDec : onDec}
       >
         <AiOutlineMinus size={16} />
       </button>
@@ -23,7 +36,7 @@ function QtyButton({ qty, onInc, onDec, variant = "fill", className }) {
       <button
         type="button"
         className={`${classes.buttonBase}  ${className}`}
-        onClick={onInc}
+        onClick={id ? handleInc : onInc}
       >
         <AiOutlinePlus size={16} />
       </button>

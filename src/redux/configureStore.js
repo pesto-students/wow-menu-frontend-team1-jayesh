@@ -4,7 +4,7 @@ import ordersReducer from "./reducers/ordersReducer";
 
 const store = configureStore({
   reducer: {
-    orderCart: ordersReducer,
+    order: ordersReducer,
     menu: menuReducer,
   },
 });

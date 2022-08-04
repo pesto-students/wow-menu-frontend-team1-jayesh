@@ -1,28 +1,37 @@
+import { useDispatch } from "react-redux";
 import { BiRupee } from "react-icons/bi";
 import { AiOutlineClockCircle, AiOutlinePlus } from "react-icons/ai";
 import Card from "../components/Card";
 import Button from "../components/Button";
 import QtyButton from "../components/QtyButton";
+import { increaseQuantity, setItem } from "../../../redux/reducers/menuReducer";
 
 function MenuCard({
   className,
+  id,
   name,
   price,
   waitingTime,
   desc,
   qty,
   img,
-  onInc,
-  onDec,
   onClick,
 }) {
+  const dispatch = useDispatch();
+  const handleInc = () => {
+    dispatch(increaseQuantity(id));
+  };
+  const handleClick = () => {
+    dispatch(setItem(id));
+    onClick();
+  };
   return (
     <Card className={`bg-light-base2 dark:bg-dark-base2 ${className}`}>
       <div className="grid grid-cols-3 gap-1">
         <button
           type="button"
           className="col-span-2 text-start"
-          onClick={onClick}
+          onClick={handleClick}
         >
           <h2 className="font-medium text-light-text1 dark:text-dark-text1">
             {name}
@@ -56,17 +65,12 @@ function MenuCard({
           />
           <div className="absolute inset-x-0 bottom-0">
             {qty === 0 ? (
-              <Button variant="outline" size="block" onClick={onInc}>
+              <Button variant="outline" size="block" onClick={handleInc}>
                 <AiOutlinePlus className="mr-2" />
                 ADD
               </Button>
             ) : (
-              <QtyButton
-                qty={qty}
-                onInc={onInc}
-                onDec={onDec}
-                className="text-white"
-              />
+              <QtyButton qty={qty} id={id} className="text-white" />
             )}
           </div>
         </div>

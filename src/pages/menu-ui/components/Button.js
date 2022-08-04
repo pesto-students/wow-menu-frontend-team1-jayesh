@@ -1,6 +1,5 @@
-import { forwardRef } from "react";
+import { useNavigate } from "react-router-dom";
 
-// style for different props
 const classes = {
   base: "select-none items-center",
   size: {
@@ -20,22 +19,23 @@ const classes = {
   disabled: "opacity-50 cursor-not-allowed",
 };
 
-const Button = forwardRef(
-  (
-    {
-      children,
-      className,
-      disabled = false,
-      align = "packed",
-      variant = "fill",
-      size = "normal",
-      onClick,
-    },
-    ref,
-  ) => (
+function Button({
+  children,
+  className,
+  disabled = false,
+  align = "packed",
+  variant = "fill",
+  size = "normal",
+  onClick,
+  href = "",
+}) {
+  const navigate = useNavigate();
+  const handleRoute = () => {
+    navigate(href);
+  };
+  return (
     <button
       type="button"
-      ref={ref}
       disabled={disabled}
       className={`
       ${classes.base}
@@ -45,11 +45,11 @@ const Button = forwardRef(
       ${disabled && classes.disabled}
       ${className}
       `}
-      onClick={onClick}
+      onClick={href === "" ? onClick : handleRoute}
     >
       {children}
     </button>
-  ),
-);
+  );
+}
 
 export default Button;
