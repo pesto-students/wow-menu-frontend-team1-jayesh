@@ -14,7 +14,7 @@
 /* Custom Scrollbar */
 /* width */
 ::-webkit-scrollbar {
-  /* width: 7px; */
+  width: 7px;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
