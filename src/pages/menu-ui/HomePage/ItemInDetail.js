@@ -1,10 +1,12 @@
-import { BiRupee } from "react-icons/bi";
-import { GrSquare } from "react-icons/gr";
+import { BiRupee, BiFoodTag } from "react-icons/bi";
 import { GiChiliPepper } from "react-icons/gi";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import QtyButton from "../components/QtyButton";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import CloseButton from "../components/CloseButton";
+import { updateQuantity } from "../../../redux/reducers/menuReducer";
 
 // style for different props
 const classes = {
@@ -14,10 +16,24 @@ const classes = {
   desc: "my-2 text-light-text2 dark:text-dark-text2",
 };
 
-function ItemInDetail({ className, item, onClose }) {
+function ItemInDetail({ className, onClose }) {
+  const dispatch = useDispatch();
+  const item = useSelector((state) => state.menu.selectedItem);
+  const [localQty, setLocalQty] = useState(item.qty === 0 ? 1 : item.qty);
+  const addToCart = (id) => {
+    dispatch(updateQuantity({ id, qty: localQty }));
+    onClose();
+  };
+  const handleInc = () => {
+    setLocalQty(localQty + 1);
+  };
+  const handleDec = () => {
+    if (localQty === 1) onClose();
+    else setLocalQty(localQty - 1);
+  };
   return (
     <div className="absolute top-0 flex flex-col w-full h-full bg-gray-800/80">
-      <div className="grow"> </div>
+      <div className="grow" />
       <div className="flex justify-center my-5">
         <CloseButton onClick={onClose} />
       </div>
@@ -35,7 +51,7 @@ function ItemInDetail({ className, item, onClose }) {
           />
         </div>
         <div className="flex">
-          <GrSquare
+          <BiFoodTag
             className={item.isVeg ? "text-green-600" : "text-red-800"}
             size="24"
           />
@@ -54,18 +70,24 @@ function ItemInDetail({ className, item, onClose }) {
           <p className={`${classes.desc}`}>{item.desc}</p>
         </div>
         <div className="py-3">
-          <div className="grid grid-cols-6 gap-2">
-            <div className="col-span-2">
-              <QtyButton variant="outline" qty={1} />
+          <div className="grid grid-flow-col gap-2 auto-cols-auto">
+            <div>
+              <QtyButton
+                variant="outline"
+                qty={localQty}
+                onInc={handleInc}
+                onDec={handleDec}
+              />
             </div>
-
-            <div className="col-span-4">
-              <Button size="block" className="py-2 border-2 border-primary">
+            <div>
+              <Button
+                size="block"
+                className="py-2 border-2 border-primary"
+                onClick={() => addToCart(item.id)}
+              >
                 Add Item
                 <BiRupee className="ml-2 mr-1" />
-                {!item.qty || item.qty === 0
-                  ? item.price
-                  : item.price * item.qty * item.price}
+                {parseFloat(item.price * localQty).toFixed(2)}
               </Button>
             </div>
           </div>

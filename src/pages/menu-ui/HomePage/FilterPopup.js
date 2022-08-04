@@ -1,4 +1,4 @@
-import { GrSquare } from "react-icons/gr";
+import { BiFoodTag } from "react-icons/bi";
 import { GiChiliPepper } from "react-icons/gi";
 import Card from "../components/Card";
 import CloseButton from "../components/CloseButton";
@@ -14,7 +14,7 @@ function FilterPopup({ onClose }) {
         <div className="py-1">
           <div className="flex items-center justify-between p-2 form-check">
             <p className="flex text-light-text1 dark:text-dark-text1">
-              <GrSquare className="mt-1 mr-1 text-green-600" size="16" />
+              <BiFoodTag className="mt-1 mr-1 text-green-600" size="16" />
               Veg
             </p>
             <input
@@ -25,7 +25,7 @@ function FilterPopup({ onClose }) {
           </div>
           <div className="flex items-center justify-between p-2 form-check">
             <p className="flex text-light-text1 dark:text-dark-text1">
-              <GrSquare className="mt-1 mr-1 text-red-600" size="16" />
+              <BiFoodTag className="mt-1 mr-1 text-red-600" size="16" />
               Non Veg
             </p>
             <input

@@ -1,5 +1,4 @@
-import { BiRupee } from "react-icons/bi";
-import { GrSquare } from "react-icons/gr";
+import { BiRupee, BiFoodTag } from "react-icons/bi";
 import Card from "../components/Card";
 import QtyButton from "../components/QtyButton";
 import StatusChip from "../components/StatusChip";
@@ -23,10 +22,10 @@ function OrderCard({ className, items = [], variant = "details", status }) {
       <div>
         {items.map((item) => {
           return (
-            <div className="grid grid-cols-3 gap-1 mb-5">
+            <div className="grid grid-cols-3 gap-1 mb-5" key={item.id}>
               <div className="col-span-2">
                 <div className="flex">
-                  <GrSquare
+                  <BiFoodTag
                     className={
                       item.isVeg ? "text-green-600 mt-1" : "text-red-800 mt-1"
                     }
@@ -47,7 +46,11 @@ function OrderCard({ className, items = [], variant = "details", status }) {
                 <div>
                   <div className="flex items-center justify-end mt-2">
                     {variant === "details" ? (
-                      <QtyButton qty={item.qty} className="text-white" />
+                      <QtyButton
+                        qty={item.qty}
+                        id={item.id}
+                        className="text-white"
+                      />
                     ) : (
                       <StatusChip status={status}>{status}</StatusChip>
                     )}
@@ -64,10 +67,15 @@ function OrderCard({ className, items = [], variant = "details", status }) {
           );
         })}
       </div>
-      {variant === "details" && (
+      {variant === "details" && items.length > 0 && (
         <div className="text-center">
           <hr />
           <Textfield placeholder="Write instruction for Chef" />
+        </div>
+      )}
+      {items.length === 0 && (
+        <div className={`text-center ${classes.subtitle}`}>
+          No Dish to Order
         </div>
       )}
     </Card>

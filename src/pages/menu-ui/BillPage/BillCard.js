@@ -35,28 +35,28 @@ function BillCard({
           <div>
             <p>
               <span className="font-medium text-light-text1 dark:text-dark-text1">
-                Date:{" "}
+                Date:
               </span>
-              {moment().format("D-mm-yyyy")}
+              {moment().format("DD-MM-yyyy")}
             </p>
             <p>
               <span className="font-medium text-light-text1 dark:text-dark-text1">
-                Table No:{" "}
-              </span>{" "}
+                Table No:
+              </span>
               {table}
             </p>
           </div>
           <div>
             <h2>
               <span className="font-medium text-light-text1 dark:text-dark-text1">
-                Bill No:{" "}
-              </span>{" "}
+                Bill No:
+              </span>
               {billno}
             </h2>
             <p>
               <span className="font-medium text-light-text1 dark:text-dark-text1">
-                Host:{" "}
-              </span>{" "}
+                Host:
+              </span>
               {manager.name}
             </p>
           </div>
@@ -64,8 +64,8 @@ function BillCard({
       </div>
       {/* items */}
       <div>
-        <div className="grid grid-cols-6 gap-1 text-light-text1 dark:text-dark-text1">
-          <p className="col-span-4 font-medium text-light-text1 dark:text-dark-text1">
+        <div className="grid grid-cols-4 gap-1 mb-2 underline text-light-text1 dark:text-dark-text1">
+          <p className="col-span-2 font-medium text-light-text1 dark:text-dark-text1">
             Particulars
           </p>
           <p className="font-medium text-light-text1 dark:text-dark-text1 text-end">
@@ -79,17 +79,15 @@ function BillCard({
           return (
             <div
               key={item.id}
-              className="grid grid-cols-6 gap-1 mb-1 text-light-text1 dark:text-dark-text1"
+              className="grid grid-cols-4 gap-1 mb-3 text-light-text1 dark:text-dark-text1"
             >
-              <p className="col-span-4 text-light-text1 dark:text-dark-text1 text-md">
+              <p className="col-span-2 text-light-text1 dark:text-dark-text1 text-md">
                 {item.qty} x {item.name}
               </p>
               <p className="flex justify-end text-light-text1 dark:text-dark-text1 text-md">
-                <BiRupee className="mt-1 text-light-text1 dark:text-dark-text1" />{" "}
                 {item.price}
               </p>
               <p className="flex justify-end text-light-text1 dark:text-dark-text1 text-md">
-                <BiRupee className="mt-1 text-light-text1 dark:text-dark-text1" />
                 {item.qty * item.price}
               </p>
             </div>
@@ -101,7 +99,7 @@ function BillCard({
             Subtotal
           </p>
           <p className="flex items-center text-light-text1 dark:text-dark-text1">
-            <BiRupee className="text-light-text1 dark:text-dark-text1" />{" "}
+            <BiRupee className="text-light-text1 dark:text-dark-text1" />
             {subtotal}
           </p>
         </div>
@@ -119,7 +117,7 @@ function BillCard({
             SGST
           </p>
           <p className="flex items-center text-light-text1 dark:text-dark-text1">
-            <BiRupee className="text-light-text1 dark:text-dark-text1" />{" "}
+            <BiRupee className="text-light-text1 dark:text-dark-text1" />
             {sgstAmt}
           </p>
         </div>

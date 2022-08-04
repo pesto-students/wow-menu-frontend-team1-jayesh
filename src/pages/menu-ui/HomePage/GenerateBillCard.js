@@ -3,8 +3,7 @@ import Button from "../components/Button";
 
 // style for different props
 const classes = {
-  base: "absolute inset-x-0 bottom-0 pt-10 pb-7",
-  bg: "bg-light-base2 dark:bg-dark-base2 pb-20",
+  base: "absolute inset-x-0 bottom-0 pt-10  pb-20 bg-light-base3 dark:bg-dark-base3",
 };
 
 function ViewCard({ className }) {
@@ -12,11 +11,10 @@ function ViewCard({ className }) {
     <Card
       className={`
       ${classes.base}
-      ${classes.bg}
       ${className}
   `}
     >
-      <Button size="block">
+      <Button size="block" className="py-1.5" href="/bill">
         <div className="flex items-center">
           <p>Generate Bill</p>
         </div>

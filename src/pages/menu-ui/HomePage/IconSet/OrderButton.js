@@ -1,10 +1,10 @@
-import { BsBookmarkDash } from "react-icons/bs";
+import { BiFoodMenu } from "react-icons/bi";
 import IconButton from "../../components/IconButton";
 
-function OrderButton({ onClick }) {
+function OrderButton() {
   return (
-    <IconButton theme="primary" onClick={onClick}>
-      <BsBookmarkDash size="26" />
+    <IconButton theme="primary" href="/status">
+      <BiFoodMenu size="26" />
     </IconButton>
   );
 }

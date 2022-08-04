@@ -1,4 +1,4 @@
-import { GrSquare } from "react-icons/gr";
+import { BiFoodTag } from "react-icons/bi";
 import Card from "../components/Card";
 import StatusChip from "../components/StatusChip";
 
@@ -6,6 +6,7 @@ import StatusChip from "../components/StatusChip";
 const classes = {
   bg: "bg-light-base2 dark:bg-dark-base2",
   title: "text-light-text1 dark:text-dark-text1 font-medium",
+  rejected: "line-through decoration-accent-red decoration-2",
 };
 
 function OrderCard({ className, items = [], status }) {
@@ -16,19 +17,25 @@ function OrderCard({ className, items = [], status }) {
       ${className}
     `}
     >
-      <div className="flex">
+      <div className="flex justify-between">
         <div>
           {items.map((item) => {
             return (
-              <div className="flex mb-5">
-                <GrSquare
+              <div className="flex mb-5" key={item.id}>
+                <BiFoodTag
                   className={
                     item.isVeg ? "mt-1 text-green-600" : "mt-1 text-red-800"
                   }
-                  size="18"
+                  size="20"
                 />
-                <div className="ml-2">
-                  <h2 className={`${classes.title}`}>{item.name}</h2>
+                <div className="mb-3 ml-2">
+                  <h2
+                    className={`${classes.title} ${
+                      status === "Rejected" ? classes.rejected : ""
+                    }`}
+                  >
+                    {`${item.qty} ${item.name}`}
+                  </h2>
                 </div>
               </div>
             );

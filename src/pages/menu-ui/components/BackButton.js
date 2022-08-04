@@ -1,9 +1,9 @@
 import { FiChevronLeft } from "react-icons/fi";
 import Button from "./Button";
 
-function BackButton({ onClick }) {
+function BackButton() {
   return (
-    <Button className="m-2" size="small" onClick={onClick}>
+    <Button className="m-2" size="small" href="/">
       <FiChevronLeft />
       Menu
     </Button>

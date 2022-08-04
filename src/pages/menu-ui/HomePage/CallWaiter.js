@@ -3,6 +3,7 @@ import FloatingButton from "../components/FloatingButton";
 
 function CallWaiter() {
   const handleCall = () => {
+    // eslint-disable-next-line
     window.alert("Waiter!!!");
   };
   return (

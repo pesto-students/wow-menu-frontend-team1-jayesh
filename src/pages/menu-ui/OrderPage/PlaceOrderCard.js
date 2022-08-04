@@ -1,7 +1,11 @@
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { BiRupee } from "react-icons/bi";
 import { BsArrowRight } from "react-icons/bs";
 import Card from "../components/Card";
 import Button from "../components/Button";
+import { resetMenu } from "../../../redux/reducers/menuReducer";
+import { placeOrder } from "../../../redux/reducers/ordersReducer";
 
 // style for different props
 const classes = {
@@ -9,7 +13,15 @@ const classes = {
   amt: "text-light-text1 dark:text-dark-text1 text-lg",
 };
 
-function PlaceOrderCard({ className, subtotal, cgst, sgst }) {
+function PlaceOrderCard({ className, orders, subtotal, cgst, sgst }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleOrderPlacement = () => {
+    dispatch(placeOrder(orders));
+    dispatch(resetMenu());
+    navigate("/");
+  };
+
   return (
     <Card
       className={`
@@ -22,21 +34,23 @@ function PlaceOrderCard({ className, subtotal, cgst, sgst }) {
           <p className={`${classes.amt}`}>Subtotal</p>
           <div className="flex items-center">
             <BiRupee className={`${classes.amt}`} />
-            <p className={`${classes.amt}`}>{subtotal}</p>
+            <p className={`${classes.amt}`}>
+              {parseFloat(subtotal).toFixed(2)}
+            </p>
           </div>
         </div>
         <div className="flex justify-between">
           <p className={`${classes.amt}`}>CGST</p>
           <div className="flex items-center">
             <BiRupee className={`${classes.amt}`} />
-            <p className={`${classes.amt}`}>{cgst}</p>
+            <p className={`${classes.amt}`}>{parseFloat(cgst).toFixed(2)}</p>
           </div>
         </div>
         <div className="flex justify-between">
           <p className={`${classes.amt}`}>SGST</p>
           <div className="flex items-center">
             <BiRupee className={`${classes.amt}`} />
-            <p className={`${classes.amt}`}>{sgst}</p>
+            <p className={`${classes.amt}`}>{parseFloat(sgst).toFixed(2)}</p>
           </div>
         </div>
         <hr className="my-2" />
@@ -44,16 +58,20 @@ function PlaceOrderCard({ className, subtotal, cgst, sgst }) {
           <p className={`${classes.amt}`}>Total</p>
           <div className="flex items-center">
             <BiRupee className={`${classes.amt}`} />
-            <p className={`${classes.amt}`}>{subtotal + cgst + sgst}</p>
+            <p className={`${classes.amt}`}>
+              {parseFloat(subtotal + cgst + sgst).toFixed(2)}
+            </p>
           </div>
         </div>
       </div>
-      <Button size="block" align="spaced">
-        <div className="text-sm">
+      <Button size="block" align="spaced" onClick={handleOrderPlacement}>
+        <div>
           <p className="text-sm font-medium">TOTAL</p>
           <div className="flex items-center">
             <BiRupee />
-            <p className="text-lg font-medium">{subtotal + cgst + sgst}</p>
+            <p className="text-lg font-medium">
+              {parseFloat(subtotal + cgst + sgst).toFixed(2)}
+            </p>
           </div>
         </div>
         <div className="flex items-center">

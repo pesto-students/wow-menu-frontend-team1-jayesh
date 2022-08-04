@@ -1,17 +1,12 @@
-import MenuCard from "../components/MenuCard";
+import { useSelector } from "react-redux";
+import MenuCard from "./MenuCard";
 
-const handleInc = () => {
-  // console.log(`${idx} is inc`);
-};
-const handleDec = () => {
-  // console.log(`${idx} is dec`);
-};
-
-function Menu({ items, onClick }) {
+function Menu({ onClick }) {
+  const items = useSelector((state) => state.menu.dishesByCategory);
   return (
     <div className="mt-4 mb-36">
       <div>
-        {items.map((item, idx) => (
+        {items.map((item) => (
           <MenuCard
             key={item.id}
             className="my-2"
@@ -20,9 +15,7 @@ function Menu({ items, onClick }) {
             desc={item.desc}
             price={item.price}
             waitingTime={item.waitingTime}
-            qty={1}
-            onInc={() => handleInc(idx)}
-            onDec={() => handleDec(idx)}
+            qty={item.qty}
             img={item.img}
             onClick={() => onClick(item)}
           />
