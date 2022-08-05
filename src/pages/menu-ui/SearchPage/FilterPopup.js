@@ -1,9 +1,13 @@
 import { BiFoodTag } from "react-icons/bi";
-import { GiChiliPepper } from "react-icons/gi";
+// import { GiChiliPepper } from "react-icons/gi";
 import Card from "../components/Card";
 import CloseButton from "../components/CloseButton";
 
-function FilterPopup({ onClose }) {
+function FilterPopup({ onClose, onSelect, selectedOption }) {
+  const handleInput = (option) => {
+    onSelect(option);
+    onClose();
+  };
   return (
     <div className="absolute top-0 flex flex-col w-full h-full bg-gray-800/80">
       <div className="grow"> </div>
@@ -18,9 +22,11 @@ function FilterPopup({ onClose }) {
               Veg
             </p>
             <input
-              className="w-6 h-6 rounded cursor-pointer accent-primary"
-              type="checkbox"
-              name="veg"
+              className="w-6 h-6 rounded cursor-pointer accent-green-600"
+              type="radio"
+              name="vegNonveg"
+              defaultChecked={selectedOption === "veg"}
+              onInput={() => handleInput("veg")}
             />
           </div>
           <div className="flex items-center justify-between p-2 form-check">
@@ -29,12 +35,28 @@ function FilterPopup({ onClose }) {
               Non Veg
             </p>
             <input
-              className="w-6 h-6 rounded cursor-pointer accent-primary"
-              type="checkbox"
-              name="nonveg"
+              className="w-6 h-6 rounded cursor-pointer accent-red-600"
+              type="radio"
+              name="vegNonveg"
+              defaultChecked={selectedOption === "nonveg"}
+              onInput={() => handleInput("nonveg")}
             />
           </div>
-          <hr className="my-2 border-light-base2 dark:border-dark-base2" />
+          <div className="flex items-center justify-between p-2 form-check">
+            <p className="flex text-light-text1 dark:text-dark-text1">
+              <BiFoodTag className="mt-1 mr-1 text-green-600" size="16" />
+              <BiFoodTag className="mt-1 mr-1 text-red-600" size="16" />
+              Both
+            </p>
+            <input
+              className="w-6 h-6 rounded cursor-pointer accent-primary"
+              type="radio"
+              name="vegNonveg"
+              defaultChecked={selectedOption === ""}
+              onInput={() => handleInput("")}
+            />
+          </div>
+          {/* <hr className="my-2 border-light-base2 dark:border-dark-base2" />
           <p className="pl-2 text-lg font-semibold text-light-text1 dark:text-dark-text1">
             Spicy
           </p>
@@ -68,7 +90,7 @@ function FilterPopup({ onClose }) {
               type="checkbox"
               name="spicyHigh"
             />
-          </div>
+          </div> */}
         </div>
       </Card>
     </div>

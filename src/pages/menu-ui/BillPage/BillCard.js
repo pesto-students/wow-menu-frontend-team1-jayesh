@@ -2,21 +2,12 @@ import { BiRupee } from "react-icons/bi";
 import moment from "moment";
 import Card from "../components/Card";
 
-function BillCard({
-  className,
-  restaurant,
-  table,
-  manager,
-  billno,
-  items,
-  cgst,
-  sgst,
-}) {
+function BillCard({ className, restaurant, manager, billno, items }) {
   const subtotal = items.reduce((a, c) => {
     return a + c.qty * c.price;
   }, 0);
-  const cgstAmt = (cgst / 100) * subtotal;
-  const sgstAmt = (sgst / 100) * subtotal;
+  const cgstAmt = (restaurant.cgst / 100) * subtotal;
+  const sgstAmt = (restaurant.sgst / 100) * subtotal;
   return (
     <Card className={`bg-light-base2 dark:bg-dark-base2 ${className}`}>
       {/* heading */}
@@ -43,7 +34,7 @@ function BillCard({
               <span className="font-medium text-light-text1 dark:text-dark-text1">
                 Table No:
               </span>
-              {table}
+              {restaurant.table}
             </p>
           </div>
           <div>
@@ -85,10 +76,10 @@ function BillCard({
                 {item.qty} x {item.name}
               </p>
               <p className="flex justify-end text-light-text1 dark:text-dark-text1 text-md">
-                {item.price}
+                {parseFloat(item.price).toFixed(2)}
               </p>
               <p className="flex justify-end text-light-text1 dark:text-dark-text1 text-md">
-                {item.qty * item.price}
+                {parseFloat(item.qty * item.price).toFixed(2)}
               </p>
             </div>
           );
@@ -100,7 +91,7 @@ function BillCard({
           </p>
           <p className="flex items-center text-light-text1 dark:text-dark-text1">
             <BiRupee className="text-light-text1 dark:text-dark-text1" />
-            {subtotal}
+            {parseFloat(subtotal).toFixed(2)}
           </p>
         </div>
         <div className="flex justify-between text-light-text1 dark:text-dark-text1">
@@ -109,7 +100,7 @@ function BillCard({
           </p>
           <p className="flex items-center text-light-text1 dark:text-dark-text1">
             <BiRupee className="text-light-text1 dark:text-dark-text1" />
-            {cgstAmt}
+            {parseFloat(cgstAmt).toFixed(2)}
           </p>
         </div>
         <div className="flex justify-between text-light-text1 dark:text-dark-text1">
@@ -118,7 +109,7 @@ function BillCard({
           </p>
           <p className="flex items-center text-light-text1 dark:text-dark-text1">
             <BiRupee className="text-light-text1 dark:text-dark-text1" />
-            {sgstAmt}
+            {parseFloat(sgstAmt).toFixed(2)}
           </p>
         </div>
         <hr />
@@ -129,7 +120,7 @@ function BillCard({
 
           <p className="flex items-center text-light-text1 dark:text-dark-text1">
             <BiRupee />
-            {subtotal + cgstAmt + sgstAmt}
+            {parseFloat(subtotal + cgstAmt + sgstAmt).toFixed(2)}
           </p>
         </div>
       </div>

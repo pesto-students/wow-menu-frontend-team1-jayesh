@@ -3,7 +3,8 @@ import { useDispatch } from "react-redux";
 import {
   increaseQuantity,
   decreaseQuantity,
-} from "../../../redux/reducers/menuReducer";
+  removeFromCart,
+} from "../../../redux/reducers/cartReducer";
 
 const classes = {
   base: "select-none flex items-center justify-between w-full rounded justify-among shadow-glow active:shadow-sm",
@@ -21,7 +22,8 @@ function QtyButton({ qty, id, onInc, onDec, variant = "fill", className }) {
     dispatch(increaseQuantity(id));
   };
   const handleDec = () => {
-    dispatch(decreaseQuantity(id));
+    if (qty === 1) dispatch(removeFromCart(id));
+    else dispatch(decreaseQuantity(id));
   };
   return (
     <div className={`${classes.base} ${classes.variant[variant]}`}>

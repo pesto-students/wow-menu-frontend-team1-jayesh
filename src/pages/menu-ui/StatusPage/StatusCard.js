@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { BiFoodTag } from "react-icons/bi";
 import Card from "../components/Card";
 import StatusChip from "../components/StatusChip";
@@ -10,6 +11,7 @@ const classes = {
 };
 
 function OrderCard({ className, items = [], status }) {
+  const products = useSelector((state) => state.product.items);
   return (
     <Card
       className={`
@@ -19,7 +21,8 @@ function OrderCard({ className, items = [], status }) {
     >
       <div className="flex justify-between">
         <div>
-          {items.map((item) => {
+          {items.map((cartItem) => {
+            const item = products.find((dish) => dish.id === cartItem.id);
             return (
               <div className="flex mb-5" key={item.id}>
                 <BiFoodTag
@@ -34,7 +37,7 @@ function OrderCard({ className, items = [], status }) {
                       status === "Rejected" ? classes.rejected : ""
                     }`}
                   >
-                    {`${item.qty} ${item.name}`}
+                    {`${cartItem.qty} ${item.name}`}
                   </h2>
                 </div>
               </div>

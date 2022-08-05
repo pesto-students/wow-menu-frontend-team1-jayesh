@@ -1,12 +1,6 @@
-import { useSelector } from "react-redux";
 import MenuCard from "../components/MenuCard";
 
-function Menu() {
-  const products = useSelector((state) => state.product.items);
-  const selectedCategory = useSelector(
-    (state) => state.product.selectedCategory,
-  );
-  const items = products.filter((item) => item.category === selectedCategory);
+function Menu({ items }) {
   return (
     <div className="mt-4 mb-36">
       <div>

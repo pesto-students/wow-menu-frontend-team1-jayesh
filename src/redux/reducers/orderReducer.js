@@ -2,17 +2,19 @@ const PLACE_ORDER = "PLACE_ORDER";
 
 export const placeOrder = (payload) => ({
   type: "PLACE_ORDER",
-  payload,
+  payload, // {cart Items}
 });
 
 const initialState = {
   list: [],
+  manager: { name: "John Doe", id: "12345" },
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case PLACE_ORDER:
       return {
+        ...state,
         list: [
           ...state.list,
           {

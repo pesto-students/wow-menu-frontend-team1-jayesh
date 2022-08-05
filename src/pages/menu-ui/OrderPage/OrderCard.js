@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { BiRupee, BiFoodTag } from "react-icons/bi";
 import Card from "../components/Card";
 import QtyButton from "../components/QtyButton";
@@ -12,6 +13,7 @@ const classes = {
 };
 
 function OrderCard({ className, items = [], variant = "details", status }) {
+  const products = useSelector((state) => state.product.items);
   return (
     <Card
       className={`
@@ -20,7 +22,8 @@ function OrderCard({ className, items = [], variant = "details", status }) {
     `}
     >
       <div>
-        {items.map((item) => {
+        {items.map((cartItem) => {
+          const item = products.find((dish) => dish.id === cartItem.id);
           return (
             <div className="grid grid-cols-3 gap-1 mb-5" key={item.id}>
               <div className="col-span-2">
@@ -47,7 +50,7 @@ function OrderCard({ className, items = [], variant = "details", status }) {
                   <div className="flex items-center justify-end mt-2">
                     {variant === "details" ? (
                       <QtyButton
-                        qty={item.qty}
+                        qty={cartItem.qty}
                         id={item.id}
                         className="text-white"
                       />
@@ -58,7 +61,7 @@ function OrderCard({ className, items = [], variant = "details", status }) {
                   <div className="flex items-center justify-end mt-2">
                     <BiRupee className={`${classes.subtitle} mr-1`} />
                     <p className={`${classes.subtitle}`}>
-                      {item.qty * item.price}
+                      {cartItem.qty * item.price}
                     </p>
                   </div>
                 </div>

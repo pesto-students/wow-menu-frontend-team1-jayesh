@@ -1,29 +1,20 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BiRupee } from "react-icons/bi";
 import { AiOutlineClockCircle, AiOutlinePlus } from "react-icons/ai";
-import Card from "../components/Card";
-import Button from "../components/Button";
-import QtyButton from "../components/QtyButton";
-import { increaseQuantity, setItem } from "../../../redux/reducers/menuReducer";
+import Card from "./Card";
+import Button from "./Button";
+import QtyButton from "./QtyButton";
+import { addToCart } from "../../../redux/reducers/cartReducer";
+import { setItem } from "../../../redux/reducers/productReducer";
 
-function MenuCard({
-  className,
-  id,
-  name,
-  price,
-  waitingTime,
-  desc,
-  qty,
-  img,
-  onClick,
-}) {
+function MenuCard({ className, id, name, price, waitingTime, desc, img }) {
   const dispatch = useDispatch();
-  const handleInc = () => {
-    dispatch(increaseQuantity(id));
-  };
-  const handleClick = () => {
+  const cart = useSelector((state) => state.cart.items);
+  const isItemPresentInCart = cart.findIndex((item) => item.id === id);
+  const qty = isItemPresentInCart === -1 ? 0 : cart[isItemPresentInCart].qty;
+
+  const handleSetItem = () => {
     dispatch(setItem(id));
-    onClick();
   };
   return (
     <Card className={`bg-light-base2 dark:bg-dark-base2 ${className}`}>
@@ -31,7 +22,7 @@ function MenuCard({
         <button
           type="button"
           className="col-span-2 text-start"
-          onClick={handleClick}
+          onClick={handleSetItem}
         >
           <h2 className="font-medium text-light-text1 dark:text-dark-text1">
             {name}
@@ -65,7 +56,11 @@ function MenuCard({
           />
           <div className="absolute inset-x-0 bottom-0">
             {qty === 0 ? (
-              <Button variant="outline" size="block" onClick={handleInc}>
+              <Button
+                variant="outline"
+                size="block"
+                onClick={() => dispatch(addToCart({ id, price, qty: 1 }))}
+              >
                 <AiOutlinePlus className="mr-2" />
                 ADD
               </Button>

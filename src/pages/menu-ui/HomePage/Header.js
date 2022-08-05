@@ -1,6 +1,8 @@
 import moment from "moment";
+import { useSelector } from "react-redux";
 
-function Header({ name }) {
+function Header() {
+  const name = useSelector((state) => state.restaurant.name);
   return (
     <div>
       <h1 className="text-2xl font-semibold text-light-text1 dark:text-dark-text1">

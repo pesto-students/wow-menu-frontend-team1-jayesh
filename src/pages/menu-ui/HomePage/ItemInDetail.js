@@ -1,12 +1,13 @@
+import { useSelector, useDispatch } from "react-redux";
 import { BiRupee, BiFoodTag } from "react-icons/bi";
 import { GiChiliPepper } from "react-icons/gi";
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import QtyButton from "../components/QtyButton";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import CloseButton from "../components/CloseButton";
-import { updateQuantity } from "../../../redux/reducers/menuReducer";
+import { addToCart, updateQuantity } from "../../../redux/reducers/cartReducer";
+import { setItem } from "../../../redux/reducers/productReducer";
 
 // style for different props
 const classes = {
@@ -16,26 +17,37 @@ const classes = {
   desc: "my-2 text-light-text2 dark:text-dark-text2",
 };
 
-function ItemInDetail({ className, onClose }) {
+function ItemInDetail({ className }) {
   const dispatch = useDispatch();
-  const item = useSelector((state) => state.menu.selectedItem);
-  const [localQty, setLocalQty] = useState(item.qty === 0 ? 1 : item.qty);
-  const addToCart = (id) => {
-    dispatch(updateQuantity({ id, qty: localQty }));
-    onClose();
+  const selectedItem = useSelector((state) => state.product.selectedItem);
+  const item = useSelector((state) => state.product.items).find(
+    (dish) => dish.id === selectedItem,
+  );
+  const cart = useSelector((state) => state.cart.items);
+  const isItemPresentInCart = cart.findIndex(
+    (dish) => dish.id === selectedItem,
+  );
+  const [localQty, setLocalQty] = useState(
+    isItemPresentInCart === -1 ? 1 : cart[isItemPresentInCart].qty,
+  );
+  const addInCart = (id) => {
+    if (isItemPresentInCart === -1)
+      dispatch(addToCart({ id, price: item.price, qty: localQty }));
+    else dispatch(updateQuantity({ id, price: item.price, qty: localQty }));
+    dispatch(setItem(""));
   };
   const handleInc = () => {
     setLocalQty(localQty + 1);
   };
   const handleDec = () => {
-    if (localQty === 1) onClose();
+    if (localQty === 1) dispatch(setItem(""));
     else setLocalQty(localQty - 1);
   };
   return (
     <div className="absolute top-0 flex flex-col w-full h-full bg-gray-800/80">
       <div className="grow" />
       <div className="flex justify-center my-5">
-        <CloseButton onClick={onClose} />
+        <CloseButton onClick={() => dispatch(setItem(""))} />
       </div>
       <Card
         className={`
@@ -83,7 +95,7 @@ function ItemInDetail({ className, onClose }) {
               <Button
                 size="block"
                 className="py-2 border-2 border-primary"
-                onClick={() => addToCart(item.id)}
+                onClick={() => addInCart(item.id)}
               >
                 Add Item
                 <BiRupee className="ml-2 mr-1" />

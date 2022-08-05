@@ -1,11 +1,11 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BiRupee } from "react-icons/bi";
 import { BsArrowRight } from "react-icons/bs";
 import Card from "../components/Card";
 import Button from "../components/Button";
-import { resetMenu } from "../../../redux/reducers/menuReducer";
-import { placeOrder } from "../../../redux/reducers/ordersReducer";
+import { resetCart } from "../../../redux/reducers/cartReducer";
+import { placeOrder } from "../../../redux/reducers/orderReducer";
 
 // style for different props
 const classes = {
@@ -13,12 +13,23 @@ const classes = {
   amt: "text-light-text1 dark:text-dark-text1 text-lg",
 };
 
-function PlaceOrderCard({ className, orders, subtotal, cgst, sgst }) {
+function PlaceOrderCard({ className }) {
+  const cart = useSelector((state) => state.cart.items);
+  const subtotal = parseFloat(
+    cart.reduce((sum, current) => sum + current.qty * current.price, 0),
+  ).toFixed(2);
+  const cgst = parseFloat(
+    (useSelector((state) => state.restaurant.cgst) * subtotal) / 100,
+  ).toFixed(2);
+  const sgst = parseFloat(
+    (useSelector((state) => state.restaurant.sgst) * subtotal) / 100,
+  ).toFixed(2);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const handleOrderPlacement = () => {
-    dispatch(placeOrder(orders));
-    dispatch(resetMenu());
+    dispatch(placeOrder(cart));
+    dispatch(resetCart());
     navigate("/");
   };
 

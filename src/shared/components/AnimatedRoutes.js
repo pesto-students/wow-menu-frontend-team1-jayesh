@@ -10,6 +10,7 @@ import CustomerMenu from "../../pages/menu-ui/HomePage";
 import CustomerOrder from "../../pages/menu-ui/OrderPage";
 import CustomerOrderStatus from "../../pages/menu-ui/StatusPage";
 import CustomerBillPage from "../../pages/menu-ui/BillPage";
+import CustomerSearchPage from "../../pages/menu-ui/SearchPage";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -20,6 +21,7 @@ function AnimatedRoutes() {
         <Route path="/order" element={<CustomerOrder />} />
         <Route path="/status" element={<CustomerOrderStatus />} />
         <Route path="/bill" element={<CustomerBillPage />} />
+        <Route path="/search" element={<CustomerSearchPage />} />
         <Route path="dashboard" element={<Dashboard />}>
           <Route path="home" element={<DashboardHome />} />
           <Route path="orders" element={<DashboardOrders />} />
