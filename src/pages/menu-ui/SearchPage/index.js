@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import FilterPopup from "./FilterPopup";
+import ItemInDetail from "../components/ItemInDetail";
 import Header from "./Header";
 import Menu from "./Menu";
 
 function SearchPage() {
   const products = useSelector((state) => state.product.items);
+  const selectedItem = useSelector((state) => state.product.selectedItem);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState(false);
   const [filterOption, setFilterOption] = useState("");
@@ -15,12 +17,17 @@ function SearchPage() {
   const handleFilter = (option) => {
     setFilterOption(option);
   };
-  const items = products.filter((item) => {
-    return (
-      item.name.toLowerCase().includes(search) &&
-      (filterOption === "" || item.isVeg === (filterOption === "veg"))
+  const items = products
+    .filter((item) => {
+      return (
+        item.name.toLowerCase().includes(search) &&
+        (filterOption === "" || item.isVeg === (filterOption === "veg"))
+      );
+    })
+    .sort(
+      (firstItem, secondItem) =>
+        Number(secondItem.isAvailable) - Number(firstItem.isAvailable),
     );
-  });
 
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">
@@ -35,6 +42,7 @@ function SearchPage() {
           selectedOption={filterOption}
         />
       )}
+      {selectedItem.length > 0 && <ItemInDetail />}
     </div>
   );
 }

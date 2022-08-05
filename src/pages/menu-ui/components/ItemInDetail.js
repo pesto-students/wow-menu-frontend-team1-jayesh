@@ -2,10 +2,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { BiRupee, BiFoodTag } from "react-icons/bi";
 import { GiChiliPepper } from "react-icons/gi";
 import { useState } from "react";
-import QtyButton from "../components/QtyButton";
-import Button from "../components/Button";
-import Card from "../components/Card";
-import CloseButton from "../components/CloseButton";
+import QtyButton from "./QtyButton";
+import Button from "./Button";
+import Card from "./Card";
+import CloseButton from "./CloseButton";
 import { addToCart, updateQuantity } from "../../../redux/reducers/cartReducer";
 import { setItem } from "../../../redux/reducers/productReducer";
 
@@ -14,7 +14,7 @@ const classes = {
   base: "h-full flex flex-col z-20",
   bg: "bg-light-base2 dark:bg-dark-base2 pb-20",
   title: "font-medium text-xl mt-1 text-light-text1 dark:text-dark-text1",
-  desc: "my-2 text-light-text2 dark:text-dark-text2",
+  description: "my-2 text-light-text2 dark:text-dark-text2",
 };
 
 function ItemInDetail({ className }) {
@@ -64,7 +64,7 @@ function ItemInDetail({ className }) {
         </div>
         <div className="flex">
           <BiFoodTag
-            className={item.isVeg ? "text-green-600" : "text-red-800"}
+            className={item.is_veg ? "text-green-600" : "text-red-800"}
             size="24"
           />
           {item.spicy === "medium" && (
@@ -79,30 +79,40 @@ function ItemInDetail({ className }) {
         </div>
         <div className="grow">
           <h2 className={`${classes.title}`}>{item.name}</h2>
-          <p className={`${classes.desc}`}>{item.desc}</p>
+          <p className={`${classes.description}`}>{item.description}</p>
         </div>
         <div className="py-3">
-          <div className="grid grid-flow-col gap-2 auto-cols-auto">
-            <div>
-              <QtyButton
-                variant="outline"
-                qty={localQty}
-                onInc={handleInc}
-                onDec={handleDec}
-              />
+          {item.isAvailable ? (
+            <div className="grid grid-flow-col gap-2 auto-cols-auto">
+              <div>
+                <QtyButton
+                  variant="outline"
+                  qty={localQty}
+                  onInc={handleInc}
+                  onDec={handleDec}
+                />
+              </div>
+              <div>
+                <Button
+                  size="block"
+                  className="py-2 border-2 border-primary"
+                  onClick={() => addInCart(item.id)}
+                >
+                  Add Item
+                  <BiRupee className="ml-2 mr-1" />
+                  {parseFloat(item.price * localQty).toFixed(2)}
+                </Button>
+              </div>
             </div>
-            <div>
-              <Button
-                size="block"
-                className="py-2 border-2 border-primary"
-                onClick={() => addInCart(item.id)}
-              >
-                Add Item
-                <BiRupee className="ml-2 mr-1" />
-                {parseFloat(item.price * localQty).toFixed(2)}
-              </Button>
-            </div>
-          </div>
+          ) : (
+            <Button
+              size="block"
+              className="py-2 border-2 border-primary"
+              disabled
+            >
+              Unavailable
+            </Button>
+          )}
         </div>
       </Card>
     </div>

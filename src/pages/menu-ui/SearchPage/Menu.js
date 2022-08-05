@@ -10,10 +10,11 @@ function Menu({ items }) {
             className="my-2"
             id={item.id}
             name={item.name}
-            desc={item.desc}
+            description={item.description}
             price={item.price}
             waitingTime={item.waitingTime}
             img={item.img}
+            isAvailable={item.isAvailable}
           />
         ))}
       </div>

@@ -1,10 +1,16 @@
+import Swal from "sweetalert2";
 import { FaRegUser } from "react-icons/fa";
 import FloatingButton from "../components/FloatingButton";
 
 function CallWaiter() {
   const handleCall = () => {
-    // eslint-disable-next-line
-    window.alert("Waiter!!!");
+    Swal.fire({
+      title: "Called Waiter",
+      icon: "success",
+      showConfirmButton: false,
+      width: 300,
+      timer: 1500,
+    });
   };
   return (
     <div className="absolute bottom-20 right-8">

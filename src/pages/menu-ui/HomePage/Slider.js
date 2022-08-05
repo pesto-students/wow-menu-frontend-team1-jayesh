@@ -12,7 +12,7 @@ function Slider() {
   const categories = [...new Set(products.map((item) => item.category))];
   useEffect(() => {
     dispatch(setCategory(categories[0]));
-  }, [products]);
+  }, [dispatch]);
 
   return (
     <div className="mt-3 overflow-auto touch-pan-x w-100 scroll-smooth slider">

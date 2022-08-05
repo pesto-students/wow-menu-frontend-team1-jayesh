@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BiRupee } from "react-icons/bi";
@@ -31,6 +32,19 @@ function PlaceOrderCard({ className }) {
     dispatch(placeOrder(cart));
     dispatch(resetCart());
     navigate("/");
+    Swal.fire({
+      title: "Sweet!!",
+      icon: "success",
+      showConfirmButton: false,
+      width: 300,
+      timer: 2000,
+      backdrop: `
+    rgba(37,40,54,0.8)
+    url("./images/confetti.gif")
+    center bottom
+    no-repeat
+  `,
+    });
   };
 
   return (

@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import CallWaiter from "./CallWaiter";
 import ViewCard from "./ViewCard";
 import GenerateBillCard from "./GenerateBillCard";
-import ItemInDetail from "./ItemInDetail";
+import ItemInDetail from "../components/ItemInDetail";
 
 function ActionCards() {
   const cart = useSelector((state) => state.cart.items);

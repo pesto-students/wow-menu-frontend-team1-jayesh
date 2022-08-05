@@ -18,7 +18,7 @@ export const setItem = (payload) => ({
 });
 
 const initialState = {
-  items: mockData,
+  items: mockData.filter((item) => item.isActive),
   selectedItem: "",
   selectedCategory: "",
 };
