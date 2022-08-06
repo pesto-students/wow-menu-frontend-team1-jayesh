@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import CallWaiter from "./CallWaiter";
+import CallWaiter from "../components/CallWaiter";
 import ViewCard from "./ViewCard";
 import GenerateBillCard from "./GenerateBillCard";
 import ItemInDetail from "../components/ItemInDetail";
@@ -11,10 +11,12 @@ function ActionCards() {
 
   return (
     <>
-      <CallWaiter />
       {orders.length > 0 && <GenerateBillCard />}
       {cart.length > 0 && <ViewCard />}
-      {selectedItem.length > 0 && <ItemInDetail />}
+      <CallWaiter
+        pos={orders.length === 0 && cart.length === 0 ? "left" : "middle"}
+      />
+      {typeof selectedItem === "object" && <ItemInDetail />}
     </>
   );
 }

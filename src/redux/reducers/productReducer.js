@@ -13,7 +13,7 @@ export const setCategory = (payload) => ({
   payload,
 });
 export const setItem = (payload) => ({
-  type: "SET_ITEM", // product_id
+  type: "SET_ITEM", // {product}
   payload,
 });
 

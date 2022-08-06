@@ -7,9 +7,11 @@ function Orders() {
   return (
     <div className="mt-5 mb-80">
       <OrderCard className="my-3" items={cart} />
-      <h3 className="mt-10 text-light-text1 dark:text-dark-text1">
-        Previous Orders
-      </h3>
+      {previousOrders.length > 0 && (
+        <h3 className="mt-10 text-light-text1 dark:text-dark-text1">
+          Previous Orders
+        </h3>
+      )}
       {previousOrders.map((order) => {
         return (
           <OrderCard

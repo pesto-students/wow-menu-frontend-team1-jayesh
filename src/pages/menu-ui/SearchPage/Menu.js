@@ -5,17 +5,7 @@ function Menu({ items }) {
     <div className="mt-4 mb-36">
       <div>
         {items.map((item) => (
-          <MenuCard
-            key={item.id}
-            className="my-2"
-            id={item.id}
-            name={item.name}
-            description={item.description}
-            price={item.price}
-            waitingTime={item.waitingTime}
-            img={item.img}
-            isAvailable={item.isAvailable}
-          />
+          <MenuCard key={item.id} item={item} className="my-2" />
         ))}
       </div>
     </div>

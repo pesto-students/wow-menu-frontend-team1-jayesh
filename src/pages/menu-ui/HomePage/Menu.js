@@ -18,18 +18,7 @@ function Menu() {
       <div>
         {items.length > 0 ? (
           items.map((item) => (
-            <MenuCard
-              key={item.id}
-              className="my-2"
-              id={item.id}
-              name={item.name}
-              description={item.description}
-              price={item.price}
-              waitingTime={item.waitingTime}
-              img={item.img}
-              isAvailable={item.isAvailable}
-              isVeg={item.isVeg}
-            />
+            <MenuCard key={item.id} className="my-2" item={item} />
           ))
         ) : (
           <CardLoader />

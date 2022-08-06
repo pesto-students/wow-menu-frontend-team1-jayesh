@@ -7,7 +7,7 @@ const RESET_CART = "RESET_CART";
 
 export const addToCart = (payload) => ({
   type: "ADD_TO_CART",
-  payload, // {id,price,qty}
+  payload, // {...item,qty}
 });
 export const removeFromCart = (payload) => ({
   type: "REMOVE_FROM_CART",
@@ -22,7 +22,7 @@ export const decreaseQuantity = (payload) => ({
   payload,
 });
 export const updateQuantity = (payload) => ({
-  type: "UPDATE_QUANTITY", // {id,price,qty}
+  type: "UPDATE_QUANTITY", // {id,qty}
   payload,
 });
 export const resetCart = () => ({
@@ -31,7 +31,6 @@ export const resetCart = () => ({
 
 const initialState = {
   items: [],
-  // totalItem: 0,
 };
 
 export default (state = initialState, action) => {
@@ -39,13 +38,11 @@ export default (state = initialState, action) => {
     case ADD_TO_CART: {
       return {
         items: [...state.items, action.payload],
-        // totalItem: state.totalItem + action.payload.qty,
       };
     }
     case REMOVE_FROM_CART: {
       return {
         items: state.items.filter((item) => item.id !== action.payload),
-        // totalItem: state.totalItem - 1,
       };
     }
     case INCREASE_QUANTITY: {
@@ -54,7 +51,6 @@ export default (state = initialState, action) => {
       );
       return {
         items: newitemState,
-        // totalItem: state.totalItem + 1,
       };
     }
     case DECREASE_QUANTITY: {
@@ -63,18 +59,16 @@ export default (state = initialState, action) => {
       );
       return {
         items: newitemState,
-        // totalItem: state.totalItem - 1,
       };
     }
     case UPDATE_QUANTITY: {
       const newitemState = state.items.map((item) =>
         item.id === action.payload.id
-          ? { ...item, qty: action.payload.qty - 1 }
+          ? { ...item, qty: action.payload.qty }
           : item,
       );
       return {
         items: newitemState,
-        // totalItem: newitemState.reduce((sum, current) => sum + current.qty, 0),
       };
     }
     case RESET_CART: {

@@ -1,8 +1,15 @@
 import Swal from "sweetalert2";
 import { FaRegUser } from "react-icons/fa";
-import FloatingButton from "../components/FloatingButton";
+import FloatingButton from "./FloatingButton";
 
-function CallWaiter() {
+const classes = {
+  pos: {
+    left: "absolute bottom-20 right-8",
+    middle: "absolute bottom-40 inset-x-0 flex justify-center",
+  },
+};
+
+function CallWaiter({ pos = "left" }) {
   const handleCall = () => {
     Swal.fire({
       title: "Called Waiter",
@@ -13,7 +20,7 @@ function CallWaiter() {
     });
   };
   return (
-    <div className="absolute bottom-20 right-8">
+    <div className={`${classes.pos[pos]}`}>
       <FloatingButton onClick={handleCall} size="large">
         <FaRegUser />
       </FloatingButton>

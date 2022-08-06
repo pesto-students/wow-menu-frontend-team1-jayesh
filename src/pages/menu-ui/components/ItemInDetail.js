@@ -11,7 +11,6 @@ import { setItem } from "../../../redux/reducers/productReducer";
 
 // style for different props
 const classes = {
-  base: "h-full flex flex-col z-20",
   bg: "bg-light-base2 dark:bg-dark-base2 pb-20",
   title: "font-medium text-xl mt-1 text-light-text1 dark:text-dark-text1",
   description: "my-2 text-light-text2 dark:text-dark-text2",
@@ -19,21 +18,16 @@ const classes = {
 
 function ItemInDetail({ className }) {
   const dispatch = useDispatch();
-  const selectedItem = useSelector((state) => state.product.selectedItem);
-  const item = useSelector((state) => state.product.items).find(
-    (dish) => dish.id === selectedItem,
-  );
+  const item = useSelector((state) => state.product.selectedItem);
   const cart = useSelector((state) => state.cart.items);
-  const isItemPresentInCart = cart.findIndex(
-    (dish) => dish.id === selectedItem,
-  );
+  const isItemPresentInCart = cart.findIndex((dish) => dish.id === item.id);
   const [localQty, setLocalQty] = useState(
     isItemPresentInCart === -1 ? 1 : cart[isItemPresentInCart].qty,
   );
   const addInCart = (id) => {
     if (isItemPresentInCart === -1)
-      dispatch(addToCart({ id, price: item.price, qty: localQty }));
-    else dispatch(updateQuantity({ id, price: item.price, qty: localQty }));
+      dispatch(addToCart({ ...item, qty: localQty }));
+    else dispatch(updateQuantity({ id, qty: localQty }));
     dispatch(setItem(""));
   };
   const handleInc = () => {
@@ -44,7 +38,7 @@ function ItemInDetail({ className }) {
     else setLocalQty(localQty - 1);
   };
   return (
-    <div className="absolute top-0 flex flex-col w-full h-full bg-gray-800/80">
+    <div className="absolute top-0 z-10 flex flex-col w-full h-full bg-gray-800/80">
       <div className="grow" />
       <div className="flex justify-center my-5">
         <CloseButton onClick={() => dispatch(setItem(""))} />

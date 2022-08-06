@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import PageHeader from "../components/PageHeader";
-import CallWaiter from "../HomePage/CallWaiter";
+import CallWaiter from "../components/CallWaiter";
 import StatusCard from "./StatusCard";
 import Card from "../components/Card";
 

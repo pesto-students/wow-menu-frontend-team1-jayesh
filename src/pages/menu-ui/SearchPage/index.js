@@ -42,7 +42,7 @@ function SearchPage() {
           selectedOption={filterOption}
         />
       )}
-      {selectedItem.length > 0 && <ItemInDetail />}
+      {typeof selectedItem === "object" && <ItemInDetail />}
     </div>
   );
 }

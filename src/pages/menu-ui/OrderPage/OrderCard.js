@@ -1,11 +1,9 @@
-import { useSelector } from "react-redux";
 import { BiRupee, BiFoodTag } from "react-icons/bi";
 import Card from "../components/Card";
 import QtyButton from "../components/QtyButton";
 import StatusChip from "../components/StatusChip";
 import Textfield from "../components/Textfield";
 
-// style for different props
 const classes = {
   bg: "bg-light-base2 dark:bg-dark-base2",
   title: "text-light-text1 dark:text-dark-text1 font-medium",
@@ -13,7 +11,6 @@ const classes = {
 };
 
 function OrderCard({ className, items = [], variant = "details", status }) {
-  const products = useSelector((state) => state.product.items);
   return (
     <Card
       className={`
@@ -22,8 +19,7 @@ function OrderCard({ className, items = [], variant = "details", status }) {
     `}
     >
       <div>
-        {items.map((cartItem) => {
-          const item = products.find((dish) => dish.id === cartItem.id);
+        {items.map((item) => {
           return (
             <div className="grid grid-cols-3 gap-1 mb-5" key={item.id}>
               <div className="col-span-2">
@@ -39,7 +35,9 @@ function OrderCard({ className, items = [], variant = "details", status }) {
                     {variant === "details" && (
                       <div className="flex items-center">
                         <BiRupee className={`${classes.subtitle} mr-1`} />
-                        <p className={`${classes.subtitle}`}>{item.price}</p>
+                        <p className={`${classes.subtitle}`}>
+                          {parseFloat(item.price).toFixed(2)}
+                        </p>
                       </div>
                     )}
                   </div>
@@ -50,7 +48,7 @@ function OrderCard({ className, items = [], variant = "details", status }) {
                   <div className="flex items-center justify-end mt-2">
                     {variant === "details" ? (
                       <QtyButton
-                        qty={cartItem.qty}
+                        qty={item.qty}
                         id={item.id}
                         className="text-white"
                       />
@@ -61,7 +59,7 @@ function OrderCard({ className, items = [], variant = "details", status }) {
                   <div className="flex items-center justify-end mt-2">
                     <BiRupee className={`${classes.subtitle} mr-1`} />
                     <p className={`${classes.subtitle}`}>
-                      {cartItem.qty * item.price}
+                      {parseFloat(item.qty * item.price).toFixed(2)}
                     </p>
                   </div>
                 </div>
