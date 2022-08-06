@@ -12,7 +12,7 @@ const classes = {
 function CallWaiter({ pos = "left" }) {
   const handleCall = () => {
     Swal.fire({
-      title: "Called Waiter",
+      title: "Waiter is on his way",
       icon: "success",
       showConfirmButton: false,
       width: 300,

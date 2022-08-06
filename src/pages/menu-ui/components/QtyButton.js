@@ -1,5 +1,6 @@
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useDispatch } from "react-redux";
+import { motion } from "framer-motion";
 import {
   increaseQuantity,
   decreaseQuantity,
@@ -26,7 +27,10 @@ function QtyButton({ qty, id, onInc, onDec, variant = "fill", className }) {
     else dispatch(decreaseQuantity(id));
   };
   return (
-    <div className={`${classes.base} ${classes.variant[variant]}`}>
+    <motion.div
+      whileTap={{ scale: 0.95 }}
+      className={`${classes.base} ${classes.variant[variant]}`}
+    >
       <button
         type="button"
         className={`${classes.buttonBase} ${className}`}
@@ -42,7 +46,7 @@ function QtyButton({ qty, id, onInc, onDec, variant = "fill", className }) {
       >
         <AiOutlinePlus size={16} />
       </button>
-    </div>
+    </motion.div>
   );
 }
 

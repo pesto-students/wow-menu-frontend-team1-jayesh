@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
 import FilterPopup from "./FilterPopup";
 import ItemInDetail from "../components/ItemInDetail";
@@ -30,20 +31,31 @@ function SearchPage() {
     );
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">
-      <div className="h-full p-4 overflow-y-auto bg-lightPattern">
-        <Header onInput={handleInput} onFilter={() => setFilter(!filter)} />
-        <Menu items={items} />
+    <AnimatePresence exitBeforeEnter>
+      <div className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0.5, transition: { duration: 0.1 } }}
+          className="h-full p-4 overflow-y-auto bg-lightPattern"
+        >
+          <Header
+            onInput={handleInput}
+            onFilter={() => setFilter(!filter)}
+            filterOption={filterOption}
+          />
+          <Menu items={items} />
+        </motion.div>
+        {filter && (
+          <FilterPopup
+            onClose={() => setFilter(!filter)}
+            onSelect={handleFilter}
+            selectedOption={filterOption}
+          />
+        )}
+        {typeof selectedItem === "object" && <ItemInDetail />}
       </div>
-      {filter && (
-        <FilterPopup
-          onClose={() => setFilter(!filter)}
-          onSelect={handleFilter}
-          selectedOption={filterOption}
-        />
-      )}
-      {typeof selectedItem === "object" && <ItemInDetail />}
-    </div>
+    </AnimatePresence>
   );
 }
 

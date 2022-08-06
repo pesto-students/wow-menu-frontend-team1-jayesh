@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
+import { motion, AnimatePresence } from "framer-motion";
 import { BiRupee, BiFoodTag } from "react-icons/bi";
 import { GiChiliPepper } from "react-icons/gi";
 import { useState } from "react";
@@ -38,78 +39,87 @@ function ItemInDetail({ className }) {
     else setLocalQty(localQty - 1);
   };
   return (
-    <div className="absolute top-0 z-10 flex flex-col w-full h-full bg-gray-800/80">
-      <div className="grow" />
-      <div className="flex justify-center my-5">
-        <CloseButton onClick={() => dispatch(setItem(""))} />
-      </div>
-      <Card
-        className={`
-        ${classes.bg}
-        ${className}
-    `}
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="absolute top-0 z-10 flex flex-col w-full h-full bg-gray-800/80"
       >
-        <div className="flex justify-center">
-          <img
-            className="w-3/6 rounded-full text-light-text2"
-            src={item.img}
-            alt={item.name}
-          />
+        <div className="grow" />
+        <div className="flex justify-center my-5">
+          <CloseButton onClick={() => dispatch(setItem(""))} />
         </div>
-        <div className="flex">
-          <BiFoodTag
-            className={item.is_veg ? "text-green-600" : "text-red-800"}
-            size="24"
-          />
-          {item.spicy === "medium" && (
-            <GiChiliPepper className="text-red-800" size="24" />
-          )}
-          {item.spicy === "high" && (
+        <motion.div
+          initial={{ y: 150, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 150, opacity: 0 }}
+        >
+          <Card
+            className={`
+          ${classes.bg}
+          ${className}
+      `}
+          >
+            <div className="flex justify-center">
+              <img
+                className="w-3/6 rounded-full text-light-text2"
+                src={item.img}
+                alt={item.name}
+              />
+            </div>
             <div className="flex">
-              <GiChiliPepper className="text-red-800" size="24" />
-              <GiChiliPepper className="text-red-800" size="24" />
+              <BiFoodTag
+                className={item.is_veg ? "text-green-600" : "text-red-800"}
+                size="24"
+              />
+              {item.spicy === "medium" && (
+                <GiChiliPepper className="text-red-800" size="24" />
+              )}
+              {item.spicy === "high" && (
+                <div className="flex">
+                  <GiChiliPepper className="text-red-800" size="24" />
+                  <GiChiliPepper className="text-red-800" size="24" />
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        <div className="grow">
-          <h2 className={`${classes.title}`}>{item.name}</h2>
-          <p className={`${classes.description}`}>{item.description}</p>
-        </div>
-        <div className="py-3">
-          {item.isAvailable ? (
-            <div className="grid grid-flow-col gap-2 auto-cols-auto">
-              <div>
-                <QtyButton
-                  variant="outline"
-                  qty={localQty}
-                  onInc={handleInc}
-                  onDec={handleDec}
-                />
-              </div>
-              <div>
-                <Button
-                  size="block"
-                  className="py-2 border-2 border-primary"
-                  onClick={() => addInCart(item.id)}
-                >
-                  Add Item
-                  <BiRupee className="ml-2 mr-1" />
-                  {parseFloat(item.price * localQty).toFixed(2)}
-                </Button>
-              </div>
+            <div className="grow">
+              <h2 className={`${classes.title}`}>{item.name}</h2>
+              <p className={`${classes.description}`}>{item.description}</p>
             </div>
-          ) : (
-            <Button
-              size="block"
-              className="py-2 border-2 border-primary"
-              disabled
-            >
-              Unavailable
-            </Button>
-          )}
-        </div>
-      </Card>
-    </div>
+            <div className="py-3">
+              {item.isAvailable ? (
+                <div className="grid grid-flow-col gap-2 auto-cols-auto">
+                  <div>
+                    <QtyButton
+                      variant="outline"
+                      qty={localQty}
+                      onInc={handleInc}
+                      onDec={handleDec}
+                    />
+                  </div>
+                  <div>
+                    <Button
+                      size="block"
+                      className="py-2 border-2 border-primary"
+                      onClick={() => addInCart(item.id)}
+                    >
+                      Add Item
+                      <BiRupee className="ml-2 mr-1" />
+                      {parseFloat(item.price * localQty).toFixed(2)}
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="py-2 font-medium text-center text-white border-2 rounded bg-primary/60 border-primary/30">
+                  Unavailable
+                </div>
+              )}
+            </div>
+          </Card>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 }
 

@@ -2,12 +2,12 @@ import BackButton from "./BackButton";
 import FilterButton from "./FilterButton";
 import SearchInput from "./SearchInput";
 
-function Header({ onInput, onFilter }) {
+function Header({ onInput, onFilter, filterOption }) {
   return (
     <div className="flex">
       <BackButton />
       <SearchInput onInput={onInput} />
-      <FilterButton onClick={onFilter} />
+      <FilterButton onClick={onFilter} filterOption={filterOption} />
     </div>
   );
 }

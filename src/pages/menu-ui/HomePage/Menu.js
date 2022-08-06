@@ -21,7 +21,12 @@ function Menu() {
             <MenuCard key={item.id} className="my-2" item={item} />
           ))
         ) : (
-          <CardLoader />
+          <>
+            <CardLoader />
+            <CardLoader />
+            <CardLoader />
+            <CardLoader />
+          </>
         )}
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import { motion } from "framer-motion";
 import { BiRupee, BiFoodTag } from "react-icons/bi";
 import { AiOutlineClockCircle, AiOutlinePlus } from "react-icons/ai";
 import Card from "./Card";
@@ -17,70 +18,77 @@ function MenuCard({ className, item }) {
     dispatch(setItem(item));
   };
   return (
-    <Card className={`bg-light-base2 dark:bg-dark-base2 ${className}`}>
-      <div className="grid grid-cols-3 gap-1">
-        <button
-          type="button"
-          className="col-span-2 text-start"
-          onClick={handleSetItem}
-        >
-          <h2 className="font-medium text-light-text1 dark:text-dark-text1">
-            {item.name}
-          </h2>
-          <span className="flex items-center">
-            <BiFoodTag
-              className={
-                item.isVeg ? "text-green-600 mr-2" : "text-red-800 mr-2"
-              }
-              size="20"
-            />
+    <motion.div
+      initial={{ x: 30, opacity: 0 }}
+      whileInView={{ x: 0, opacity: 1 }}
+      viewport={{ once: true }}
+      exit={{ x: -30, opacity: 0 }}
+    >
+      <Card className={`bg-light-base2 dark:bg-dark-base2 ${className}`}>
+        <div className="grid grid-cols-3 gap-1">
+          <button
+            type="button"
+            className="col-span-2 text-start"
+            onClick={handleSetItem}
+          >
+            <h2 className="font-medium text-light-text1 dark:text-dark-text1">
+              {item.name}
+            </h2>
             <span className="flex items-center">
-              <BiRupee className="mr-1 text-sm text-light-text1 dark:text-dark-text1" />
-              <p className="text-sm text-light-text1 dark:text-dark-text1">
-                {item.price}
-              </p>
-            </span>
-            {item.waitingTime > 0 && (
-              <span className="flex items-center ml-3">
-                <AiOutlineClockCircle className="mr-1 text-sm text-light-text1 dark:text-dark-text1" />
+              <BiFoodTag
+                className={
+                  item.isVeg ? "text-green-600 mr-2" : "text-red-800 mr-2"
+                }
+                size="20"
+              />
+              <span className="flex items-center">
+                <BiRupee className="mr-1 text-sm text-light-text1 dark:text-dark-text1" />
                 <p className="text-sm text-light-text1 dark:text-dark-text1">
-                  {item.waitingTime}m
+                  {item.price}
                 </p>
               </span>
-            )}
-          </span>
-          <p className="overflow-hidden text-sm line-clamp-2 text-light-text2 dark:text-dark-text2">
-            {item.description}
-          </p>
-        </button>
-        <div className="relative">
-          <img
-            className={`mx-auto rounded-full ${
-              item.isAvailable ? "" : "grayscale"
-            }`}
-            src={item.img}
-            alt={item.name}
-            width={150}
-          />
-          {item.isAvailable && (
-            <div className="absolute inset-x-0 bottom-0">
-              {qty === 0 ? (
-                <Button
-                  variant="outline"
-                  size="block"
-                  onClick={() => dispatch(addToCart({ ...item, qty: 1 }))}
-                >
-                  <AiOutlinePlus className="mr-2" />
-                  ADD
-                </Button>
-              ) : (
-                <QtyButton qty={qty} id={item.id} className="text-white" />
+              {item.waitingTime > 0 && (
+                <span className="flex items-center ml-3">
+                  <AiOutlineClockCircle className="mr-1 text-sm text-light-text1 dark:text-dark-text1" />
+                  <p className="text-sm text-light-text1 dark:text-dark-text1">
+                    {item.waitingTime}m
+                  </p>
+                </span>
               )}
-            </div>
-          )}
+            </span>
+            <p className="overflow-hidden text-sm line-clamp-2 text-light-text2 dark:text-dark-text2">
+              {item.description}
+            </p>
+          </button>
+          <div className="relative">
+            <img
+              className={`mx-auto rounded-full ${
+                item.isAvailable ? "" : "grayscale"
+              }`}
+              src={item.img}
+              alt={item.name}
+              width={150}
+            />
+            {item.isAvailable && (
+              <div className="absolute inset-x-0 bottom-0">
+                {qty === 0 ? (
+                  <Button
+                    variant="outline"
+                    size="block"
+                    onClick={() => dispatch(addToCart({ ...item, qty: 1 }))}
+                  >
+                    <AiOutlinePlus className="mr-2" />
+                    ADD
+                  </Button>
+                ) : (
+                  <QtyButton qty={qty} id={item.id} className="text-white" />
+                )}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </Card>
+      </Card>
+    </motion.div>
   );
 }
 

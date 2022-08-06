@@ -1,15 +1,16 @@
+import { motion } from "framer-motion";
 import { jsPDF } from "jspdf";
 import { AiOutlineCloudDownload } from "react-icons/ai";
 import moment from "moment";
 import Card from "../components/Card";
 import Button from "../components/Button";
 
-function BillCard({ className, restaurant, manager, billno, items }) {
+function BillCard({ className, restaurant, manager, billno, items, table }) {
   const subtotal = items.reduce((acc, curr) => {
     return acc + curr.qty * curr.price;
   }, 0);
-  const cgstAmt = (restaurant.cgst / 100) * subtotal;
-  const sgstAmt = (restaurant.sgst / 100) * subtotal;
+  const cgstAmt = (restaurant.gstPercentage / 100) * subtotal;
+  const sgstAmt = (restaurant.gstPercentage / 100) * subtotal;
   const handleDownload = () => {
     const element = document.querySelector("#bill");
     // eslint-disable-next-line
@@ -24,7 +25,12 @@ function BillCard({ className, restaurant, manager, billno, items }) {
     });
   };
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      exit={{ opacity: 0 }}
+    >
       <Card className={`bg-light-base2 dark:bg-dark-base2 ${className} p-0`}>
         <div id="bill" className="p-2 bg-light-base2 dark:bg-dark-base2">
           <div>
@@ -33,6 +39,12 @@ function BillCard({ className, restaurant, manager, billno, items }) {
             </h2>
             <p className="text-center text-light-text1 dark:text-dark-text1">
               {restaurant.address}
+            </p>
+            <p className="text-center text-light-text1 dark:text-dark-text1">
+              GSTIN:{restaurant.gstNo}
+            </p>
+            <p className="text-center text-light-text1 dark:text-dark-text1">
+              Phone:{restaurant.phoneNo}
             </p>
             {/* <hr /> */}
             <h2 className="mt-5 mb-3 text-xl font-semibold text-center text-light-text1 dark:text-dark-text1">
@@ -50,7 +62,7 @@ function BillCard({ className, restaurant, manager, billno, items }) {
                   <span className="font-medium text-light-text1 dark:text-dark-text1">
                     Table No:
                   </span>
-                  {restaurant.table}
+                  {table}
                 </p>
               </div>
               <div>
@@ -143,7 +155,7 @@ function BillCard({ className, restaurant, manager, billno, items }) {
           Download
         </Button>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

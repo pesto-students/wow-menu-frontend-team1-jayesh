@@ -1,3 +1,4 @@
+import { motion, AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
 import CallWaiter from "../components/CallWaiter";
 import ViewCard from "./ViewCard";
@@ -11,8 +12,28 @@ function ActionCards() {
 
   return (
     <>
-      {orders.length > 0 && <GenerateBillCard />}
-      {cart.length > 0 && <ViewCard />}
+      <AnimatePresence>
+        {orders.length > 0 && (
+          <motion.div
+            initial={{ y: 150, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 150, opacity: 0 }}
+          >
+            <GenerateBillCard />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {cart.length > 0 && (
+          <motion.div
+            initial={{ y: 150, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 150, opacity: 0 }}
+          >
+            <ViewCard />
+          </motion.div>
+        )}
+      </AnimatePresence>
       <CallWaiter
         pos={orders.length === 0 && cart.length === 0 ? "left" : "middle"}
       />
