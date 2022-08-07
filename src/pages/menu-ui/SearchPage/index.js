@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FilterPopup from "./FilterPopup";
 import ItemInDetail from "../components/ItemInDetail";
 import Header from "./Header";
 import Menu from "./Menu";
+import { getProducts } from "../../../redux/reducers/productReducer";
 
 function SearchPage() {
+  const dispatch = useDispatch();
   const products = useSelector((state) => state.product.items);
   const selectedItem = useSelector((state) => state.product.selectedItem);
   const [search, setSearch] = useState("");
@@ -18,6 +20,9 @@ function SearchPage() {
   const handleFilter = (option) => {
     setFilterOption(option);
   };
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
   const items = products
     .filter((item) => {
       return (
@@ -46,14 +51,18 @@ function SearchPage() {
           />
           <Menu items={items} />
         </motion.div>
-        {filter && (
-          <FilterPopup
-            onClose={() => setFilter(!filter)}
-            onSelect={handleFilter}
-            selectedOption={filterOption}
-          />
-        )}
-        {typeof selectedItem === "object" && <ItemInDetail />}
+        <AnimatePresence exitBeforeEnter>
+          {filter && (
+            <FilterPopup
+              onClose={() => setFilter(!filter)}
+              onSelect={handleFilter}
+              selectedOption={filterOption}
+            />
+          )}
+        </AnimatePresence>
+        <AnimatePresence exitBeforeEnter>
+          {typeof selectedItem === "object" && <ItemInDetail />}
+        </AnimatePresence>
       </div>
     </AnimatePresence>
   );

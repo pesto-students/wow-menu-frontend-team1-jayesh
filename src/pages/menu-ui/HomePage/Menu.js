@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { AnimatePresence } from "framer-motion";
 import CardLoader from "../components/CardLoader";
 import MenuCard from "../components/MenuCard";
 
@@ -18,7 +19,9 @@ function Menu() {
       <div>
         {items.length > 0 ? (
           items.map((item) => (
-            <MenuCard key={item.id} className="my-2" item={item} />
+            <AnimatePresence exitBeforeEnter key={item.id}>
+              <MenuCard className="my-2" item={item} />
+            </AnimatePresence>
           ))
         ) : (
           <>

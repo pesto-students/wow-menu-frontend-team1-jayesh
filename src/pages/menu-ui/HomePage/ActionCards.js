@@ -12,7 +12,7 @@ function ActionCards() {
 
   return (
     <>
-      <AnimatePresence>
+      <AnimatePresence exitBeforeEnter>
         {orders.length > 0 && (
           <motion.div
             initial={{ y: 150, opacity: 0 }}
@@ -23,7 +23,7 @@ function ActionCards() {
           </motion.div>
         )}
       </AnimatePresence>
-      <AnimatePresence>
+      <AnimatePresence exitBeforeEnter>
         {cart.length > 0 && (
           <motion.div
             initial={{ y: 150, opacity: 0 }}
@@ -37,7 +37,9 @@ function ActionCards() {
       <CallWaiter
         pos={orders.length === 0 && cart.length === 0 ? "left" : "middle"}
       />
-      {typeof selectedItem === "object" && <ItemInDetail />}
+      <AnimatePresence exitBeforeEnter>
+        {typeof selectedItem === "object" && <ItemInDetail />}
+      </AnimatePresence>
     </>
   );
 }

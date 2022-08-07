@@ -6,6 +6,7 @@ import DashboardAnalytics from "../../pages/dashboard/analytics";
 import DashboardHome from "../../pages/dashboard/home";
 import DashboardOrders from "../../pages/dashboard/orders";
 import DashboardSettings from "../../pages/dashboard/settings";
+import SplashScreen from "../../pages/menu-ui";
 import CustomerMenu from "../../pages/menu-ui/HomePage";
 import CustomerOrder from "../../pages/menu-ui/OrderPage";
 import CustomerOrderStatus from "../../pages/menu-ui/StatusPage";
@@ -17,7 +18,8 @@ function AnimatedRoutes() {
   return (
     <AnimatePresence exitBeforeEnter>
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<CustomerMenu />} />
+        <Route path="/" element={<SplashScreen />} />
+        <Route path="/home" element={<CustomerMenu />} />
         <Route path="/order" element={<CustomerOrder />} />
         <Route path="/status" element={<CustomerOrderStatus />} />
         <Route path="/bill" element={<CustomerBillPage />} />

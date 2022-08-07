@@ -3,7 +3,7 @@ import Button from "./Button";
 
 function BackButton() {
   return (
-    <Button className="m-2" size="small" href="/">
+    <Button className="m-2" size="small" href="/home">
       <FiChevronLeft />
       Menu
     </Button>

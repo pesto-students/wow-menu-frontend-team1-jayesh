@@ -32,7 +32,7 @@ function PlaceOrderCard({ className }) {
   const handleOrderPlacement = () => {
     dispatch(placeOrder(cart));
     dispatch(resetCart());
-    navigate("/");
+    navigate("/home");
     Swal.fire({
       title: "Sweet!!",
       icon: "success",
