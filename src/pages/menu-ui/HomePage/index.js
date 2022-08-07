@@ -1,44 +1,30 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { motion, AnimatePresence } from "framer-motion";
 import Header from "./Header";
 import IconSet from "./IconSet";
 import Slider from "./Slider";
 import Menu from "./Menu";
-import CallWaiter from "./CallWaiter";
-import ItemInDetail from "./ItemInDetail";
-import FilterPopup from "./FilterPopup";
-import ViewCard from "./ViewCard";
-import GenerateBillCard from "./GenerateBillCard";
+import ActionCards from "./ActionCards";
 
 function HomePage() {
-  const itemsInCart = useSelector((state) => state.menu.itemsInCart);
-  const orders = useSelector((state) => state.order.list);
-  const [showDetail, setShowDetail] = useState(false);
-  const [showfilter, setShowFilter] = useState(false);
-
-  const toggleDetail = () => {
-    setShowDetail(!showDetail);
-  };
-  const toggleFilter = () => {
-    setShowFilter(!showfilter);
-  };
-
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">
-      <div className="h-full p-4 overflow-y-auto bg-lightPattern">
-        <div className="flex items-center justify-between">
-          <Header name="Jaegar Resto" />
-          <IconSet onFilter={toggleFilter} />
-        </div>
-        <Slider />
-        <Menu onClick={toggleDetail} />
+    <AnimatePresence exitBeforeEnter>
+      <div className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0.5, transition: { duration: 0.1 } }}
+          className="h-full p-4 overflow-y-auto bg-lightPattern"
+        >
+          <div className="flex items-center justify-between">
+            <Header />
+            <IconSet />
+          </div>
+          <Slider />
+          <Menu />
+        </motion.div>
+        <ActionCards />
       </div>
-      <CallWaiter />
-      {orders.length > 0 && <GenerateBillCard />}
-      {itemsInCart > 0 && <ViewCard qty={itemsInCart} />}
-      {showDetail && <ItemInDetail onClose={toggleDetail} />}
-      {showfilter && <FilterPopup onClose={toggleFilter} />}
-    </div>
+    </AnimatePresence>
   );
 }
 

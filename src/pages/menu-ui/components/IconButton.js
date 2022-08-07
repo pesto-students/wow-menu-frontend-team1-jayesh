@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const classes = {
   base: "select-none rounded p-2 flex justify-center items-center text-xl shadow-glow active:shadow-sm",
@@ -21,13 +22,14 @@ function IconButton({
     navigate(href);
   };
   return (
-    <button
+    <motion.button
+      whileTap={{ scale: 0.85 }}
       type="button"
       className={`${classes.base} ${classes.theme[theme]} ${className}`}
       onClick={href === "" ? onClick : handleRoute}
     >
       {children}
-    </button>
+    </motion.button>
   );
 }
 

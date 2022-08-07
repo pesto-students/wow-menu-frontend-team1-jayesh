@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
-import menuReducer from "./reducers/menuReducer";
-import ordersReducer from "./reducers/ordersReducer";
+import cartReducer from "./reducers/cartReducer";
+import orderReducer from "./reducers/orderReducer";
+import productReducer from "./reducers/productReducer";
+import restaurantReducer from "./reducers/restaurantReducer";
 
 const store = configureStore({
   reducer: {
-    order: ordersReducer,
-    menu: menuReducer,
+    product: productReducer,
+    cart: cartReducer,
+    order: orderReducer,
+    restaurant: restaurantReducer,
   },
 });
 

@@ -1,0 +1,80 @@
+const ADD_TO_CART = "ADD_TO_CART";
+const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+const INCREASE_QUANTITY = "INCREASE_QUANTITY";
+const DECREASE_QUANTITY = "DECREASE_QUANTITY";
+const UPDATE_QUANTITY = "UPDATE_QUANTITY";
+const RESET_CART = "RESET_CART";
+
+export const addToCart = (payload) => ({
+  type: "ADD_TO_CART",
+  payload, // {...item,qty}
+});
+export const removeFromCart = (payload) => ({
+  type: "REMOVE_FROM_CART",
+  payload, // id
+});
+export const increaseQuantity = (payload) => ({
+  type: "INCREASE_QUANTITY",
+  payload, // id
+});
+export const decreaseQuantity = (payload) => ({
+  type: "DECREASE_QUANTITY", // id
+  payload,
+});
+export const updateQuantity = (payload) => ({
+  type: "UPDATE_QUANTITY", // {id,qty}
+  payload,
+});
+export const resetCart = () => ({
+  type: "RESET_CART",
+});
+
+const initialState = {
+  items: [],
+};
+
+export default (state = initialState, action) => {
+  switch (action.type) {
+    case ADD_TO_CART: {
+      return {
+        items: [...state.items, action.payload],
+      };
+    }
+    case REMOVE_FROM_CART: {
+      return {
+        items: state.items.filter((item) => item.id !== action.payload),
+      };
+    }
+    case INCREASE_QUANTITY: {
+      const newitemState = state.items.map((item) =>
+        item.id === action.payload ? { ...item, qty: item.qty + 1 } : item,
+      );
+      return {
+        items: newitemState,
+      };
+    }
+    case DECREASE_QUANTITY: {
+      const newitemState = state.items.map((item) =>
+        item.id === action.payload ? { ...item, qty: item.qty - 1 } : item,
+      );
+      return {
+        items: newitemState,
+      };
+    }
+    case UPDATE_QUANTITY: {
+      const newitemState = state.items.map((item) =>
+        item.id === action.payload.id
+          ? { ...item, qty: action.payload.qty }
+          : item,
+      );
+      return {
+        items: newitemState,
+      };
+    }
+    case RESET_CART: {
+      return initialState;
+    }
+    default:
+      return state;
+  }
+};

@@ -1,25 +1,36 @@
 import { useSelector } from "react-redux";
-import MenuCard from "./MenuCard";
+import { AnimatePresence } from "framer-motion";
+import CardLoader from "../components/CardLoader";
+import MenuCard from "../components/MenuCard";
 
-function Menu({ onClick }) {
-  const items = useSelector((state) => state.menu.dishesByCategory);
+function Menu() {
+  const products = useSelector((state) => state.product.items);
+  const selectedCategory = useSelector(
+    (state) => state.product.selectedCategory,
+  );
+  const items = products
+    .filter((item) => item.category === selectedCategory)
+    .sort(
+      (firstItem, secondItem) =>
+        Number(secondItem.isAvailable) - Number(firstItem.isAvailable),
+    );
   return (
     <div className="mt-4 mb-36">
       <div>
-        {items.map((item) => (
-          <MenuCard
-            key={item.id}
-            className="my-2"
-            id={item.id}
-            name={item.name}
-            desc={item.desc}
-            price={item.price}
-            waitingTime={item.waitingTime}
-            qty={item.qty}
-            img={item.img}
-            onClick={() => onClick(item)}
-          />
-        ))}
+        {items.length > 0 ? (
+          items.map((item) => (
+            <AnimatePresence exitBeforeEnter key={item.id}>
+              <MenuCard className="my-2" item={item} />
+            </AnimatePresence>
+          ))
+        ) : (
+          <>
+            <CardLoader />
+            <CardLoader />
+            <CardLoader />
+            <CardLoader />
+          </>
+        )}
       </div>
     </div>
   );

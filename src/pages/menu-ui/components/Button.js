@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const classes = {
   base: "select-none items-center",
@@ -34,7 +35,8 @@ function Button({
     navigate(href);
   };
   return (
-    <button
+    <motion.button
+      whileTap={{ scale: 0.85 }}
       type="button"
       disabled={disabled}
       className={`
@@ -48,7 +50,7 @@ function Button({
       onClick={href === "" ? onClick : handleRoute}
     >
       {children}
-    </button>
+    </motion.button>
   );
 }
 
