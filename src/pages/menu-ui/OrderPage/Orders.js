@@ -4,6 +4,7 @@ import OrderCard from "./OrderCard";
 function Orders() {
   const cart = useSelector((state) => state.cart.items);
   const previousOrders = useSelector((state) => state.order.list);
+
   return (
     <div className="mt-5 mb-80">
       <OrderCard className="my-3" items={cart} />

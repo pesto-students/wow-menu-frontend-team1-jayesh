@@ -12,7 +12,8 @@ function MenuCard({ className, item }) {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.items);
   const isItemPresentInCart = cart.findIndex((dish) => dish.id === item.id);
-  const qty = isItemPresentInCart === -1 ? 0 : cart[isItemPresentInCart].qty;
+  const quantity =
+    isItemPresentInCart === -1 ? 0 : cart[isItemPresentInCart].quantity;
 
   const handleSetItem = () => {
     dispatch(setItem(item));
@@ -65,23 +66,29 @@ function MenuCard({ className, item }) {
               className={`mx-auto rounded-full ${
                 item.isAvailable ? "" : "grayscale"
               }`}
-              src={item.img}
+              src={item.imageUrl}
               alt={item.name}
               width={150}
             />
             {item.isAvailable && (
               <div className="absolute inset-x-0 bottom-0">
-                {qty === 0 ? (
+                {quantity === 0 ? (
                   <Button
                     variant="outline"
                     size="block"
-                    onClick={() => dispatch(addToCart({ ...item, qty: 1 }))}
+                    onClick={() =>
+                      dispatch(addToCart({ ...item, quantity: 1 }))
+                    }
                   >
                     <AiOutlinePlus className="mr-2" />
                     ADD
                   </Button>
                 ) : (
-                  <QtyButton qty={qty} id={item.id} className="text-white" />
+                  <QtyButton
+                    quantity={quantity}
+                    id={item.id}
+                    className="text-white"
+                  />
                 )}
               </div>
             )}

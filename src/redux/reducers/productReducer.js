@@ -23,11 +23,9 @@ export const getProducts = () => {
   return function (dispatch) {
     dispatch(fetchproductsRequest());
     axios
-      .get(
-        "https://api.json-generator.com/templates/7fslmyyQ52AR/data?access_token=sr5evx3wg5ok41tjpvfyqb0d9aesmtr1usqiix4z",
-      )
+      .get("/api/menu-items?restaurant_code=62f125ea334c342911733c7e")
       .then((res) => {
-        dispatch(fetchproductsSuccess(camelize(res.data)));
+        dispatch(fetchproductsSuccess(camelize(res.data.data)));
       })
       .catch((error) => {
         dispatch(fetchproductsFailure(error.message));

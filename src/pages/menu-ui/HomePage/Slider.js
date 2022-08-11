@@ -54,7 +54,7 @@ function Slider() {
             active={category === selectedCategory}
             onClick={() => dispatch(setCategory(category))}
           >
-            {category}
+            <p className="capitalize">{category}</p>
           </TextButton>
         ))}
       </div>

@@ -3,7 +3,7 @@ import { BiRupee, BiFoodTag } from "react-icons/bi";
 import Card from "../components/Card";
 import QtyButton from "../components/QtyButton";
 import StatusChip from "../components/StatusChip";
-import Textfield from "../components/Textfield";
+import Instruction from "./Instruction";
 
 const classes = {
   bg: "bg-light-base2 dark:bg-dark-base2",
@@ -55,7 +55,7 @@ function OrderCard({ className, items = [], variant = "details", status }) {
                     <div className="flex items-center justify-end mt-2">
                       {variant === "details" ? (
                         <QtyButton
-                          qty={item.qty}
+                          quantity={item.quantity}
                           id={item.id}
                           className="text-white"
                         />
@@ -66,7 +66,7 @@ function OrderCard({ className, items = [], variant = "details", status }) {
                     <div className="flex items-center justify-end mt-2">
                       <BiRupee className={`${classes.subtitle} mr-1`} />
                       <p className={`${classes.subtitle}`}>
-                        {parseFloat(item.qty * item.price).toFixed(2)}
+                        {parseFloat(item.quantity * item.price).toFixed(2)}
                       </p>
                     </div>
                   </div>
@@ -78,7 +78,7 @@ function OrderCard({ className, items = [], variant = "details", status }) {
         {variant === "details" && items.length > 0 && (
           <div className="text-center">
             <hr />
-            <Textfield placeholder="Write instruction for Chef" />
+            <Instruction />
           </div>
         )}
         {items.length === 0 && (

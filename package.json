@@ -2,6 +2,7 @@
   "name": "digital-menu",
   "version": "0.1.0",
   "private": true,
+  "proxy":"http://localhost:5000",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
     "@tailwindcss/line-clamp": "^0.4.0",

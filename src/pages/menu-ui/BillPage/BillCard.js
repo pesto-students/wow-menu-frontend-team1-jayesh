@@ -7,7 +7,7 @@ import Button from "../components/Button";
 
 function BillCard({ className, restaurant, manager, billno, items, table }) {
   const subtotal = items.reduce((acc, curr) => {
-    return acc + curr.qty * curr.price;
+    return acc + curr.quantity * curr.price;
   }, 0);
   const cgstAmt = (restaurant.gstPercentage / 100) * subtotal;
   const sgstAmt = (restaurant.gstPercentage / 100) * subtotal;
@@ -100,13 +100,13 @@ function BillCard({ className, restaurant, manager, billno, items, table }) {
                   className="grid grid-cols-4 gap-1 mb-3 text-light-text1 dark:text-dark-text1"
                 >
                   <p className="col-span-2 text-light-text1 dark:text-dark-text1 text-md">
-                    {item.qty} x {item.name}
+                    {item.quantity} x {item.name}
                   </p>
                   <p className="flex justify-end text-light-text1 dark:text-dark-text1 text-md">
                     {parseFloat(item.price).toFixed(2)}
                   </p>
                   <p className="flex justify-end text-light-text1 dark:text-dark-text1 text-md">
-                    {parseFloat(item.qty * item.price).toFixed(2)}
+                    {parseFloat(item.quantity * item.price).toFixed(2)}
                   </p>
                 </div>
               );

@@ -34,7 +34,7 @@ function OrderCard({ className, items = [], status }) {
                       status === "Rejected" ? classes.rejected : ""
                     }`}
                   >
-                    {`${item.qty} ${item.name}`}
+                    {`${item.quantity} ${item.name}`}
                   </h2>
                 </div>
               </div>

@@ -23,7 +23,10 @@ function BillPage() {
       if (!itemMaps.has(item.id)) itemMaps.set(item.id, item);
       else {
         const prevItem = itemMaps.get(item.id);
-        itemMaps.set(item.id, { ...item, qty: item.qty + prevItem.qty });
+        itemMaps.set(item.id, {
+          ...item,
+          quantity: item.quantity + prevItem.quantity,
+        });
       }
     });
     return [...itemMaps.values()];

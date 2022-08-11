@@ -3,11 +3,12 @@ const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 const INCREASE_QUANTITY = "INCREASE_QUANTITY";
 const DECREASE_QUANTITY = "DECREASE_QUANTITY";
 const UPDATE_QUANTITY = "UPDATE_QUANTITY";
+const UPDATE_INSTRUCTIONS = "UPDATE_INSTRUCTIONS";
 const RESET_CART = "RESET_CART";
 
 export const addToCart = (payload) => ({
   type: "ADD_TO_CART",
-  payload, // {...item,qty}
+  payload, // {...item,quantity}
 });
 export const removeFromCart = (payload) => ({
   type: "REMOVE_FROM_CART",
@@ -22,15 +23,19 @@ export const decreaseQuantity = (payload) => ({
   payload,
 });
 export const updateQuantity = (payload) => ({
-  type: "UPDATE_QUANTITY", // {id,qty}
+  type: "UPDATE_QUANTITY", // {id,quantity}
+  payload,
+});
+export const addInstruction = (payload) => ({
+  type: "UPDATE_INSTRUCTIONS", // text
   payload,
 });
 export const resetCart = () => ({
   type: "RESET_CART",
 });
-
 const initialState = {
   items: [],
+  instruction: "",
 };
 
 export default (state = initialState, action) => {
@@ -47,7 +52,9 @@ export default (state = initialState, action) => {
     }
     case INCREASE_QUANTITY: {
       const newitemState = state.items.map((item) =>
-        item.id === action.payload ? { ...item, qty: item.qty + 1 } : item,
+        item.id === action.payload
+          ? { ...item, quantity: item.quantity + 1 }
+          : item,
       );
       return {
         items: newitemState,
@@ -55,7 +62,9 @@ export default (state = initialState, action) => {
     }
     case DECREASE_QUANTITY: {
       const newitemState = state.items.map((item) =>
-        item.id === action.payload ? { ...item, qty: item.qty - 1 } : item,
+        item.id === action.payload
+          ? { ...item, quantity: item.quantity - 1 }
+          : item,
       );
       return {
         items: newitemState,
@@ -64,12 +73,15 @@ export default (state = initialState, action) => {
     case UPDATE_QUANTITY: {
       const newitemState = state.items.map((item) =>
         item.id === action.payload.id
-          ? { ...item, qty: action.payload.qty }
+          ? { ...item, quantity: action.payload.quantity }
           : item,
       );
       return {
         items: newitemState,
       };
+    }
+    case UPDATE_INSTRUCTIONS: {
+      return { ...state, instruction: action.payload };
     }
     case RESET_CART: {
       return initialState;

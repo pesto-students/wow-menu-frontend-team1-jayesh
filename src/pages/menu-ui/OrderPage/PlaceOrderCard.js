@@ -16,9 +16,13 @@ const classes = {
 };
 
 function PlaceOrderCard({ className }) {
-  const cart = useSelector((state) => state.cart.items);
+  const cart = useSelector((state) => state.cart);
+  const restaurant = useSelector((state) => state.restaurant.details);
   const subtotal = parseFloat(
-    cart.reduce((sum, current) => sum + current.qty * current.price, 0),
+    cart.items.reduce(
+      (sum, current) => sum + current.quantity * current.price,
+      0,
+    ),
   ).toFixed(2);
   const cgst = parseFloat(
     (useSelector((state) => state.restaurant.cgst) * subtotal) / 100,
@@ -30,7 +34,15 @@ function PlaceOrderCard({ className }) {
   const navigate = useNavigate();
 
   const handleOrderPlacement = () => {
-    dispatch(placeOrder(cart));
+    const payload = {
+      items: cart.items.map(({ id, quantity }) => {
+        return { itemId: id, quantity };
+      }),
+      instruction: cart.instruction || "",
+      restaurantId: restaurant.id,
+      tableNo: restaurant.tableNo,
+    };
+    dispatch(placeOrder(payload));
     dispatch(resetCart());
     navigate("/home");
     Swal.fire({
