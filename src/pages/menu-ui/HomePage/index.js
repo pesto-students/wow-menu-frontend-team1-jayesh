@@ -13,7 +13,7 @@ function HomePage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0.5, transition: { duration: 0.1 } }}
-          className="h-full p-4 overflow-y-auto bg-lightPattern"
+          className="h-full p-4 overflow-x-hidden overflow-y-auto bg-lightPattern"
         >
           <div className="flex items-center justify-between">
             <Header />

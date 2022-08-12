@@ -5,12 +5,7 @@ import moment from "moment";
 import Card from "../components/Card";
 import Button from "../components/Button";
 
-function BillCard({ className, restaurant, manager, billno, items, table }) {
-  const subtotal = items.reduce((acc, curr) => {
-    return acc + curr.quantity * curr.price;
-  }, 0);
-  const cgstAmt = (restaurant.gstPercentage / 100) * subtotal;
-  const sgstAmt = (restaurant.gstPercentage / 100) * subtotal;
+function BillCard({ className, restaurant, bill }) {
   const handleDownload = () => {
     const element = document.querySelector("#bill");
     // eslint-disable-next-line
@@ -62,7 +57,7 @@ function BillCard({ className, restaurant, manager, billno, items, table }) {
                   <span className="font-medium text-light-text1 dark:text-dark-text1">
                     Table No:
                   </span>
-                  {table}
+                  {bill.tableNo}
                 </p>
               </div>
               <div>
@@ -70,13 +65,13 @@ function BillCard({ className, restaurant, manager, billno, items, table }) {
                   <span className="font-medium text-light-text1 dark:text-dark-text1">
                     Bill No:
                   </span>
-                  {billno}
+                  {bill.id}
                 </h2>
                 <p>
                   <span className="font-medium text-light-text1 dark:text-dark-text1">
                     Host:
                   </span>
-                  {manager.name}
+                  {bill.createdBy}
                 </p>
               </div>
             </div>
@@ -93,10 +88,10 @@ function BillCard({ className, restaurant, manager, billno, items, table }) {
                 Amt
               </p>
             </div>
-            {items.map((item) => {
+            {bill.items.map((item) => {
               return (
                 <div
-                  key={item.id}
+                  key={item.itemId}
                   className="grid grid-cols-4 gap-1 mb-3 text-light-text1 dark:text-dark-text1"
                 >
                   <p className="col-span-2 text-light-text1 dark:text-dark-text1 text-md">
@@ -117,7 +112,7 @@ function BillCard({ className, restaurant, manager, billno, items, table }) {
                 Subtotal
               </p>
               <p className=" text-light-text1 dark:text-dark-text1">
-                {parseFloat(subtotal).toFixed(2)}
+                {parseFloat(bill.subtotal).toFixed(2)}
               </p>
             </div>
             <div className="flex justify-between text-light-text1 dark:text-dark-text1">
@@ -125,7 +120,7 @@ function BillCard({ className, restaurant, manager, billno, items, table }) {
                 CGST
               </p>
               <p className=" text-light-text1 dark:text-dark-text1">
-                {parseFloat(cgstAmt).toFixed(2)}
+                {parseFloat(bill.cgst).toFixed(2)}
               </p>
             </div>
             <div className="flex justify-between text-light-text1 dark:text-dark-text1">
@@ -133,7 +128,7 @@ function BillCard({ className, restaurant, manager, billno, items, table }) {
                 SGST
               </p>
               <p className="text-light-text1 dark:text-dark-text1">
-                {parseFloat(sgstAmt).toFixed(2)}
+                {parseFloat(bill.sgst).toFixed(2)}
               </p>
             </div>
             {/* <hr /> */}
@@ -143,7 +138,7 @@ function BillCard({ className, restaurant, manager, billno, items, table }) {
               </p>
 
               <p className=" text-light-text1 dark:text-dark-text1">
-                {parseFloat(subtotal + cgstAmt + sgstAmt).toFixed(2)}
+                {parseFloat(bill.total).toFixed(2)}
               </p>
             </div>
           </div>

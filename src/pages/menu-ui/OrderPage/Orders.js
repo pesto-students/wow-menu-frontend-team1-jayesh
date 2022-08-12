@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
 import OrderCard from "./OrderCard";
+import PreviousOrderCard from "./PreviousOrderCard";
 
 function Orders() {
   const cart = useSelector((state) => state.cart.items);
   const previousOrders = useSelector((state) => state.order.list);
-
   return (
     <div className="mt-5 mb-80">
       <OrderCard className="my-3" items={cart} />
@@ -13,14 +13,12 @@ function Orders() {
           Previous Orders
         </h3>
       )}
-      {previousOrders.map((order) => {
+      {previousOrders.map((iteration) => {
         return (
-          <OrderCard
-            key={order.id}
+          <PreviousOrderCard
+            key={iteration.id}
             className="my-3"
-            items={order.items}
-            variant="status"
-            status={order.status}
+            items={iteration.items}
           />
         );
       })}

@@ -2,37 +2,11 @@ import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import BillCard from "./BillCard";
 import PaymentCard from "./PaymentCard";
-import PageHeader from "../components/PageHeader";
 import Card from "../components/Card";
 
 function BillPage() {
-  const orders = useSelector((state) => state.order.list);
-  const manager = useSelector((state) => state.order.manager);
   const restaurant = useSelector((state) => state.restaurant.details);
-  const getUniqueItems = () => {
-    const filteredOrders = orders.filter(
-      (order) => order.status !== "Rejected",
-    );
-    const orderItems = filteredOrders
-      .map((order) => {
-        return order.items;
-      })
-      .flat();
-    const itemMaps = new Map();
-    orderItems.forEach((item) => {
-      if (!itemMaps.has(item.id)) itemMaps.set(item.id, item);
-      else {
-        const prevItem = itemMaps.get(item.id);
-        itemMaps.set(item.id, {
-          ...item,
-          quantity: item.quantity + prevItem.quantity,
-        });
-      }
-    });
-    return [...itemMaps.values()];
-  };
-
-  const items = getUniqueItems();
+  const billDetails = useSelector((state) => state.bill.details);
   return (
     <AnimatePresence exitBeforeEnter>
       <div className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">
@@ -40,18 +14,14 @@ function BillPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0.5, transition: { duration: 0.1 } }}
-          className="h-full p-4 overflow-y-auto bg-lightPattern"
+          className="h-full p-4 overflow-x-hidden overflow-y-auto bg-lightPattern"
         >
-          <PageHeader name="Bill" />
+          <h2 className="text-2xl font-semibold text-center text-light-text1 dark:text-dark-text1">
+            Bill
+          </h2>
           <div className="mt-5 mb-64">
-            {items.length > 0 ? (
-              <BillCard
-                restaurant={restaurant}
-                manager={manager}
-                billno={301}
-                items={items}
-                table={7}
-              />
+            {billDetails ? (
+              <BillCard bill={billDetails} restaurant={restaurant} />
             ) : (
               <Card className="bg-light-base2 dark:bg-dark-base2">
                 <h2 className="mb-3 font-medium text-center text-light-text1 dark:text-dark-text1">

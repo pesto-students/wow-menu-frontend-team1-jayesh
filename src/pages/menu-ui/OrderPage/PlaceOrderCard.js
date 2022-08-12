@@ -7,7 +7,10 @@ import { BsArrowRight } from "react-icons/bs";
 import Card from "../components/Card";
 import Button from "../components/Button";
 import { resetCart } from "../../../redux/reducers/cartReducer";
-import { placeOrder } from "../../../redux/reducers/orderReducer";
+import {
+  placeNewOrder,
+  placeOrderAgain,
+} from "../../../redux/reducers/orderReducer";
 
 // style for different props
 const classes = {
@@ -17,32 +20,37 @@ const classes = {
 
 function PlaceOrderCard({ className }) {
   const cart = useSelector((state) => state.cart);
-  const restaurant = useSelector((state) => state.restaurant.details);
-  const subtotal = parseFloat(
-    cart.items.reduce(
-      (sum, current) => sum + current.quantity * current.price,
-      0,
-    ),
-  ).toFixed(2);
-  const cgst = parseFloat(
-    (useSelector((state) => state.restaurant.cgst) * subtotal) / 100,
-  ).toFixed(2);
-  const sgst = parseFloat(
-    (useSelector((state) => state.restaurant.sgst) * subtotal) / 100,
-  ).toFixed(2);
+  const order = useSelector((state) => state.order.id);
+
+  const subtotal = cart.items.reduce(
+    (sum, curr) => sum + curr.quantity * curr.price,
+    0,
+  );
+  const cgst =
+    (useSelector((state) => state.restaurant.details.gstPercentage) *
+      subtotal) /
+    100;
+  const sgst =
+    (useSelector((state) => state.restaurant.details.gstPercentage) *
+      subtotal) /
+    100;
+  // eslint-disable-next-line
+  console.log(cgst);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleOrderPlacement = () => {
     const payload = {
       items: cart.items.map(({ id, quantity }) => {
-        return { itemId: id, quantity };
+        return { item: id, quantity };
       }),
       instruction: cart.instruction || "",
-      restaurantId: restaurant.id,
-      tableNo: restaurant.tableNo,
     };
-    dispatch(placeOrder(payload));
+
+    if (order) dispatch(placeOrderAgain(payload));
+    else dispatch(placeNewOrder(payload));
+
     dispatch(resetCart());
     navigate("/home");
     Swal.fire({
