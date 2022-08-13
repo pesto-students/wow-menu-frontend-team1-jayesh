@@ -25,8 +25,6 @@ export const getBill = () => {
     axios
       .post("/api/bills", snakeize(payload))
       .then((res) => {
-        // eslint-disable-next-line
-        console.log(res.data.data);
         dispatch(billSuccess(camelize(res.data.data)));
       })
       .catch((error) => {

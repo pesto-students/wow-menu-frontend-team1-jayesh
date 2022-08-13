@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { BiRupee, BiFoodTag } from "react-icons/bi";
@@ -5,10 +6,10 @@ import { AiOutlineClockCircle, AiOutlinePlus } from "react-icons/ai";
 import Card from "./Card";
 import Button from "./Button";
 import QtyButton from "./QtyButton";
-import { addToCart } from "../../../redux/reducers/cartReducer";
-import { setItem } from "../../../redux/reducers/productReducer";
+import { addToCart } from "../../../store/reducers/cartReducer";
+import { setItem } from "../../../store/reducers/productReducer";
 
-function MenuCard({ className, item }) {
+function MenuCard({ className, item }, ref) {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.items);
   const isItemPresentInCart = cart.findIndex((dish) => dish.id === item.id);
@@ -25,7 +26,10 @@ function MenuCard({ className, item }) {
       viewport={{ once: true }}
       exit={{ x: -30, opacity: 0 }}
     >
-      <Card className={`bg-light-base2 dark:bg-dark-base2 ${className}`}>
+      <Card
+        className={`bg-light-base2 dark:bg-dark-base2 ${className}`}
+        ref={ref}
+      >
         <div className="grid grid-cols-3 gap-1">
           <button
             type="button"
@@ -99,4 +103,4 @@ function MenuCard({ className, item }) {
   );
 }
 
-export default MenuCard;
+export default forwardRef(MenuCard);

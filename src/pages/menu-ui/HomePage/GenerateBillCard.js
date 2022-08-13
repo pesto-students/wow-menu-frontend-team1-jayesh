@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 import Button from "../components/Button";
-import { getBill } from "../../../redux/reducers/billReducer";
+import { getBill } from "../../../store/reducers/billReducer";
 
 // style for different props
 const classes = {

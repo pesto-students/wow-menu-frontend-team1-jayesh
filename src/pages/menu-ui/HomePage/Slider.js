@@ -1,26 +1,14 @@
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
-
 import TextButton from "../components/TextButton";
-import {
-  getProducts,
-  setCategory,
-} from "../../../redux/reducers/productReducer";
+import { selectCategory } from "../../../store/reducers/productReducer";
 
 function Slider() {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.product.items);
+  const categories = useSelector((state) => state.product.categories);
   const selectedCategory = useSelector(
     (state) => state.product.selectedCategory,
   );
-  const categories = [...new Set(products.map((item) => item.category))];
-  useEffect(() => {
-    dispatch(getProducts());
-  }, []);
-  useEffect(() => {
-    dispatch(setCategory(categories[0]));
-  }, [products]);
 
   return (
     <div className="mt-3 overflow-auto touch-pan-x w-100 scroll-smooth slider">
@@ -49,12 +37,12 @@ function Slider() {
         )}
         {categories.map((category) => (
           <TextButton
-            key={category}
+            key={category.id}
             className="snap-start"
-            active={category === selectedCategory}
-            onClick={() => dispatch(setCategory(category))}
+            active={category.id === selectedCategory.id}
+            onClick={() => dispatch(selectCategory(category))}
           >
-            <p className="capitalize">{category}</p>
+            <p className="capitalize">{category.name}</p>
           </TextButton>
         ))}
       </div>

@@ -6,11 +6,11 @@ import { BiRupee } from "react-icons/bi";
 import { BsArrowRight } from "react-icons/bs";
 import Card from "../components/Card";
 import Button from "../components/Button";
-import { resetCart } from "../../../redux/reducers/cartReducer";
+import { resetCart } from "../../../store/reducers/cartReducer";
 import {
   placeNewOrder,
   placeOrderAgain,
-} from "../../../redux/reducers/orderReducer";
+} from "../../../store/reducers/orderReducer";
 
 // style for different props
 const classes = {
@@ -34,8 +34,6 @@ function PlaceOrderCard({ className }) {
     (useSelector((state) => state.restaurant.details.gstPercentage) *
       subtotal) /
     100;
-  // eslint-disable-next-line
-  console.log(cgst);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
