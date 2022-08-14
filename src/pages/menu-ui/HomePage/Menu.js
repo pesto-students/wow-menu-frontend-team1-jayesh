@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { AnimatePresence } from "framer-motion";
 import CardLoader from "../components/CardLoader";
@@ -7,16 +7,16 @@ import useLoadProduct from "./useLoadProduct";
 
 function Menu() {
   const observer = useRef();
-  const products = useSelector((state) => state.product.items);
   const selectedCategory = useSelector(
     (state) => state.product.selectedCategory,
   );
-  const items = products[selectedCategory.name];
-  // eslint-disable-next-line
-  console.log("Got items", items);
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
 
-  const { loading, hasMore } = useLoadProduct(page);
+  const { loading, products, hasMore } = useLoadProduct(page, selectedCategory);
+
+  useEffect(() => {
+    setPage(1);
+  }, [selectedCategory]);
 
   const loadMoreElementRef = useCallback(
     (node) => {
@@ -35,9 +35,9 @@ function Menu() {
   return (
     <div className="mt-4 mb-36">
       <div>
-        {items.length > 0 ? (
-          items.map((item, idx) => {
-            if (items.length === idx + 1)
+        {products.length > 0 ? (
+          products.map((item, idx) => {
+            if (products.length === idx + 1)
               return (
                 <AnimatePresence exitBeforeEnter key={item.id}>
                   <MenuCard

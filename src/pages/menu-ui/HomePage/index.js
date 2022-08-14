@@ -4,8 +4,10 @@ import IconSet from "./IconSet";
 import Slider from "./Slider";
 import Menu from "./Menu";
 import ActionCards from "./ActionCards";
+import useInit from "../useInit";
 
 function HomePage() {
+  useInit();
   return (
     <AnimatePresence exitBeforeEnter>
       <div className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">

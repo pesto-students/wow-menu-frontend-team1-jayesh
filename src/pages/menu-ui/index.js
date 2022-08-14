@@ -1,11 +1,11 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import useInit from "../../shared/hooks/useInit";
+// import useInit from "../../shared/hooks/useInit";
 
 function SplashScreen() {
   const navigate = useNavigate();
-  useInit();
+  // useInit();
   useEffect(() => {
     setTimeout(() => {
       navigate("/home");
