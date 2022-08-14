@@ -7,6 +7,7 @@ import Card from "../components/Card";
 function BillPage() {
   const restaurant = useSelector((state) => state.restaurant.details);
   const billDetails = useSelector((state) => state.bill.details);
+  const billloading = useSelector((state) => state.bill.loading);
   return (
     <AnimatePresence exitBeforeEnter>
       <div className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">
@@ -20,9 +21,23 @@ function BillPage() {
             Bill
           </h2>
           <div className="mt-5 mb-64">
-            {billDetails ? (
-              <BillCard bill={billDetails} restaurant={restaurant} />
+            {billloading ? (
+              <div className="flex my-3 space-x-4 animate-pulse">
+                <div className="flex-1 py-1 space-y-6">
+                  <div className="h-2 rounded bg-slate-300 dark:bg-slate-700" />
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="h-2 col-span-2 rounded bg-slate-300 dark:bg-slate-700" />
+                      <div className="h-2 col-span-1 rounded bg-slate-300 dark:bg-slate-700" />
+                    </div>
+                    <div className="h-2 rounded bg-slate-300 dark:bg-slate-700" />
+                  </div>
+                </div>
+              </div>
             ) : (
+              <BillCard bill={billDetails} restaurant={restaurant} />
+            )}
+            {!billloading && !billDetails && (
               <Card className="bg-light-base2 dark:bg-dark-base2">
                 <h2 className="mb-3 font-medium text-center text-light-text1 dark:text-dark-text1">
                   Nothing ordered yet.

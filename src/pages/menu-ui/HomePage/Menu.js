@@ -35,28 +35,25 @@ function Menu() {
   return (
     <div className="mt-4 mb-36">
       <div>
-        {products.length > 0 ? (
-          products.map((item, idx) => {
-            if (products.length === idx + 1)
-              return (
-                <AnimatePresence exitBeforeEnter key={item.id}>
-                  <MenuCard
-                    ref={loadMoreElementRef}
-                    item={item}
-                    className="my-2"
-                  />
-                </AnimatePresence>
-              );
+        {products.map((item, idx) => {
+          if (products.length === idx + 1)
             return (
               <AnimatePresence exitBeforeEnter key={item.id}>
-                <MenuCard item={item} className="my-2" />
+                <MenuCard
+                  ref={loadMoreElementRef}
+                  item={item}
+                  className="my-2"
+                />
               </AnimatePresence>
             );
-          })
-        ) : (
+          return (
+            <AnimatePresence exitBeforeEnter key={item.id}>
+              <MenuCard item={item} className="my-2" />
+            </AnimatePresence>
+          );
+        })}
+        {loading && (
           <>
-            <CardLoader />
-            <CardLoader />
             <CardLoader />
             <CardLoader />
           </>
