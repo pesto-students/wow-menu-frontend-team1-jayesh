@@ -23,7 +23,10 @@ export const getBill = () => {
     const payload = { orderId: getState().order.id };
     dispatch(billRequest());
     axios
-      .post("/api/bills", snakeize(payload))
+      .post(
+        "https://wow-menu-staging.herokuapp.com/api/bills",
+        snakeize(payload),
+      )
       .then((res) => {
         dispatch(billSuccess(camelize(res.data.data)));
       })

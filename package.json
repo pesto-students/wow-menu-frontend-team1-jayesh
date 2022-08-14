@@ -2,7 +2,6 @@
   "name": "digital-menu",
   "version": "0.1.0",
   "private": true,
-  "proxy":"https://wow-menu-staging.herokuapp.com",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
     "@tailwindcss/line-clamp": "^0.4.0",

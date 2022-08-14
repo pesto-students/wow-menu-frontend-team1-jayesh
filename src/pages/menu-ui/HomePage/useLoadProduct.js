@@ -20,7 +20,7 @@ export default function useProductSearch(page, category) {
     setError(false);
     axios
       .get(
-        `/api/menu-items?restaurant=${restaurantId}&is_active=true&limit=10&page_no=${page}&category=${category.id}`,
+        `https://wow-menu-staging.herokuapp.com/api/menu-items?restaurant=${restaurantId}&is_active=true&limit=10&page_no=${page}&category=${category.id}`,
       )
       .then((res) => {
         setProducts((prevProducts) => {

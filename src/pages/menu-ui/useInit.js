@@ -24,7 +24,9 @@ export default function useProductSearch() {
     });
 
   axios
-    .get(`/api/categories?restaurant=${restaurantId}&is_active=true`)
+    .get(
+      `https://wow-menu-staging.herokuapp.com/api/categories?restaurant=${restaurantId}&is_active=true`,
+    )
     .then((res) => {
       dispatch(
         setCategory(

@@ -27,7 +27,10 @@ export const placeNewOrder = (payload) => {
     };
     dispatch(postOrderRequest());
     axios
-      .post("/api/orders", snakeize(orderDetail))
+      .post(
+        "https://wow-menu-staging.herokuapp.com/api/orders",
+        snakeize(orderDetail),
+      )
       .then((res) => {
         dispatch(postOrderSuccess(camelize(res.data.data)));
       })
@@ -40,7 +43,9 @@ export const placeNewOrder = (payload) => {
 export const placeOrderAgain = (payload) => {
   return function (dispatch, getState) {
     dispatch(postOrderRequest());
-    const url = `/api/orders/${getState().order.id}/add`;
+    const url = `https://wow-menu-staging.herokuapp.com/api/orders/${
+      getState().order.id
+    }/add`;
     axios
       .patch(url, snakeize(payload))
       .then((res) => {
