@@ -4,8 +4,10 @@ import IconSet from "./IconSet";
 import Slider from "./Slider";
 import Menu from "./Menu";
 import ActionCards from "./ActionCards";
+import useInit from "../useInit";
 
 function HomePage() {
+  useInit();
   return (
     <AnimatePresence exitBeforeEnter>
       <div className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">
@@ -13,7 +15,7 @@ function HomePage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0.5, transition: { duration: 0.1 } }}
-          className="h-full p-4 overflow-y-auto bg-lightPattern"
+          className="h-full p-4 overflow-x-hidden overflow-y-auto bg-lightPattern"
         >
           <div className="flex items-center justify-between">
             <Header />

@@ -5,7 +5,7 @@ import {
   increaseQuantity,
   decreaseQuantity,
   removeFromCart,
-} from "../../../redux/reducers/cartReducer";
+} from "../../../store/reducers/cartReducer";
 
 const classes = {
   base: "select-none flex items-center justify-between w-full rounded justify-among shadow-glow active:shadow-sm",
@@ -17,13 +17,20 @@ const classes = {
   buttonBase: "flex items-center justify-center p-2 grow",
 };
 
-function QtyButton({ qty, id, onInc, onDec, variant = "fill", className }) {
+function QuantityButton({
+  quantity,
+  id,
+  onInc,
+  onDec,
+  variant = "fill",
+  className,
+}) {
   const dispatch = useDispatch();
   const handleInc = () => {
     dispatch(increaseQuantity(id));
   };
   const handleDec = () => {
-    if (qty === 1) dispatch(removeFromCart(id));
+    if (quantity === 1) dispatch(removeFromCart(id));
     else dispatch(decreaseQuantity(id));
   };
   return (
@@ -38,7 +45,7 @@ function QtyButton({ qty, id, onInc, onDec, variant = "fill", className }) {
       >
         <AiOutlineMinus size={16} />
       </button>
-      <p className={`text-lg font-semibold ${className}`}>{qty}</p>
+      <p className={`text-lg font-semibold ${className}`}>{quantity}</p>
       <button
         type="button"
         className={`${classes.buttonBase}  ${className}`}
@@ -50,4 +57,4 @@ function QtyButton({ qty, id, onInc, onDec, variant = "fill", className }) {
   );
 }
 
-export default QtyButton;
+export default QuantityButton;

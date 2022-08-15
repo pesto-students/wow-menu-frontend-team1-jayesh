@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { BiRupee, BiFoodTag } from "react-icons/bi";
@@ -5,14 +6,15 @@ import { AiOutlineClockCircle, AiOutlinePlus } from "react-icons/ai";
 import Card from "./Card";
 import Button from "./Button";
 import QtyButton from "./QtyButton";
-import { addToCart } from "../../../redux/reducers/cartReducer";
-import { setItem } from "../../../redux/reducers/productReducer";
+import { addToCart } from "../../../store/reducers/cartReducer";
+import { setItem } from "../../../store/reducers/productReducer";
 
-function MenuCard({ className, item }) {
+function MenuCard({ className, item }, ref) {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.items);
   const isItemPresentInCart = cart.findIndex((dish) => dish.id === item.id);
-  const qty = isItemPresentInCart === -1 ? 0 : cart[isItemPresentInCart].qty;
+  const quantity =
+    isItemPresentInCart === -1 ? 0 : cart[isItemPresentInCart].quantity;
 
   const handleSetItem = () => {
     dispatch(setItem(item));
@@ -24,7 +26,10 @@ function MenuCard({ className, item }) {
       viewport={{ once: true }}
       exit={{ x: -30, opacity: 0 }}
     >
-      <Card className={`bg-light-base2 dark:bg-dark-base2 ${className}`}>
+      <Card
+        className={`bg-light-base2 dark:bg-dark-base2 ${className}`}
+        ref={ref}
+      >
         <div className="grid grid-cols-3 gap-1">
           <button
             type="button"
@@ -65,23 +70,29 @@ function MenuCard({ className, item }) {
               className={`mx-auto rounded-full ${
                 item.isAvailable ? "" : "grayscale"
               }`}
-              src={item.img}
+              src={item.imageUrl}
               alt={item.name}
               width={150}
             />
             {item.isAvailable && (
               <div className="absolute inset-x-0 bottom-0">
-                {qty === 0 ? (
+                {quantity === 0 ? (
                   <Button
                     variant="outline"
                     size="block"
-                    onClick={() => dispatch(addToCart({ ...item, qty: 1 }))}
+                    onClick={() =>
+                      dispatch(addToCart({ ...item, quantity: 1 }))
+                    }
                   >
                     <AiOutlinePlus className="mr-2" />
                     ADD
                   </Button>
                 ) : (
-                  <QtyButton qty={qty} id={item.id} className="text-white" />
+                  <QtyButton
+                    quantity={quantity}
+                    id={item.id}
+                    className="text-white"
+                  />
                 )}
               </div>
             )}
@@ -92,4 +103,4 @@ function MenuCard({ className, item }) {
   );
 }
 
-export default MenuCard;
+export default forwardRef(MenuCard);

@@ -7,8 +7,8 @@ import QtyButton from "./QtyButton";
 import Button from "./Button";
 import Card from "./Card";
 import CloseButton from "./CloseButton";
-import { addToCart, updateQuantity } from "../../../redux/reducers/cartReducer";
-import { setItem } from "../../../redux/reducers/productReducer";
+import { addToCart, updateQuantity } from "../../../store/reducers/cartReducer";
+import { setItem } from "../../../store/reducers/productReducer";
 
 // style for different props
 const classes = {
@@ -23,12 +23,12 @@ function ItemInDetail({ className }) {
   const cart = useSelector((state) => state.cart.items);
   const isItemPresentInCart = cart.findIndex((dish) => dish.id === item.id);
   const [localQty, setLocalQty] = useState(
-    isItemPresentInCart === -1 ? 1 : cart[isItemPresentInCart].qty,
+    isItemPresentInCart === -1 ? 1 : cart[isItemPresentInCart].quantity,
   );
   const addInCart = (id) => {
     if (isItemPresentInCart === -1)
-      dispatch(addToCart({ ...item, qty: localQty }));
-    else dispatch(updateQuantity({ id, qty: localQty }));
+      dispatch(addToCart({ ...item, quantity: localQty }));
+    else dispatch(updateQuantity({ id, quantity: localQty }));
     dispatch(setItem(""));
   };
   const handleInc = () => {
@@ -68,7 +68,7 @@ function ItemInDetail({ className }) {
           <div className="flex justify-center">
             <img
               className="w-3/6 rounded-full text-light-text2"
-              src={item.img}
+              src={item.imageUrl}
               alt={item.name}
             />
           </div>
@@ -97,7 +97,7 @@ function ItemInDetail({ className }) {
                 <div>
                   <QtyButton
                     variant="outline"
-                    qty={localQty}
+                    quantity={localQty}
                     onInc={handleInc}
                     onDec={handleDec}
                   />

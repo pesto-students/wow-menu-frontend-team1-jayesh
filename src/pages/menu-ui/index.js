@@ -1,9 +1,11 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+// import useInit from "../../shared/hooks/useInit";
 
 function SplashScreen() {
   const navigate = useNavigate();
+  // useInit();
   useEffect(() => {
     setTimeout(() => {
       navigate("/home");
@@ -17,7 +19,7 @@ function SplashScreen() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0.5, transition: { duration: 0.1 } }}
-          className="flex items-center justify-center h-full p-4 overflow-y-auto bg-lightPattern"
+          className="flex items-center justify-center h-full p-4 overflow-x-hidden overflow-y-auto bg-lightPattern"
         >
           <div className="flex -mt-20">
             <svg

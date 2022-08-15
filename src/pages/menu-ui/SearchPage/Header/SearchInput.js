@@ -1,6 +1,11 @@
 import { AiOutlineSearch } from "react-icons/ai";
+import useDebounce from "../useDebounce";
 
 function SearchInput({ onInput }) {
+  const handleSearch = (e) => {
+    onInput(e.target.value);
+  };
+  const search = useDebounce((e) => handleSearch(e), 500);
   return (
     <form className="flex items-center mx-2 grow">
       <div className="relative w-full">
@@ -15,7 +20,7 @@ function SearchInput({ onInput }) {
           className="w-full p-2 pl-10 border rounded focus:outline-none focus:primary focus:ring-1 bg-light-base3 border-dark-text2 text-light-text1 dark:bg-dark-base3 dark:border-light-text1 dark:text-dark-text1 "
           placeholder="Search"
           required
-          onInput={(e) => onInput(e.target.value)}
+          onInput={(e) => search(e)}
         />
       </div>
     </form>
