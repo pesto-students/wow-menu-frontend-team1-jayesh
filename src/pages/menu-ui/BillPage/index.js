@@ -1,13 +1,62 @@
+import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
+import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import BillCard from "./BillCard";
 import PaymentCard from "./PaymentCard";
 import Card from "../components/Card";
 
+function loadRazorpay() {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    document.body.appendChild(script);
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+  });
+}
+
 function BillPage() {
   const restaurant = useSelector((state) => state.restaurant.details);
   const billDetails = useSelector((state) => state.bill.details);
   const billloading = useSelector((state) => state.bill.loading);
+  const openPayModal = async () => {
+    const res = await loadRazorpay();
+    if (!res) {
+      alert(
+        "Razorpay SDK failed to load. Please check you internet connection",
+      );
+      return;
+    }
+    const paymentData = await axios.get(
+      `https://wow-menu-staging.herokuapp.com/api/razorpay/${billDetails.id}`,
+    );
+    const options = {
+      key: "rzp_test_XHR14CbtOV2SNx",
+      amount: paymentData.data.data.amount,
+      name: restaurant.name,
+      description: restaurant.address,
+      order_id: paymentData.data.data.id,
+      handler() {
+        Swal.fire({
+          text: "Payment Received",
+          icon: "success",
+          showConfirmButton: false,
+          width: 300,
+          timer: 1500,
+        });
+      },
+      theme: {
+        color: "#252836",
+      },
+    };
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  };
   return (
     <AnimatePresence exitBeforeEnter>
       <div className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">
@@ -49,7 +98,7 @@ function BillPage() {
             )}
           </div>
         </motion.div>
-        <PaymentCard />
+        <PaymentCard payOnline={openPayModal} />
       </div>
     </AnimatePresence>
   );
