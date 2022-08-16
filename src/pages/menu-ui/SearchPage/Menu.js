@@ -17,7 +17,7 @@ function Menu({ items, loading, hasMore, nextPage }) {
   );
 
   return (
-    <div className="mt-4 mb-36">
+    <div className="w-full mx-auto mt-4  mb-36 md:w-4/6 lg:w-2/6">
       {items.map((item, idx) => {
         if (items.length === idx + 1)
           return (

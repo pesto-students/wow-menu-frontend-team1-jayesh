@@ -6,6 +6,7 @@ import { BiRupee } from "react-icons/bi";
 import { BsArrowRight } from "react-icons/bs";
 import Card from "../components/Card";
 import Button from "../components/Button";
+import useLocalStorage from "../../../shared/hooks/useLocalStorage";
 import { resetCart } from "../../../store/reducers/cartReducer";
 import {
   placeNewOrder,
@@ -21,6 +22,8 @@ const classes = {
 function PlaceOrderCard({ className }) {
   const cart = useSelector((state) => state.cart);
   const order = useSelector((state) => state.order.id);
+  // eslint-disable-next-line
+  const [storedCart, setStoredCart] = useLocalStorage("cart", cart);
 
   const subtotal = cart.items.reduce(
     (sum, curr) => sum + curr.quantity * curr.price,
@@ -50,6 +53,7 @@ function PlaceOrderCard({ className }) {
     else dispatch(placeNewOrder(payload));
 
     dispatch(resetCart());
+    setStoredCart([]);
     navigate("/home");
     Swal.fire({
       title: "Sweet!!",

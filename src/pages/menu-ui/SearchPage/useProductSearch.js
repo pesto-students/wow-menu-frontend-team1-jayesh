@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import camelize from "camelize";
 
 export default function useProductSearch(search, page, filter) {
-  const restaurantId = useSelector((state) => state.restaurant.id);
+  // const restaurantId = useSelector((state) => state.restaurant.id);
+  const restaurantId = "62f125ea334c342911733c7e";
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [products, setProducts] = useState([]);

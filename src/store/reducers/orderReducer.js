@@ -6,6 +6,7 @@ const SET_ORDER = "SET_ORDER";
 const ORDER_PLACED_REQUEST = "PLACE_ORDER_REQUEST";
 const ORDER_PLACED_SUCCESS = "ORDER_PLACED_SUCCESS";
 const ORDER_PLACED_FAILURE = "ORDER_PLACED_FAILURE";
+const RESET_ORDER = "RESET_ORDER";
 
 const postOrderRequest = () => ({
   type: "PLACE_ORDER_REQUEST",
@@ -22,6 +23,10 @@ const postOrderFailure = (payload) => ({
 export const setOrder = (payload) => ({
   type: "SET_ORDER",
   payload,
+});
+
+export const resetOrder = () => ({
+  type: "RESET_ORDER",
 });
 
 export const placeNewOrder = (payload) => {
@@ -59,7 +64,6 @@ export const placeOrderAgain = (payload) => {
 };
 
 const initialState = {
-  id: null,
   list: [],
   loading: null,
   error: "",
@@ -75,6 +79,7 @@ export default (state = initialState, action) => {
       return { ...state, loading: true };
     }
     case ORDER_PLACED_SUCCESS: {
+      window.localStorage.setItem("orderId", action.payload.id);
       return {
         ...state,
         loading: false,
@@ -84,6 +89,9 @@ export default (state = initialState, action) => {
     }
     case ORDER_PLACED_FAILURE: {
       return { ...state, loading: false, error: action.payload };
+    }
+    case RESET_ORDER: {
+      return initialState;
     }
     default:
       return state;

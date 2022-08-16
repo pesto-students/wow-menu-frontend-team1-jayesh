@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { FiChevronLeft } from "react-icons/fi";
 import { jsPDF } from "jspdf";
 import { AiOutlineCloudDownload } from "react-icons/ai";
 import moment from "moment";
@@ -27,7 +28,7 @@ function BillCard({ className, restaurant, bill }) {
       exit={{ opacity: 0 }}
     >
       <Card className={`bg-light-base2 dark:bg-dark-base2 ${className} p-0`}>
-        <div id="bill" className="p-2 bg-light-base2 dark:bg-dark-base2">
+        <div id="bill" className="p-4 mb-2 bg-light-base2 dark:bg-dark-base2">
           <div>
             <h2 className="text-lg font-semibold text-center text-light-text1 dark:text-dark-text1">
               {restaurant.name}
@@ -145,6 +146,10 @@ function BillCard({ className, restaurant, bill }) {
         </div>
       </Card>
       <div className="flex justify-end">
+        <Button className="mt-2 mr-2" variant="outline" href="/home">
+          <FiChevronLeft />
+          Menu
+        </Button>
         <Button className="mt-2" onClick={handleDownload}>
           <AiOutlineCloudDownload />
           Download
