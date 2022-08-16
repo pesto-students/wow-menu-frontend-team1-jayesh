@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
+
 import Header from "./Header";
 import IconSet from "./IconSet";
 import Slider from "./Slider";

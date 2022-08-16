@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { FaRegUser } from "react-icons/fa";
+import { FaRegBell } from "react-icons/fa";
 import FloatingButton from "./FloatingButton";
 
 const classes = {
@@ -22,7 +22,7 @@ function CallWaiter({ pos = "left" }) {
   return (
     <div className={`${classes.pos[pos]}`}>
       <FloatingButton onClick={handleCall} size="large">
-        <FaRegUser />
+        <FaRegBell />
       </FloatingButton>
     </div>
   );

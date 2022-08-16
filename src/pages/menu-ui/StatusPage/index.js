@@ -1,11 +1,24 @@
-import { useSelector } from "react-redux";
+import io from "socket.io-client";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import PageHeader from "../components/PageHeader";
 import CallWaiter from "../components/CallWaiter";
 import StatusCard from "./StatusCard";
 import Card from "../components/Card";
+import { setOrder } from "../../../store/reducers/orderReducer";
 
+const socket = io.connect("http://localhost:5000");
 function StatusPage() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      // eslint-disable-next-line
+      console.log(data);
+      dispatch(setOrder(data));
+    });
+  }, [socket]);
+
   const orders = useSelector((state) => state.order.list);
   return (
     <AnimatePresence exitBeforeEnter>

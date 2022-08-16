@@ -27,13 +27,13 @@ function BillPage() {
   const openPayModal = async () => {
     const res = await loadRazorpay();
     if (!res) {
-      alert(
+      console.warn(
         "Razorpay SDK failed to load. Please check you internet connection",
       );
       return;
     }
     const paymentData = await axios.get(
-      `https://wow-menu-staging.herokuapp.com/api/razorpay/${billDetails.id}`,
+      `http://localhost:5000/api/razorpay/${billDetails.id}`,
     );
     const options = {
       key: "rzp_test_XHR14CbtOV2SNx",

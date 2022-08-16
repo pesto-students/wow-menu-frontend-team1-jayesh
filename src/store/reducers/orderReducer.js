@@ -2,6 +2,7 @@ import axios from "axios";
 import camelize from "camelize";
 import snakeize from "snakeize";
 
+const SET_ORDER = "SET_ORDER";
 const ORDER_PLACED_REQUEST = "PLACE_ORDER_REQUEST";
 const ORDER_PLACED_SUCCESS = "ORDER_PLACED_SUCCESS";
 const ORDER_PLACED_FAILURE = "ORDER_PLACED_FAILURE";
@@ -18,6 +19,11 @@ const postOrderFailure = (payload) => ({
   payload, // error message
 });
 
+export const setOrder = (payload) => ({
+  type: "SET_ORDER",
+  payload,
+});
+
 export const placeNewOrder = (payload) => {
   return function (dispatch, getState) {
     const orderDetail = {
@@ -27,10 +33,7 @@ export const placeNewOrder = (payload) => {
     };
     dispatch(postOrderRequest());
     axios
-      .post(
-        "https://wow-menu-staging.herokuapp.com/api/orders",
-        snakeize(orderDetail),
-      )
+      .post("http://localhost:5000/api/orders", snakeize(orderDetail))
       .then((res) => {
         dispatch(postOrderSuccess(camelize(res.data.data)));
       })
@@ -43,9 +46,7 @@ export const placeNewOrder = (payload) => {
 export const placeOrderAgain = (payload) => {
   return function (dispatch, getState) {
     dispatch(postOrderRequest());
-    const url = `https://wow-menu-staging.herokuapp.com/api/orders/${
-      getState().order.id
-    }/add`;
+    const url = `http://localhost:5000/api/orders/${getState().order.id}/add`;
     axios
       .patch(url, snakeize(payload))
       .then((res) => {
@@ -67,6 +68,9 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_ORDER: {
+      return { ...state, list: camelize(action.payload.iterations) };
+    }
     case ORDER_PLACED_REQUEST: {
       return { ...state, loading: true };
     }
