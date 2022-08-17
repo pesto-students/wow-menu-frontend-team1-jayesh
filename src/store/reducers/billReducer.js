@@ -21,7 +21,7 @@ export const getBill = () => {
     const payload = { orderId: getState().order.id };
     dispatch(billRequest());
     axios
-      .post("http://localhost:5000/api/bills", payload)
+      .post("https://wow-menu-staging.herokuapp.com/api/bills", payload)
       .then((res) => {
         dispatch(billSuccess(res.data.data));
       })

@@ -38,7 +38,7 @@ function BillPage() {
       return;
     }
     const paymentData = await axios.get(
-      `http://localhost:5000/api/razorpay/${billDetails.id}`,
+      `https://wow-menu-staging.herokuapp.com/api/razorpay/${billDetails.id}`,
     );
     const options = {
       key: "rzp_test_XHR14CbtOV2SNx",
@@ -91,11 +91,12 @@ function BillPage() {
                 </div>
               </div>
             )}
-            {billDetails ? (
+            {billDetails && (
               <div className="w-full mx-auto mt-5 mb-56 md:w-4/6 lg:w-2/6 ">
                 <BillCard bill={billDetails} restaurant={restaurant} />
               </div>
-            ) : (
+            )}
+            {!billloading && !billDetails && (
               <Card className="mt-4 bg-light-base2 dark:bg-dark-base2">
                 <img src={noBill} alt="emptyCart" className="w-3/6 mx-auto " />
                 <p className="mt-4 text-center text-light-text1 dark:text-dark-text1">

@@ -76,7 +76,7 @@ function ItemInDetail() {
             <div className="col-span-2">
               <div className="flex">
                 <BiFoodTag
-                  className={item.is_veg ? "text-green-600" : "text-red-800"}
+                  className={item.isVeg ? "text-green-600" : "text-red-800"}
                   size="24"
                 />
                 {item.spicy === "medium" && (

@@ -111,13 +111,13 @@ function BillCard({ className, restaurant, bill }) {
             <div className="flex justify-between mb-2 text-light-text1 dark:text-dark-text1">
               <div>
                 <p>
-                  <span className="font-medium text-light-text1 dark:text-dark-text1">
+                  <span className="mr-1 font-medium text-light-text1 dark:text-dark-text1">
                     Date:
                   </span>
                   {moment().format("DD-MM-yyyy")}
                 </p>
                 <p>
-                  <span className="font-medium text-light-text1 dark:text-dark-text1">
+                  <span className="mr-1 font-medium text-light-text1 dark:text-dark-text1">
                     Table No:
                   </span>
                   {bill.tableNo}
@@ -125,16 +125,16 @@ function BillCard({ className, restaurant, bill }) {
               </div>
               <div>
                 <h2>
-                  <span className="font-medium text-light-text1 dark:text-dark-text1">
+                  <span className="mr-1 font-medium text-light-text1 dark:text-dark-text1">
                     Bill No:
                   </span>
-                  {bill.id}
+                  7154
                 </h2>
                 <p>
-                  <span className="font-medium text-light-text1 dark:text-dark-text1">
+                  <span className="mr-1 font-medium text-light-text1 dark:text-dark-text1">
                     Host:
                   </span>
-                  {bill.createdBy}
+                  Rajesh Agarwal
                 </p>
               </div>
             </div>
