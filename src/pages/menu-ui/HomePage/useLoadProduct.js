@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import camelize from "camelize";
 import useUpdateEffect from "../../../shared/hooks/useUpdateEffect";
 
 export default function useProductSearch(page, category) {
@@ -20,11 +19,11 @@ export default function useProductSearch(page, category) {
     setError(false);
     axios
       .get(
-        `http://localhost:5000/api/menu-items?restaurant=${restaurantId}&is_active=true&limit=10&page_no=${page}&category=${category.id}`,
+        `http://localhost:5000/api/menu-items?restaurant=${restaurantId}&isActive=true&limit=10&pageNo=${page}&category=${category.id}`,
       )
       .then((res) => {
         setProducts((prevProducts) => {
-          return [...prevProducts, ...camelize(res.data.data)];
+          return [...prevProducts, ...res.data.data];
         });
         setHasMore(res.data.data.length > 0);
         setLoading(false);

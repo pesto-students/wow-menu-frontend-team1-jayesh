@@ -1,27 +1,24 @@
-// import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import CallWaiter from "../components/CallWaiter";
 import ViewCard from "./ViewCard";
 import GenerateBillCard from "./GenerateBillCard";
 import ItemInDetail from "../components/ItemInDetail";
-// import useLocalStorage from "../../../shared/hooks/useLocalStorage";
-// import { setOrder } from "../../../store/reducers/orderReducer";
-// import useUpdateEffect from "../../../shared/hooks/useUpdateEffect";
+import { getOrderById } from "../../../store/reducers/orderReducer";
 
 function ActionCards() {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.items);
   const orders = useSelector((state) => state.order);
   const selectedItem = useSelector((state) => state.product.selectedItem);
-  // const [storedOrder, setStoredOrder] = useLocalStorage("order", orders);
+  const storedOrderId = window.localStorage.getItem("orderId");
 
-  // useEffect(() => {
-  //   dispatch(setOrder(storedOrder));
-  // }, []);
-  // useUpdateEffect(() => {
-  //   setStoredOrder(orders);
-  // }, [orders]);
+  useEffect(() => {
+    if (storedOrderId && storedOrderId !== "") {
+      dispatch(getOrderById(storedOrderId));
+    }
+  }, []);
   return (
     <>
       <AnimatePresence exitBeforeEnter>

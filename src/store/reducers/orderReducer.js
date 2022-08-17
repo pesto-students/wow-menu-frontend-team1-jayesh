@@ -1,6 +1,4 @@
 import axios from "axios";
-import camelize from "camelize";
-import snakeize from "snakeize";
 
 const SET_ORDER = "SET_ORDER";
 const ORDER_PLACED_REQUEST = "PLACE_ORDER_REQUEST";
@@ -29,6 +27,20 @@ export const resetOrder = () => ({
   type: "RESET_ORDER",
 });
 
+export const getOrderById = (payload) => {
+  return function (dispatch) {
+    dispatch(postOrderRequest());
+    axios
+      .get(`http://localhost:5000/api/orders/${payload}`)
+      .then((res) => {
+        dispatch(postOrderSuccess(res.data.data));
+      })
+      .catch((error) => {
+        dispatch(postOrderFailure(error.message));
+      });
+  };
+};
+
 export const placeNewOrder = (payload) => {
   return function (dispatch, getState) {
     const orderDetail = {
@@ -38,9 +50,9 @@ export const placeNewOrder = (payload) => {
     };
     dispatch(postOrderRequest());
     axios
-      .post("http://localhost:5000/api/orders", snakeize(orderDetail))
+      .post("http://localhost:5000/api/orders", orderDetail)
       .then((res) => {
-        dispatch(postOrderSuccess(camelize(res.data.data)));
+        dispatch(postOrderSuccess(res.data.data));
       })
       .catch((error) => {
         dispatch(postOrderFailure(error.message));
@@ -53,9 +65,9 @@ export const placeOrderAgain = (payload) => {
     dispatch(postOrderRequest());
     const url = `http://localhost:5000/api/orders/${getState().order.id}/add`;
     axios
-      .patch(url, snakeize(payload))
+      .patch(url, payload)
       .then((res) => {
-        dispatch(postOrderSuccess(camelize(res.data.data)));
+        dispatch(postOrderSuccess(res.data.data));
       })
       .catch((error) => {
         dispatch(postOrderFailure(error.message));
@@ -73,7 +85,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case SET_ORDER: {
-      return { ...state, list: camelize(action.payload.iterations) };
+      return { ...state, list: action.payload.iterations };
     }
     case ORDER_PLACED_REQUEST: {
       return { ...state, loading: true };
@@ -91,6 +103,7 @@ export default (state = initialState, action) => {
       return { ...state, loading: false, error: action.payload };
     }
     case RESET_ORDER: {
+      window.localStorage.setItem("orderId", "");
       return initialState;
     }
     default:

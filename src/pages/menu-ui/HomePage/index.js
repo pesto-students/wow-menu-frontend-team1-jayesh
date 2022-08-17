@@ -6,12 +6,10 @@ import Menu from "./Menu";
 import ActionCards from "./ActionCards";
 import useInit from "../useInit";
 import RotateScreen from "../components/RotateScreen";
-
 import useScreenOrientation from "../../../shared/hooks/useScreenOrientation";
 
 function HomePage() {
   useInit();
-
   const orientation = useScreenOrientation();
   return (
     <AnimatePresence exitBeforeEnter>

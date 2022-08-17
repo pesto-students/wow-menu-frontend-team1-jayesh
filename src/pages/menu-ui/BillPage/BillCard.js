@@ -8,17 +8,79 @@ import Button from "../components/Button";
 
 function BillCard({ className, restaurant, bill }) {
   const handleDownload = () => {
-    const element = document.querySelector("#bill");
     // eslint-disable-next-line
-    const doc = new jsPDF("p", "pt", "c5", "putOnlyUsedFonts");
-    doc.html(element, {
-      callback: (d) => {
-        d.setTextColor(50);
-        d.save("Test");
+    const doc = new jsPDF();
+    doc.setFontSize(22);
+    doc.text(20, 25, `${restaurant.name}`);
+    doc.setFontSize(14);
+    doc.text(20, 32, `${restaurant.address}`);
+    doc.text(20, 39, `${restaurant.gstNo}`);
+    doc.text(20, 46, `${restaurant.phoneNo}`);
+    doc.setFontSize(28);
+    doc.text(20, 60, "TAX INVOICE");
+    doc.setFontSize(14);
+    doc.text(20, 67, `DATE: ${moment().format("DD-MM-yyyy")}`);
+    doc.text(100, 67, `TABLE NO: ${restaurant.tableNo}`);
+    doc.text(20, 74, "BILL NO: 7154");
+    doc.text(100, 74, "HOST: RAJESH AGARWAL");
+
+    const headers = [
+      {
+        name: "Items",
+        width: 90,
       },
-      x: 60,
-      y: 30,
-    });
+      {
+        name: "Qty",
+        width: 20,
+        align: "right",
+      },
+      {
+        name: "Rate",
+        width: 50,
+        align: "right",
+      },
+      {
+        name: "Amount",
+        width: 50,
+        align: "right",
+      },
+    ];
+    const data = bill.items.map((item) => ({
+      Items: item.name,
+      Qty: item.quantity.toString(),
+      Rate: parseFloat(item.price).toFixed(2).toString(),
+      Amount: parseFloat(item.quantity * item.price)
+        .toFixed(2)
+        .toString(),
+    }));
+    data.push(
+      {
+        Items: "",
+        Qty: "",
+        Rate: "SUBTOTAL",
+        Amount: parseFloat(bill.subtotal).toFixed(2).toString(),
+      },
+      {
+        Items: "",
+        Qty: "",
+        Rate: "CGST",
+        Amount: parseFloat(bill.cgst).toFixed(2).toString(),
+      },
+      {
+        Items: "",
+        Qty: "",
+        Rate: "SGST",
+        Amount: parseFloat(bill.sgst).toFixed(2).toString(),
+      },
+      {
+        Items: "",
+        Qty: "",
+        Rate: "Total",
+        Amount: parseFloat(bill.total).toFixed(2).toString(),
+      },
+    );
+    doc.table(20, 80, data, headers);
+    doc.save(`${restaurant.name} BILL`);
   };
   return (
     <motion.div

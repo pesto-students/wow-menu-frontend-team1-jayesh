@@ -1,6 +1,4 @@
 import axios from "axios";
-import camelize from "camelize";
-import snakeize from "snakeize";
 
 const BILL_REQUESTED = "BILL_REQUESTED";
 const BILL_REQUEST_SUCCESS = "BILL_REQUEST_SUCCESS";
@@ -23,9 +21,9 @@ export const getBill = () => {
     const payload = { orderId: getState().order.id };
     dispatch(billRequest());
     axios
-      .post("http://localhost:5000/api/bills", snakeize(payload))
+      .post("http://localhost:5000/api/bills", payload)
       .then((res) => {
-        dispatch(billSuccess(camelize(res.data.data)));
+        dispatch(billSuccess(res.data.data));
       })
       .catch((error) => {
         dispatch(billFailure(error.message));
