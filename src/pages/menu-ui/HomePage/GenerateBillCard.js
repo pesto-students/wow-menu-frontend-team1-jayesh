@@ -1,11 +1,12 @@
 import Swal from "sweetalert2";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 import Button from "../components/Button";
 import { getBill } from "../../../store/reducers/billReducer";
 import { resetCart } from "../../../store/reducers/cartReducer";
 import { resetOrder } from "../../../store/reducers/orderReducer";
+import useUpdateEffect from "../../../shared/hooks/useUpdateEffect";
 
 // style for different props
 const classes = {
@@ -14,6 +15,7 @@ const classes = {
 
 function GenerateBillCard({ className }) {
   const dispatch = useDispatch();
+  const bill = useSelector((state) => state.bill);
   const navigate = useNavigate();
   const handleGenerateBill = () => {
     Swal.fire({
@@ -27,13 +29,33 @@ function GenerateBillCard({ className }) {
       width: 300,
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(resetCart());
         dispatch(getBill());
-        dispatch(resetOrder());
-        navigate("/bill");
       }
     });
   };
+
+  useUpdateEffect(() => {
+    if (bill.loading) {
+      Swal.fire({
+        title: "Generating bill",
+        width: 300,
+        timer: 1000,
+        timerProgressBar: true,
+      });
+    } else if (!bill.error) {
+      dispatch(resetCart());
+      dispatch(resetCart());
+      dispatch(resetOrder());
+      navigate("/bill");
+    } else {
+      Swal.fire({
+        title: "Are you online?",
+        text: "Couldn't generate bill. Please check your Internet Connection?",
+        icon: "question",
+        width: 300,
+      });
+    }
+  }, [bill]);
 
   return (
     <Card

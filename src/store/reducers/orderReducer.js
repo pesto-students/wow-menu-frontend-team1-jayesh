@@ -80,17 +80,17 @@ export const placeOrderAgain = (payload) => {
 const initialState = {
   list: [],
   loading: null,
-  error: "",
+  error: null,
   manager: { name: "John Doe", id: "12345" },
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case SET_ORDER: {
-      return { ...state, list: action.payload.iterations };
+      return { ...state, list: action.payload.iterations, error: null };
     }
     case ORDER_PLACED_REQUEST: {
-      return { ...state, loading: true };
+      return { ...state, loading: true, error: null };
     }
     case ORDER_PLACED_SUCCESS: {
       window.localStorage.setItem("orderId", action.payload.id);
@@ -99,6 +99,7 @@ export default (state = initialState, action) => {
         loading: false,
         id: action.payload.id,
         list: action.payload.iterations,
+        error: null,
       };
     }
     case ORDER_PLACED_FAILURE: {

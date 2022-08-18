@@ -34,16 +34,16 @@ export const getBill = () => {
 const initialState = {
   details: "",
   loading: null,
-  error: "",
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case BILL_REQUESTED: {
-      return { ...state, loading: true };
+      return { ...state, loading: true, error: null };
     }
     case BILL_REQUEST_SUCCESS: {
-      return { ...state, loading: false, details: action.payload };
+      return { ...state, loading: false, details: action.payload, error: null };
     }
     case BILL_REQUEST_FAILURE: {
       return { ...state, loading: false, details: null, error: action.payload };
