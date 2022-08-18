@@ -61,7 +61,7 @@ function MenuCard({ className, item }, ref) {
                 </span>
               )}
             </span>
-            <p className="overflow-hidden text-sm line-clamp-2 text-light-text2 dark:text-dark-text2">
+            <p className="overflow-hidden text-sm line-clamp-3 text-light-text2 dark:text-dark-text2">
               {item.description}
             </p>
           </button>

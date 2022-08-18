@@ -1,7 +1,6 @@
 /* eslint-disable import/named */
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import camelize from "camelize";
 import {
   setRestaurant,
   setRestaurantId,
@@ -21,19 +20,17 @@ export default function useProductSearch() {
       "https://api.json-generator.com/templates/qQNrYP3Qftv6/data?access_token=sr5evx3wg5ok41tjpvfyqb0d9aesmtr1usqiix4z",
     )
     .then((res) => {
-      dispatch(setRestaurant(camelize(res.data)));
+      dispatch(setRestaurant(res.data));
     });
 
   axios
     .get(
-      `https://wow-menu-staging.herokuapp.com/api/categories?restaurant=${restaurantId}&is_active=true`,
+      `https://wow-menu-staging.herokuapp.com/api/categories?restaurant=${restaurantId}&isActive=true`,
     )
     .then((res) => {
       dispatch(
         setCategory(
-          camelize(
-            res.data.data.map(({ name, id }) => ({ name, id, page: 1 })),
-          ),
+          res.data.data.map(({ name, id }) => ({ name, id, page: 1 })),
         ),
       );
     });

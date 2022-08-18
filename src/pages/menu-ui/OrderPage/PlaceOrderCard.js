@@ -7,7 +7,9 @@ import { BiRupee } from "react-icons/bi";
 import { BsArrowRight } from "react-icons/bs";
 import Card from "../components/Card";
 import Button from "../components/Button";
+import useLocalStorage from "../../../shared/hooks/useLocalStorage";
 import { resetCart } from "../../../store/reducers/cartReducer";
+import useUpdateEffect from "../../../shared/hooks/useUpdateEffect";
 import {
   placeNewOrder,
   placeOrderAgain,
@@ -21,7 +23,9 @@ const classes = {
 
 function PlaceOrderCard({ className }) {
   const cart = useSelector((state) => state.cart);
-  const order = useSelector((state) => state.order.id);
+  const order = useSelector((state) => state.order);
+  // eslint-disable-next-line
+  const [storedCart, setStoredCart] = useLocalStorage("cart", cart);
 
   const subtotal = cart.items.reduce(
     (sum, curr) => sum + curr.quantity * curr.price,
@@ -47,25 +51,43 @@ function PlaceOrderCard({ className }) {
       instruction: cart.instruction || "",
     };
 
-    if (order) dispatch(placeOrderAgain(payload));
+    if (order.id) dispatch(placeOrderAgain(payload));
     else dispatch(placeNewOrder(payload));
-
-    dispatch(resetCart());
-    navigate("/home");
-    Swal.fire({
-      title: "Sweet!!",
-      icon: "success",
-      showConfirmButton: false,
-      width: 300,
-      timer: 1200,
-      backdrop: `
-    rgba(37,40,54,0.8)
-    url("./images/confetti.gif")
-    center bottom
-    no-repeat
-  `,
-    });
   };
+
+  useUpdateEffect(() => {
+    if (order.loading) {
+      Swal.fire({
+        title: "Placing Order",
+        width: 300,
+        timer: 1000,
+        timerProgressBar: true,
+      });
+    } else if (!order.error) {
+      dispatch(resetCart());
+      setStoredCart([]);
+      navigate("/home");
+      Swal.fire({
+        title: "Sweet!!",
+        icon: "success",
+        showConfirmButton: false,
+        width: 300,
+        timer: 1200,
+        backdrop: `
+        rgba(37,40,54,0.8)
+        url("./images/confetti.gif")
+        center bottom
+        no-repeat
+      `,
+      });
+    } else {
+      Swal.fire(
+        "Are you online?",
+        "Couldn't place Order. Please check your Internet Connection?",
+        "question",
+      );
+    }
+  }, [order]);
 
   return (
     <motion.div

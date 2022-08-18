@@ -4,6 +4,7 @@ const INCREASE_QUANTITY = "INCREASE_QUANTITY";
 const DECREASE_QUANTITY = "DECREASE_QUANTITY";
 const UPDATE_QUANTITY = "UPDATE_QUANTITY";
 const UPDATE_INSTRUCTIONS = "UPDATE_INSTRUCTIONS";
+const SET_CART = "SET_CART";
 const RESET_CART = "RESET_CART";
 
 export const addToCart = (payload) => ({
@@ -30,6 +31,10 @@ export const addInstruction = (payload) => ({
   type: "UPDATE_INSTRUCTIONS", // text
   payload,
 });
+export const setCart = (payload) => ({
+  type: "SET_CART",
+  payload,
+});
 export const resetCart = () => ({
   type: "RESET_CART",
 });
@@ -40,6 +45,9 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_CART: {
+      return { ...state, items: action.payload };
+    }
     case ADD_TO_CART: {
       return {
         items: [...state.items, action.payload],

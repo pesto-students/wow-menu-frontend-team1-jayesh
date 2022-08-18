@@ -1,19 +1,29 @@
+/* eslint-disable import/named */
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSelector } from "react-redux";
 import CallWaiter from "../components/CallWaiter";
 import ViewCard from "./ViewCard";
 import GenerateBillCard from "./GenerateBillCard";
 import ItemInDetail from "../components/ItemInDetail";
+import { getOrderById } from "../../../store/reducers/orderReducer";
 
 function ActionCards() {
+  const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.items);
-  const orders = useSelector((state) => state.order.id);
+  const orders = useSelector((state) => state.order);
   const selectedItem = useSelector((state) => state.product.selectedItem);
+  const storedOrderId = window.localStorage.getItem("orderId");
 
+  useEffect(() => {
+    if (storedOrderId && storedOrderId !== "") {
+      dispatch(getOrderById(storedOrderId));
+    }
+  }, []);
   return (
     <>
       <AnimatePresence exitBeforeEnter>
-        {orders && (
+        {orders.id && (
           <motion.div
             initial={{ y: 150, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -34,7 +44,7 @@ function ActionCards() {
           </motion.div>
         )}
       </AnimatePresence>
-      <CallWaiter pos={!orders && cart.length === 0 ? "left" : "middle"} />
+      <CallWaiter pos={!orders.id && cart.length === 0 ? "left" : "middle"} />
       <AnimatePresence exitBeforeEnter>
         {typeof selectedItem === "object" && <ItemInDetail />}
       </AnimatePresence>

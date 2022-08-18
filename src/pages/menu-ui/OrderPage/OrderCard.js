@@ -3,6 +3,7 @@ import { BiRupee, BiFoodTag } from "react-icons/bi";
 import Card from "../components/Card";
 import QtyButton from "../components/QtyButton";
 import Instruction from "./Instruction";
+import emptyCart from "../../../assets/images/emptyCart.svg";
 
 const classes = {
   bg: "bg-light-base2 dark:bg-dark-base2",
@@ -74,9 +75,12 @@ function OrderCard({ className, items = [] }) {
             <Instruction />
           </div>
         ) : (
-          <div className={`text-center ${classes.subtitle}`}>
-            No Dish to Order
-          </div>
+          <>
+            <img src={emptyCart} alt="emptyCart" className="w-3/6 mx-auto " />
+            <p className={`text-center ${classes.subtitle}`}>
+              Your cart is empty. Add something from the menu
+            </p>
+          </>
         )}
       </Card>
     </motion.div>

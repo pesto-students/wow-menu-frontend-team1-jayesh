@@ -36,7 +36,8 @@ function StatusCard({ className, items = [], status }) {
                       status === "Rejected" ? classes.rejected : ""
                     }`}
                   >
-                    {`${item.quantity} ${item.item.name}`}
+                    <span className="mr-1 text-light-text2 dark:text-dark-text2">{`${item.quantity} x`}</span>
+                    {`${item.item.name}`}
                   </h2>
                 </div>
               </div>

@@ -1,6 +1,4 @@
 import axios from "axios";
-import camelize from "camelize";
-import snakeize from "snakeize";
 
 const BILL_REQUESTED = "BILL_REQUESTED";
 const BILL_REQUEST_SUCCESS = "BILL_REQUEST_SUCCESS";
@@ -23,12 +21,9 @@ export const getBill = () => {
     const payload = { orderId: getState().order.id };
     dispatch(billRequest());
     axios
-      .post(
-        "https://wow-menu-staging.herokuapp.com/api/bills",
-        snakeize(payload),
-      )
+      .post("https://wow-menu-staging.herokuapp.com/api/bills", payload)
       .then((res) => {
-        dispatch(billSuccess(camelize(res.data.data)));
+        dispatch(billSuccess(res.data.data));
       })
       .catch((error) => {
         dispatch(billFailure(error.message));
@@ -39,16 +34,16 @@ export const getBill = () => {
 const initialState = {
   details: "",
   loading: null,
-  error: "",
+  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case BILL_REQUESTED: {
-      return { ...state, loading: true };
+      return { ...state, loading: true, error: null };
     }
     case BILL_REQUEST_SUCCESS: {
-      return { ...state, loading: false, details: action.payload };
+      return { ...state, loading: false, details: action.payload, error: null };
     }
     case BILL_REQUEST_FAILURE: {
       return { ...state, loading: false, details: null, error: action.payload };
