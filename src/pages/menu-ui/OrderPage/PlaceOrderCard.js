@@ -1,4 +1,3 @@
-/* eslint-disable import/named */
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
@@ -61,6 +60,7 @@ function PlaceOrderCard({ className }) {
         title: "Placing Order",
         width: 300,
         timer: 1000,
+        showConfirmButton: false,
         timerProgressBar: true,
       });
     } else if (!order.error) {

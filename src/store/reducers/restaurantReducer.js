@@ -1,53 +1,36 @@
-import axios from "axios";
+const SET_DETAILS = "SET_DETAILS";
+const SET_ID = "SET_ID";
+const SET_TABLE = "RESET_TABLE";
 
-const RESTAURANT_REQUESTED = "RESTAURANT_REQUESTED";
-const RESTAURANT_REQUEST_SUCCESS = "RESTAURANT_REQUEST_SUCCESS";
-const RESTAURANT_REQUEST_FAILURE = "RESTAURANT_REQUEST_FAILURE";
-
-const fetchRestaurantDetailRequest = () => ({
-  type: "RESTAURANT_REQUESTED",
+export const setRestaurant = (payload) => ({
+  type: "SET_DETAILS",
+  payload, // restaurant details
 });
-const fetchRestaurantDetailSuccess = (payload) => ({
-  type: "RESTAURANT_REQUEST_SUCCESS",
-  payload, // item data
+export const setRestaurantId = (payload) => ({
+  type: "SET_ID",
+  payload, // restaurant id
 });
-const fetchRestaurantDetailFailure = (payload) => ({
-  type: "RESTAURANT_REQUEST_FAILURE",
-  payload, // error message
+export const setTable = (payload) => ({
+  type: "SET_TABLE",
+  payload, // table no
 });
-
-export const getRestaurantDetails = () => {
-  return function (dispatch) {
-    dispatch(fetchRestaurantDetailRequest());
-    axios
-      .get(
-        "https://api.json-generator.com/templates/qQNrYP3Qftv6/data?access_token=sr5evx3wg5ok41tjpvfyqb0d9aesmtr1usqiix4z",
-      )
-      .then((res) => {
-        dispatch(fetchRestaurantDetailSuccess(res.data));
-      })
-      .catch((error) => {
-        dispatch(fetchRestaurantDetailFailure(error.message));
-      });
-  };
-};
 
 const initialState = {
   details: {},
-  loading: null,
-  error: "",
+  id: "",
+  tableNo: "",
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case RESTAURANT_REQUESTED: {
-      return { ...state, loading: true };
+    case SET_DETAILS: {
+      return { ...state, details: action.payload };
     }
-    case RESTAURANT_REQUEST_SUCCESS: {
-      return { loading: false, details: action.payload };
+    case SET_ID: {
+      return { ...state, id: action.payload };
     }
-    case RESTAURANT_REQUEST_FAILURE: {
-      return { ...state, loading: false, details: [], error: action.payload };
+    case SET_TABLE: {
+      return { ...state, tableNo: action.payload };
     }
     default:
       return state;

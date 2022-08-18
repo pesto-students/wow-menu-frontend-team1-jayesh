@@ -1,4 +1,3 @@
-/* eslint-disable import/named */
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -41,6 +40,7 @@ function GenerateBillCard({ className }) {
         title: "Generating bill",
         width: 300,
         timer: 1000,
+        showConfirmButton: false,
         timerProgressBar: true,
       });
     } else if (!bill.error) {

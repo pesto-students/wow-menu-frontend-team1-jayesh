@@ -1,5 +1,3 @@
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable import/no-named-as-default */
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
 import axios from "axios";

@@ -38,6 +38,7 @@ export const setCart = (payload) => ({
 export const resetCart = () => ({
   type: "RESET_CART",
 });
+
 const initialState = {
   items: [],
   instruction: "",

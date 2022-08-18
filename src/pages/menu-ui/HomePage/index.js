@@ -1,5 +1,3 @@
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable import/no-named-as-default */
 import { motion, AnimatePresence } from "framer-motion";
 import Header from "./Header";
 import IconSet from "./IconSet";
