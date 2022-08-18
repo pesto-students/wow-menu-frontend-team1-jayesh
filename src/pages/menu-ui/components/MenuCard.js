@@ -5,8 +5,8 @@ import { AiOutlineClockCircle, AiOutlinePlus } from "react-icons/ai";
 import Card from "./Card";
 import Button from "./Button";
 import QtyButton from "./QtyButton";
-import { addToCart } from "../../../redux/reducers/cartReducer";
-import { setItem } from "../../../redux/reducers/productReducer";
+import { addToCart } from "../../../store/reducers/cartReducer";
+import { setItem } from "../../../store/reducers/productReducer";
 
 function MenuCard({ className, item }) {
   const dispatch = useDispatch();

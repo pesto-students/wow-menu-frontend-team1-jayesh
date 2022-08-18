@@ -5,7 +5,7 @@ import {
   increaseQuantity,
   decreaseQuantity,
   removeFromCart,
-} from "../../../redux/reducers/cartReducer";
+} from "../../../store/reducers/cartReducer";
 
 const classes = {
   base: "select-none flex items-center justify-between w-full rounded justify-among shadow-glow active:shadow-sm",

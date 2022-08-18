@@ -7,8 +7,8 @@ import QtyButton from "./QtyButton";
 import Button from "./Button";
 import Card from "./Card";
 import CloseButton from "./CloseButton";
-import { addToCart, updateQuantity } from "../../../redux/reducers/cartReducer";
-import { setItem } from "../../../redux/reducers/productReducer";
+import { addToCart, updateQuantity } from "../../../store/reducers/cartReducer";
+import { setItem } from "../../../store/reducers/productReducer";
 
 // style for different props
 const classes = {

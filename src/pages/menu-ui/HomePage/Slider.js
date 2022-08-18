@@ -6,7 +6,7 @@ import TextButton from "../components/TextButton";
 import {
   getProducts,
   setCategory,
-} from "../../../redux/reducers/productReducer";
+} from "../../../store/reducers/productReducer";
 
 function Slider() {
   const dispatch = useDispatch();

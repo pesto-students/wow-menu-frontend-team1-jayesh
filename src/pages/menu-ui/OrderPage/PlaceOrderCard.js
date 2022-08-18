@@ -6,8 +6,8 @@ import { BiRupee } from "react-icons/bi";
 import { BsArrowRight } from "react-icons/bs";
 import Card from "../components/Card";
 import Button from "../components/Button";
-import { resetCart } from "../../../redux/reducers/cartReducer";
-import { placeOrder } from "../../../redux/reducers/orderReducer";
+import { resetCart } from "../../../store/reducers/cartReducer";
+import { placeOrder } from "../../../store/reducers/orderReducer";
 
 // style for different props
 const classes = {

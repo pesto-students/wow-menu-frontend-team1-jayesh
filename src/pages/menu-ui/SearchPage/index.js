@@ -5,7 +5,7 @@ import FilterPopup from "./FilterPopup";
 import ItemInDetail from "../components/ItemInDetail";
 import Header from "./Header";
 import Menu from "./Menu";
-import { getProducts } from "../../../redux/reducers/productReducer";
+import { getProducts } from "../../../store/reducers/productReducer";
 
 function SearchPage() {
   const dispatch = useDispatch();

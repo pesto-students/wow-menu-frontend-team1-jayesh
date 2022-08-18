@@ -4,7 +4,7 @@ import { FaRegMoon, FaUserCircle } from "react-icons/fa";
 import { ImSun } from "react-icons/im";
 import useDarkMode from "../../../shared/hooks/useDarkMode";
 import DishesListView from "./components/DishesListView";
-import UnavailableItems from "./components/UnavailableItems";
+// import UnavailableItems from "./components/UnavailableItems";
 
 function DashboardHome() {
   const [darkMode, setDarkMode] = useDarkMode();
@@ -21,7 +21,7 @@ function DashboardHome() {
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: -10, opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="flex flex-col flex-1 gap-6 p-4"
+        className="flex flex-col flex-1 gap-6 p-4 pl-28"
       >
         <header className="flex justify-between">
           <div>
@@ -75,7 +75,7 @@ function DashboardHome() {
         <hr className="border-gray-700 dark:border-gray-600" />
         <DishesListView />
       </motion.main>
-      <motion.aside
+      {/* <motion.aside
         initial={{ y: 10, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: -10, opacity: 0 }}
@@ -83,7 +83,7 @@ function DashboardHome() {
         className="flex flex-col gap-y-6 w-96"
       >
         <UnavailableItems />
-      </motion.aside>
+      </motion.aside> */}
     </>
   );
 }

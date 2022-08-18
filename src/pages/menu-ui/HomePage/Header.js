@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { getRestaurantDetails } from "../../../redux/reducers/restaurantReducer";
+import { getRestaurantDetails } from "../../../store/reducers/restaurantReducer";
 
 function Header() {
   const dispatch = useDispatch();

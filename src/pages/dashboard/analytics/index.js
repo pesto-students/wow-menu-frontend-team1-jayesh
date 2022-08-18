@@ -30,7 +30,7 @@ function DashboardAnalytics() {
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: -10, opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="flex flex-col flex-1 gap-6 p-4"
+        className="flex flex-col flex-1 gap-6 p-4 pl-28"
       >
         <header>
           <h1 className="text-3xl font-semibold leading-loose text-slate-800 dark:text-white">
@@ -52,7 +52,7 @@ function DashboardAnalytics() {
             .
           </div>
         </div>
-        <div className="w-full py-3 px-4 bg-white rounded-lg h-[28rem] dark:bg-gray-900">
+        <div className="w-full px-4 py-3 bg-white rounded-lg h-max dark:bg-gray-900">
           <div className="flex justify-between">
             <h2 className="text-2xl font-semibold leading-loose text-slate-800 dark:text-white">
               Customer Report
@@ -98,7 +98,7 @@ function DashboardAnalytics() {
             </tbody>
           </table> */}
 
-          <div className="relative mt-2 overflow-x-auto">
+          <div className="mt-2 overflow-x-auto">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>

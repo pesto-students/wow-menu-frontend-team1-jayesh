@@ -1,10 +1,23 @@
+import { useEffect, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
+import DishCardSkeleton from "./DishCardSkeleton";
 import DishCard from "./DishCard";
-import food1Img1 from "../../../../assets/images/food-1.png";
-import food1Img2 from "../../../../assets/images/food-2.png";
-import food1Img3 from "../../../../assets/images/food-3.png";
+import useAxios from "../../../../shared/hooks/useAxios";
 
 function DishesListView() {
+  const { response, loading, error } = useAxios({
+    method: "get",
+    url: "/menu-items?restaurant=12345",
+    headers: { accept: "*/*" },
+  });
+  const [productsData, setProductsData] = useState([]);
+
+  useEffect(() => {
+    if (response !== null) {
+      setProductsData(response);
+    }
+  }, [response]);
+
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
@@ -21,61 +34,31 @@ function DishesListView() {
           </span>
         </button>
       </div>
-      <div className="grid grid-cols-3 gap-4 pr-3 overflow-y-auto h-[34rem]">
-        <DishCard
-          image={food1Img1}
-          name="Spicy seasoned seafood noodles"
-          price="200"
-          description="Salted pasta with mushroom sauce..."
-        />
-        <DishCard
-          image={food1Img2}
-          name="Salted pasta with mushroom sauce"
-          price="120"
-          description="Spicy seasoned seafood noodles..."
-        />
-        <DishCard
-          image={food1Img3}
-          name="Beef dumpling in hot and sour soup"
-          price="800"
-          description="Salted pasta with mushroom sauce..."
-        />
-        <DishCard
-          image={food1Img2}
-          name="Salted pasta with mushroom sauce"
-          price="120"
-          description="Spicy seasoned seafood noodles..."
-        />
-        <DishCard
-          image={food1Img3}
-          name="Beef dumpling in hot and sour soup"
-          price="800"
-          description="Salted pasta with mushroom sauce..."
-        />
-        <DishCard
-          image={food1Img1}
-          name="Spicy seasoned seafood noodles"
-          price="200"
-          description="Salted pasta with mushroom sauce..."
-        />
-        <DishCard
-          image={food1Img1}
-          name="Spicy seasoned seafood noodles"
-          price="200"
-          description="Salted pasta with mushroom sauce..."
-        />
-        <DishCard
-          image={food1Img2}
-          name="Salted pasta with mushroom sauce"
-          price="120"
-          description="Spicy seasoned seafood noodles..."
-        />
-        <DishCard
-          image={food1Img3}
-          name="Beef dumpling in hot and sour soup"
-          price="800"
-          description="Salted pasta with mushroom sauce..."
-        />
+      <div className="grid grid-cols-4 gap-4 overflow-y-auto h-max">
+        {loading ? (
+          <>
+            <DishCardSkeleton />
+            <DishCardSkeleton />
+            <DishCardSkeleton />
+            <DishCardSkeleton />
+          </>
+        ) : (
+          <>
+            {error && <p>{error.message}</p>}
+            {productsData &&
+              productsData.data?.map((element) => {
+                return (
+                  <DishCard
+                    key={element.id}
+                    image={element.imageUrl}
+                    name={element.name}
+                    price={element.price}
+                    description={element.description}
+                  />
+                );
+              })}
+          </>
+        )}
       </div>
     </div>
   );
