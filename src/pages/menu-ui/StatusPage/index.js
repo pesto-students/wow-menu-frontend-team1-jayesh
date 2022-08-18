@@ -14,17 +14,17 @@ function StatusPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0.5, transition: { duration: 0.1 } }}
-          className="h-full p-4 overflow-y-auto bg-lightPattern"
+          className="h-full p-4 overflow-x-hidden overflow-y-auto bg-lightPattern"
         >
           <PageHeader name="Order Status" />
           <div className="mt-5">
-            {orders.map((order) => {
+            {orders.map((iteration) => {
               return (
                 <StatusCard
-                  key={order.id}
+                  key={iteration.id}
                   className="my-3"
-                  status={order.status}
-                  items={order.items}
+                  status={iteration.status}
+                  items={iteration.items}
                 />
               );
             })}

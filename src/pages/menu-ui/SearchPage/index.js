@@ -1,40 +1,34 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
-import { useDispatch, useSelector } from "react-redux";
 import FilterPopup from "./FilterPopup";
 import ItemInDetail from "../components/ItemInDetail";
 import Header from "./Header";
 import Menu from "./Menu";
-import { getProducts } from "../../../store/reducers/productReducer";
+import useProductSearch from "./useProductSearch";
 
 function SearchPage() {
-  const dispatch = useDispatch();
-  const products = useSelector((state) => state.product.items);
   const selectedItem = useSelector((state) => state.product.selectedItem);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState(false);
+  const [page, setPage] = useState(1);
   const [filterOption, setFilterOption] = useState("");
+  const handleNextPage = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
   const handleInput = (searchText) => {
-    setSearch(searchText.toLowerCase());
+    setSearch(searchText);
+    setPage(1);
   };
   const handleFilter = (option) => {
     setFilterOption(option);
+    setPage(1);
   };
-  useEffect(() => {
-    dispatch(getProducts());
-  }, []);
-  const items = products
-    .filter((item) => {
-      return (
-        item.name.toLowerCase().includes(search) &&
-        (filterOption === "" || item.isVeg === (filterOption === "veg"))
-      );
-    })
-    .sort(
-      (firstItem, secondItem) =>
-        Number(secondItem.isAvailable) - Number(firstItem.isAvailable),
-    );
-
+  const { products, loading, hasMore } = useProductSearch(
+    search,
+    page,
+    filterOption,
+  );
   return (
     <AnimatePresence exitBeforeEnter>
       <div className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">
@@ -42,14 +36,19 @@ function SearchPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0.5, transition: { duration: 0.1 } }}
-          className="h-full p-4 overflow-y-auto bg-lightPattern"
+          className="h-full p-4 overflow-x-hidden overflow-y-auto bg-lightPattern"
         >
           <Header
             onInput={handleInput}
             onFilter={() => setFilter(!filter)}
             filterOption={filterOption}
           />
-          <Menu items={items} />
+          <Menu
+            items={products}
+            loading={loading}
+            hasMore={hasMore}
+            nextPage={handleNextPage}
+          />
         </motion.div>
         <AnimatePresence exitBeforeEnter>
           {filter && (

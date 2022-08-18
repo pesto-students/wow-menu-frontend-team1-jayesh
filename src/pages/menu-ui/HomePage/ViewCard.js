@@ -10,16 +10,16 @@ const classes = {
 
 function ViewCard({ className }) {
   const cart = useSelector((state) => state.cart.items);
-  const qty = cart.reduce((sum, current) => sum + current.qty, 0);
+  const quantity = cart.reduce((sum, current) => sum + current.quantity, 0);
   const price = parseFloat(
-    cart.reduce((sum, current) => sum + current.qty * current.price, 0),
+    cart.reduce((sum, current) => sum + current.quantity * current.price, 0),
   ).toFixed(2);
   return (
     <Card className={` ${classes.base} ${className} `}>
       <Button size="block" align="spaced" href="/order">
         <div className="text-sm">
           <p>
-            {qty} ITEM{qty > 1 ? "S" : ""}
+            {quantity} ITEM{quantity > 1 ? "S" : ""}
           </p>
           <div>
             <div className="flex items-center">

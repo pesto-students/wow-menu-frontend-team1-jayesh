@@ -9,7 +9,7 @@ const classes = {
   rejected: "line-through decoration-accent-red decoration-2",
 };
 
-function OrderCard({ className, items = [], status }) {
+function StatusCard({ className, items = [], status }) {
   return (
     <Card
       className={`
@@ -21,10 +21,12 @@ function OrderCard({ className, items = [], status }) {
         <div>
           {items.map((item) => {
             return (
-              <div className="flex mb-5" key={item.id}>
+              <div className="flex mb-5" key={item.item.id}>
                 <BiFoodTag
                   className={
-                    item.isVeg ? "mt-1 text-green-600" : "mt-1 text-red-800"
+                    item.item.isVeg
+                      ? "mt-1 text-green-600"
+                      : "mt-1 text-red-800"
                   }
                   size="20"
                 />
@@ -34,7 +36,7 @@ function OrderCard({ className, items = [], status }) {
                       status === "Rejected" ? classes.rejected : ""
                     }`}
                   >
-                    {`${item.qty} ${item.name}`}
+                    {`${item.quantity} ${item.item.name}`}
                   </h2>
                 </div>
               </div>
@@ -49,4 +51,4 @@ function OrderCard({ className, items = [], status }) {
   );
 }
 
-export default OrderCard;
+export default StatusCard;

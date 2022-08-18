@@ -7,13 +7,13 @@ import ItemInDetail from "../components/ItemInDetail";
 
 function ActionCards() {
   const cart = useSelector((state) => state.cart.items);
-  const orders = useSelector((state) => state.order.list);
+  const orders = useSelector((state) => state.order.id);
   const selectedItem = useSelector((state) => state.product.selectedItem);
 
   return (
     <>
       <AnimatePresence exitBeforeEnter>
-        {orders.length > 0 && (
+        {orders && (
           <motion.div
             initial={{ y: 150, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -34,9 +34,7 @@ function ActionCards() {
           </motion.div>
         )}
       </AnimatePresence>
-      <CallWaiter
-        pos={orders.length === 0 && cart.length === 0 ? "left" : "middle"}
-      />
+      <CallWaiter pos={!orders && cart.length === 0 ? "left" : "middle"} />
       <AnimatePresence exitBeforeEnter>
         {typeof selectedItem === "object" && <ItemInDetail />}
       </AnimatePresence>

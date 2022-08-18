@@ -1,8 +1,6 @@
 import { motion } from "framer-motion";
 import { BiRupee, BiFoodTag } from "react-icons/bi";
 import Card from "../components/Card";
-import QtyButton from "../components/QtyButton";
-import Instruction from "./Instruction";
 
 const classes = {
   bg: "bg-light-base2 dark:bg-dark-base2",
@@ -27,21 +25,25 @@ function OrderCard({ className, items = [] }) {
         <div>
           {items.map((item) => {
             return (
-              <div className="grid grid-cols-3 gap-1 mb-5" key={item.id}>
+              <div className="grid grid-cols-3 gap-1 mb-5" key={item.item.id}>
                 <div className="col-span-2">
                   <div className="flex">
                     <BiFoodTag
                       className={
-                        item.isVeg ? "text-green-600 mt-1" : "text-red-800 mt-1"
+                        item.item.isVeg
+                          ? "text-green-600 mt-1"
+                          : "text-red-800 mt-1"
                       }
                       size="18"
                     />
                     <div className="ml-2">
-                      <h2 className={`${classes.title}`}>{item.name}</h2>
+                      <h2 className={`${classes.title}`}>
+                        {item.quantity} {item.item.name}
+                      </h2>
                       <div className="flex items-center">
                         <BiRupee className={`${classes.subtitle} mr-1`} />
                         <p className={`${classes.subtitle}`}>
-                          {parseFloat(item.price).toFixed(2)}
+                          {parseFloat(item.item.price).toFixed(2)}
                         </p>
                       </div>
                     </div>
@@ -50,16 +52,9 @@ function OrderCard({ className, items = [] }) {
                 <div>
                   <div>
                     <div className="flex items-center justify-end mt-2">
-                      <QtyButton
-                        quantity={item.quantity}
-                        id={item.id}
-                        className="text-white"
-                      />
-                    </div>
-                    <div className="flex items-center justify-end mt-2">
                       <BiRupee className={`${classes.subtitle} mr-1`} />
                       <p className={`${classes.subtitle}`}>
-                        {parseFloat(item.quantity * item.price).toFixed(2)}
+                        {parseFloat(item.quantity * item.item.price).toFixed(2)}
                       </p>
                     </div>
                   </div>
@@ -68,12 +63,7 @@ function OrderCard({ className, items = [] }) {
             );
           })}
         </div>
-        {items.length > 0 ? (
-          <div className="text-center">
-            <hr />
-            <Instruction />
-          </div>
-        ) : (
+        {items.length === 0 && (
           <div className={`text-center ${classes.subtitle}`}>
             No Dish to Order
           </div>

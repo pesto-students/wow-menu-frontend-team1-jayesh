@@ -1,3 +1,4 @@
+/* eslint-disable import/named */
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +8,10 @@ import { BsArrowRight } from "react-icons/bs";
 import Card from "../components/Card";
 import Button from "../components/Button";
 import { resetCart } from "../../../store/reducers/cartReducer";
-import { placeOrder } from "../../../store/reducers/orderReducer";
+import {
+  placeNewOrder,
+  placeOrderAgain,
+} from "../../../store/reducers/orderReducer";
 
 // style for different props
 const classes = {
@@ -16,21 +20,36 @@ const classes = {
 };
 
 function PlaceOrderCard({ className }) {
-  const cart = useSelector((state) => state.cart.items);
-  const subtotal = parseFloat(
-    cart.reduce((sum, current) => sum + current.qty * current.price, 0),
-  ).toFixed(2);
-  const cgst = parseFloat(
-    (useSelector((state) => state.restaurant.cgst) * subtotal) / 100,
-  ).toFixed(2);
-  const sgst = parseFloat(
-    (useSelector((state) => state.restaurant.sgst) * subtotal) / 100,
-  ).toFixed(2);
+  const cart = useSelector((state) => state.cart);
+  const order = useSelector((state) => state.order.id);
+
+  const subtotal = cart.items.reduce(
+    (sum, curr) => sum + curr.quantity * curr.price,
+    0,
+  );
+  const cgst =
+    (useSelector((state) => state.restaurant.details.gstPercentage) *
+      subtotal) /
+    100;
+  const sgst =
+    (useSelector((state) => state.restaurant.details.gstPercentage) *
+      subtotal) /
+    100;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleOrderPlacement = () => {
-    dispatch(placeOrder(cart));
+    const payload = {
+      items: cart.items.map(({ id, quantity }) => {
+        return { item: id, quantity };
+      }),
+      instruction: cart.instruction || "",
+    };
+
+    if (order) dispatch(placeOrderAgain(payload));
+    else dispatch(placeNewOrder(payload));
+
     dispatch(resetCart());
     navigate("/home");
     Swal.fire({
