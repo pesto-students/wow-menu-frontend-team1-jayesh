@@ -12,12 +12,12 @@ import { setItem } from "../../../store/reducers/productReducer";
 
 // style for different props
 const classes = {
-  bg: "bg-light-base2 dark:bg-dark-base2 pb-20",
+  bg: "bg-light-base2 dark:bg-dark-base2 pb-20 md:pb-0",
   title: "font-medium text-xl mt-1 text-light-text1 dark:text-dark-text1",
   description: "my-2 text-light-text2 dark:text-dark-text2",
 };
 
-function ItemInDetail({ className }) {
+function ItemInDetail() {
   const dispatch = useDispatch();
   const item = useSelector((state) => state.product.selectedItem);
   const cart = useSelector((state) => state.cart.items);
@@ -43,9 +43,9 @@ function ItemInDetail({ className }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="absolute top-0 z-10 flex flex-col w-full h-full bg-gray-800/80"
+      className="absolute top-0 z-10 flex flex-col justify-center w-full h-full bg-gray-800/80"
     >
-      <div className="grow" />
+      <div className="grow md:flex-none" />
       <motion.div
         initial={{ y: 150, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -61,59 +61,61 @@ function ItemInDetail({ className }) {
       >
         <Card
           className={`
+          w-full md:w-[500px] xl:w-[600px] mx-auto
           ${classes.bg}
-          ${className}
       `}
         >
           <div className="flex justify-center">
             <img
-              className="w-3/6 rounded-full text-light-text2"
+              className="w-3/6 rounded-lg text-light-text2"
               src={item.imageUrl}
               alt={item.name}
             />
           </div>
-          <div className="flex">
-            <BiFoodTag
-              className={item.is_veg ? "text-green-600" : "text-red-800"}
-              size="24"
-            />
-            {item.spicy === "medium" && (
-              <GiChiliPepper className="text-red-800" size="24" />
-            )}
-            {item.spicy === "high" && (
+          <div className="grid grid-cols-3 gap-1 mt-4">
+            <div className="col-span-2">
               <div className="flex">
-                <GiChiliPepper className="text-red-800" size="24" />
-                <GiChiliPepper className="text-red-800" size="24" />
+                <BiFoodTag
+                  className={item.isVeg ? "text-green-600" : "text-red-800"}
+                  size="24"
+                />
+                {item.spicy === "medium" && (
+                  <GiChiliPepper className="text-red-800" size="24" />
+                )}
+                {item.spicy === "high" && (
+                  <div className="flex">
+                    <GiChiliPepper className="text-red-800" size="24" />
+                    <GiChiliPepper className="text-red-800" size="24" />
+                  </div>
+                )}
               </div>
-            )}
+              <div className="grow">
+                <h2 className={`${classes.title}`}>{item.name}</h2>
+              </div>
+            </div>
+            <div>
+              {item.isAvailable && (
+                <QtyButton
+                  variant="outline"
+                  quantity={localQty}
+                  onInc={handleInc}
+                  onDec={handleDec}
+                />
+              )}
+            </div>
           </div>
-          <div className="grow">
-            <h2 className={`${classes.title}`}>{item.name}</h2>
-            <p className={`${classes.description}`}>{item.description}</p>
-          </div>
+          <p className={`${classes.description}`}>{item.description}</p>
           <div className="py-3">
             {item.isAvailable ? (
-              <div className="grid grid-flow-col gap-2 auto-cols-auto">
-                <div>
-                  <QtyButton
-                    variant="outline"
-                    quantity={localQty}
-                    onInc={handleInc}
-                    onDec={handleDec}
-                  />
-                </div>
-                <div>
-                  <Button
-                    size="block"
-                    className="py-2 border-2 border-primary"
-                    onClick={() => addInCart(item.id)}
-                  >
-                    Add Item
-                    <BiRupee className="ml-2 mr-1" />
-                    {parseFloat(item.price * localQty).toFixed(2)}
-                  </Button>
-                </div>
-              </div>
+              <Button
+                size="block"
+                className="py-2 border-2 border-primary"
+                onClick={() => addInCart(item.id)}
+              >
+                Add Item
+                <BiRupee className="ml-2 mr-1" />
+                {parseFloat(item.price * localQty).toFixed(2)}
+              </Button>
             ) : (
               <div className="py-2 font-medium text-center text-white border-2 rounded bg-primary/60 border-primary/30">
                 Unavailable

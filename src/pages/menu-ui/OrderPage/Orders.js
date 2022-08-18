@@ -7,7 +7,10 @@ function Orders() {
   const previousOrders = useSelector((state) => state.order.list);
   return (
     <div className="mt-5 mb-80">
-      <OrderCard className="my-3" items={cart} />
+      <OrderCard
+        className="w-full mx-auto my-3 md:w-4/6 lg:w-2/6"
+        items={cart}
+      />
       {previousOrders.length > 0 && (
         <h3 className="mt-10 text-light-text1 dark:text-dark-text1">
           Previous Orders
