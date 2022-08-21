@@ -10,6 +10,7 @@ function App() {
   return (
     <BrowserRouter>
       <ToastContainer
+        newestOnTop
         toastStyle={{ backgroundColor: "#1f1d2b", color: "#fff" }}
       />
       <AnimatedRoutes clasName={`${darkMode}?'dark':''`} />

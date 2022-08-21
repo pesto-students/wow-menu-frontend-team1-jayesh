@@ -53,7 +53,6 @@ export default function EditCategory() {
       params: { restaurant: 12345 },
       apiBody: data,
       successToastMessage: "Category details were saved successfully!",
-      errorToastMessage: "Something went wrong, Please try again!",
       navigationLink: "/dashboard/settings/categories-list",
     });
   };

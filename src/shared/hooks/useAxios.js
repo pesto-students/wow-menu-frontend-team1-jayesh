@@ -9,13 +9,14 @@ const useAxios = ({ url = null, method = null, headers = null } = {}) => {
   const navigate = useNavigate();
   const [response, setResponse] = useState(null);
   const [error, setError] = useState("");
-  const [loading, setloading] = useState(true);
+  const [loading, setloading] = useState(false);
 
   const callApi = async ({
     apiMethod,
     apiUrl,
     params,
     apiBody,
+    loadingToastMessage = null,
     successToastMessage = null,
     errorToastMessage = null,
     navigationLink = null,
@@ -30,71 +31,38 @@ const useAxios = ({ url = null, method = null, headers = null } = {}) => {
 
     if (config.url) {
       try {
-        const responseData = await axios(config);
-        setResponse(responseData.data);
-        setloading(false);
-        toast.success(successToastMessage, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+        setloading(true);
+        const responseData = await toast.promise(axios(config), {
+          pending: loadingToastMessage,
+          success: {
+            render: successToastMessage,
+            autoClose: 2000,
+          },
         });
+        setResponse(responseData.data);
         if (navigationLink) {
           navigate(navigationLink);
         }
       } catch (err) {
+        console.error(err.response.data.message);
         setError(err);
+        toast.error(
+          errorToastMessage || err.response.data.message || err.message,
+          {
+            delay: 0,
+            autoClose: false,
+          },
+        );
+      } finally {
         setloading(false);
-        toast.error(errorToastMessage, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
       }
-
-      // axios(config)
-      //   .then((res) => {
-      //     setResponse(res.data);
-      //     toast.success(successToastMessage, {
-      //       position: "top-right",
-      //       autoClose: 2000,
-      //       hideProgressBar: true,
-      //       closeOnClick: true,
-      //       pauseOnHover: true,
-      //       draggable: true,
-      //       progress: undefined,
-      //     });
-      //     if (navigationLink) {
-      //       navigate(navigationLink);
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     setError(err);
-      //     toast.error(errorToastMessage, {
-      //       position: "top-right",
-      //       autoClose: 2000,
-      //       hideProgressBar: true,
-      //       closeOnClick: true,
-      //       pauseOnHover: true,
-      //       draggable: true,
-      //       progress: undefined,
-      //     });
-      //   })
-      //   .finally(() => {
-      //     setloading(false);
-      //   });
     }
   };
 
   useEffect(() => {
-    callApi();
+    if (url) {
+      callApi();
+    }
   }, []);
 
   return { response, error, loading, callApi };

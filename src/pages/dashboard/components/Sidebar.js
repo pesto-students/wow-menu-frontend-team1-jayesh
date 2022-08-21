@@ -5,16 +5,19 @@ import { GiCook } from "react-icons/gi";
 import { TiThListOutline } from "react-icons/ti";
 import "./Sidebar.scss";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { ReactComponent as StoreIcon } from "../../../assets/icons/store.svg";
+import { logout } from "../../../store/reducers/authReducer";
 
 function DashboardSideBar() {
+  const dispatch = useDispatch();
   const menus = [
     { name: "Home", icon: FaHome, link: "/dashboard/home" },
     { name: "Orders", icon: TiThListOutline, link: "/dashboard/orders" },
     { name: "Kitchen", icon: GiCook, link: "/dashboard/kitchen" },
     { name: "Analytics", icon: FaChartPie, link: "/dashboard/analytics" },
     { name: "Settings", icon: BsGearFill, link: "/dashboard/settings" },
-    { name: "Logout", icon: MdLogout, link: "/login" },
+    { name: "Logout", icon: MdLogout },
   ];
 
   const location = useLocation();
@@ -51,6 +54,8 @@ function DashboardSideBar() {
               onClick={() => {
                 if (menu.link) {
                   navigate(menu.link);
+                } else {
+                  dispatch(logout());
                 }
               }}
             >
