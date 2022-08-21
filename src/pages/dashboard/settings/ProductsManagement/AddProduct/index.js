@@ -43,7 +43,6 @@ export default function AddProduct() {
       params: {},
       apiBody: { ...data, restaurant: "12345" },
       successToastMessage: "Product was added successfully!",
-      errorToastMessage: "Something went wrong, Please try again!",
       navigationLink: "/dashboard/settings/products-list",
     });
   };

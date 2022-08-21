@@ -22,6 +22,7 @@ import AddProduct from "../../pages/dashboard/settings/ProductsManagement/AddPro
 import CategoriesList from "../../pages/dashboard/settings/CategoriesManagement/CategoriesList";
 import AddCategory from "../../pages/dashboard/settings/CategoriesManagement/AddCategory";
 import EditCategory from "../../pages/dashboard/settings/CategoriesManagement/EditCategory";
+import ProtectedRoute from "./ProtectedRoute";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -36,22 +37,30 @@ function AnimatedRoutes() {
         <Route path="/search" element={<CustomerSearchPage />} />
         <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
-        <Route path="dashboard" element={<Dashboard />}>
-          <Route path="home" element={<DashboardHome />} />
-          <Route path="orders" element={<DashboardOrders />} />
-          <Route path="kitchen" element={<DashboardKitchen />} />
-          <Route path="analytics" element={<DashboardAnalytics />} />
-          <Route path="settings" element={<DashboardSettings />} />
-          <Route
-            path="settings/access-management"
-            element={<AccessManagement />}
-          />
-          <Route path="settings/categories-list" element={<CategoriesList />} />
-          <Route path="settings/add-category" element={<AddCategory />} />
-          <Route path="settings/edit-category/:id" element={<EditCategory />} />
-          <Route path="settings/products-list" element={<ProductsList />} />
-          <Route path="settings/add-product" element={<AddProduct />} />
-          <Route path="settings/edit-product/:id" element={<EditProduct />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="dashboard" element={<Dashboard />}>
+            <Route path="home" element={<DashboardHome />} />
+            <Route path="orders" element={<DashboardOrders />} />
+            <Route path="kitchen" element={<DashboardKitchen />} />
+            <Route path="analytics" element={<DashboardAnalytics />} />
+            <Route path="settings" element={<DashboardSettings />} />
+            <Route
+              path="settings/access-management"
+              element={<AccessManagement />}
+            />
+            <Route
+              path="settings/categories-list"
+              element={<CategoriesList />}
+            />
+            <Route path="settings/add-category" element={<AddCategory />} />
+            <Route
+              path="settings/edit-category/:id"
+              element={<EditCategory />}
+            />
+            <Route path="settings/products-list" element={<ProductsList />} />
+            <Route path="settings/add-product" element={<AddProduct />} />
+            <Route path="settings/edit-product/:id" element={<EditProduct />} />
+          </Route>
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>

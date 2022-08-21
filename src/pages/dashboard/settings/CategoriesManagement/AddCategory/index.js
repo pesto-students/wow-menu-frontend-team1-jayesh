@@ -27,7 +27,6 @@ export default function AddCategory() {
       params: {},
       apiBody: { ...data, restaurant: "12345" },
       successToastMessage: "Category was added successfully!",
-      errorToastMessage: "Something went wrong, Please try again!",
       navigationLink: "/dashboard/settings/categories-list",
     });
   };
