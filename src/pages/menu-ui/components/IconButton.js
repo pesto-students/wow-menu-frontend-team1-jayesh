@@ -2,11 +2,14 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const classes = {
-  base: "select-none rounded p-2 flex justify-center items-center text-xl shadow-glow active:shadow-sm",
+  base: "select-none rounded p-2 flex justify-center items-center text-xl ",
   theme: {
     normal:
-      "border bg-light-base3 border-dark-text2 text-light-text1 dark:bg-dark-base3 dark:border-light-text1 dark:text-dark-text1",
-    primary: "bg-primary/80 border border-primary text-dark-text1",
+      "border bg-light-base3 border-dark-text2 text-light-text1 dark:bg-dark-base3 dark:border-light-text1 dark:text-dark-text1 shadow-glow active:shadow-sm",
+    primary:
+      "bg-primary/80 border border-primary text-dark-text1 shadow-glow active:shadow-sm",
+    outline:
+      "bg-light-base3 text-light-text1 dark:bg-dark-base3 dark:text-dark-text1",
   },
 };
 

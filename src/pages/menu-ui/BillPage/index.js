@@ -38,7 +38,7 @@ function BillPage() {
       return;
     }
     const paymentData = await axios.get(
-      `https://wow-menu-staging.herokuapp.com/api/razorpay/${billDetails.id}`,
+      `http://localhost:5000/api/razorpay/${billDetails.id}`,
     );
     const options = {
       key: "rzp_test_XHR14CbtOV2SNx",

@@ -20,10 +20,10 @@ module.exports = {
         primary_light: "#FFF5EF",
         accent: {
           blue: "#65B0F6",
-          orange: "#FFB572",
-          red: "#FF7CA3",
-          green: "#50D1AA",
-          purple: "#9290FE",
+          orange: "#fdba74",
+          red: "#fb7185",
+          green: "#34d399",
+          violet: "#818cf8",
         },
         dark: {
           base1: "#252836",

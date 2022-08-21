@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-axios.defaults.baseURL = "https://wow-menu-staging.herokuapp.com/api";
+axios.defaults.baseURL = "http://localhost:5000/api";
 
 const useAxios = ({ url = null, method = null, headers = null } = {}) => {
   const navigate = useNavigate();

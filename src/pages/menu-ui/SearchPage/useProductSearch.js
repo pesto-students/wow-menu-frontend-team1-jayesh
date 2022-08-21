@@ -23,7 +23,7 @@ export default function useProductSearch(search, page, filter) {
     const searchQuery = search.length > 0 ? `&name=${search}` : "";
     axios
       .get(
-        `https://wow-menu-staging.herokuapp.com/api/menu-items?restaurant=${restaurantId}&limit=10&pageNo=${page}${searchQuery}${filterQuery}`,
+        `http://localhost:5000/api/menu-items?restaurant=${restaurantId}&limit=10&pageNo=${page}${searchQuery}${filterQuery}`,
       )
       .then((res) => {
         setProducts((prevProducts) => {
