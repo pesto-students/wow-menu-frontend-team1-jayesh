@@ -33,7 +33,7 @@ function OrderDetail({ order, onClose, updateOrder }) {
             Order Details
           </h1>
           <h1 className="mb-2 text-lg text-light-text2 dark:text-dark-text2">
-            Order #{order.id.substring(17).toUpperCase()}
+            Order #{order.id.substring(18).toUpperCase()}
           </h1>
         </div>
         {pending.length > 0 && (

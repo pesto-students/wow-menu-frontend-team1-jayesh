@@ -7,18 +7,16 @@ const classes = {
   base: "relative grid w-full grid-cols-3 gap-2 px-3 py-5 text-lg my-7 text-light-text1 dark:text-dark-text1",
   bg: {
     Pending: "bg-accent-orange/30",
-    Preparing: "bg-gray-500/30",
-    Rejected: "bg-grey-500/30",
-    Completed: "bg-accent-green/30",
+    Incomplete: "bg-gray-500/30",
+    Complete: "bg-accent-green/30",
   },
   text: {
     Pending: "text-accent-orange",
-    Preparing: "text-light-text1 dark:text-dark-text1",
-    Rejected: "text-light-text1 dark:text-dark-text1",
-    Completed: "text-accent-green",
+    Incomplete: "text-light-text1 dark:text-dark-text1",
+    Complete: "text-accent-green",
   },
 };
-
+const statuses = ["Incomplete", "Complete"];
 function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
   const observer = useRef();
   const loadMoreElementRef = useCallback(
@@ -49,34 +47,37 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
         </div>
       )}
       {orders.length > 0 &&
-        orders.map((order, idx) => {
-          return (
-            <div key={order.id} className={`${classes.bg[order.status]} `}>
-              <button
-                ref={orders.length === idx + 1 ? loadMoreElementRef : null}
-                type="button"
-                onClick={() => {
-                  onSelected(order);
-                }}
-                className={`${classes.base}`}
-              >
-                <p className="text-start">
-                  #{order.id.substring(17).toUpperCase()}
-                </p>
-                <p className="text-center">{order.tableNo}</p>
-                <p
-                  className={`text-end font-semibold ${
-                    classes.text[order.status]
-                  }`}
+        orders
+          .sort(
+            (o1, o2) =>
+              statuses.indexOf(o1.status) - statuses.indexOf(o2.status),
+          )
+          .map((order, idx) => {
+            return (
+              <div key={order.id} className={`${classes.bg[order.status]} `}>
+                <button
+                  ref={orders.length === idx + 1 ? loadMoreElementRef : null}
+                  type="button"
+                  onClick={() => {
+                    onSelected(order);
+                  }}
+                  className={`${classes.base}`}
                 >
-                  {order.status === "Preparing" || order.status === "Rejected"
-                    ? "Incomplete"
-                    : order.status}
-                </p>
-              </button>
-            </div>
-          );
-        })}
+                  <p className="text-start">
+                    #{order.id.substring(18).toUpperCase()}
+                  </p>
+                  <p className="text-center">{order.tableNo}</p>
+                  <p
+                    className={`text-end font-semibold ${
+                      classes.text[order.status]
+                    }`}
+                  >
+                    {order.status}
+                  </p>
+                </button>
+              </div>
+            );
+          })}
       {orders.length === 0 && (
         <Card className="my-3 bg-light-base2 dark:bg-dark-base2 text-light-text1 dark:text-dark-text2">
           <img className="w-48 mx-auto" src={noOrder} alt="No Order" />

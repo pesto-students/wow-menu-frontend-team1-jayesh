@@ -3,6 +3,8 @@ import Button from "../../menu-ui/components/Button";
 import IterationDetail from "./IterationDetail";
 import useAxios from "../../../shared/hooks/useAxios";
 
+const statuses = ["Pending", "Preparing", "Completed", "Rejected"];
+
 function OrderDetail({ order, updateOrder }) {
   const { response, callApi } = useAxios();
   useEffect(() => {
@@ -23,19 +25,24 @@ function OrderDetail({ order, updateOrder }) {
   return (
     <div className="flex flex-col overflow-auto grow">
       <h1 className="flex-none text-2xl font-semibold leading-loose text-light-text2 dark:text-dark-text2">
-        Order #{order.id.substring(17).toUpperCase()}
+        Order #{order.id.substring(18).toUpperCase()}
       </h1>
       <div className="pb-20 overflow-y-auto grow">
-        {order.iterations.map((iteration) => {
-          return (
-            <IterationDetail
-              key={iteration.id}
-              iteration={iteration}
-              orderId={order.id}
-              updateOrder={updateOrder}
-            />
-          );
-        })}
+        {order.iterations
+          .sort(
+            (itr1, itr2) =>
+              statuses.indexOf(itr1.status) - statuses.indexOf(itr2.status),
+          )
+          .map((iteration) => {
+            return (
+              <IterationDetail
+                key={iteration.id}
+                iteration={iteration}
+                orderId={order.id}
+                updateOrder={updateOrder}
+              />
+            );
+          })}
       </div>
       <div className="my-4">
         {isPreparing.length > 0 && (
