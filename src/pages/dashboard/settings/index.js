@@ -20,7 +20,7 @@ function DashboardSettings() {
       icon: <MdQrCode2 />,
       title: "QR Code",
       subtitle: "Share, Download QR Code",
-      link: "access-management",
+      link: "qrcode",
     },
     {
       id: 3,

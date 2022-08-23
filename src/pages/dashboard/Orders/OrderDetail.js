@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 import { BsArrowLeft } from "react-icons/bs";
 import Button from "../../menu-ui/components/Button";
 import IterationDetail from "./IterationDetail";
@@ -37,9 +38,16 @@ function OrderDetail({ order, onClose, updateOrder }) {
           </h1>
         </div>
         {pending.length > 0 && (
-          <Button className="mt-2 mb-auto" onClick={() => acceptAll()}>
-            Accept All
-          </Button>
+          <motion.div
+            initial={{ scale: 0.5, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.5, opacity: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            <Button className="mt-2 mb-auto" onClick={() => acceptAll()}>
+              Accept All
+            </Button>
+          </motion.div>
         )}
       </div>
       <hr className="mt-3 border-gray-700 dark:border-gray-500" />

@@ -16,6 +16,7 @@ import Dashboard from "../../pages/dashboard";
 import Signup from "../../pages/signup";
 import Login from "../../pages/login";
 import AccessManagement from "../../pages/dashboard/settings/AccessManagement";
+import QRCode from "../../pages/dashboard/settings/QRCode";
 import ProductsList from "../../pages/dashboard/settings/ProductsManagement/ProductsList";
 import EditProduct from "../../pages/dashboard/settings/ProductsManagement/EditProduct";
 import AddProduct from "../../pages/dashboard/settings/ProductsManagement/AddProduct";
@@ -46,6 +47,7 @@ function AnimatedRoutes() {
             path="settings/access-management"
             element={<AccessManagement />}
           />
+          <Route path="settings/qrcode" element={<QRCode />} />
           <Route path="settings/categories-list" element={<CategoriesList />} />
           <Route path="settings/add-category" element={<AddCategory />} />
           <Route path="settings/edit-category/:id" element={<EditCategory />} />

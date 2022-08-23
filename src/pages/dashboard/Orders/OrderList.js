@@ -1,4 +1,5 @@
 import { useRef, useCallback } from "react";
+import { motion } from "framer-motion";
 import ListLoader from "../components/ListLoader";
 import noOrder from "../../../assets/images/noOrder.svg";
 import Card from "../../menu-ui/components/Card";
@@ -56,7 +57,15 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
           )
           .map((order, idx) => {
             return (
-              <div key={order.id} className={`${classes.bg[order.status]} `}>
+              <motion.div
+                initial={{ x: 30, opacity: 0 }}
+                whileInView={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.2 }}
+                viewport={{ once: true }}
+                exit={{ x: -30, opacity: 0 }}
+                key={order.id}
+                className={`${classes.bg[order.status]} `}
+              >
                 <button
                   ref={orders.length === idx + 1 ? loadMoreElementRef : null}
                   type="button"
@@ -87,7 +96,7 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
                     {order.status}
                   </p>
                 </button>
-              </div>
+              </motion.div>
             );
           })}
       {orders.length === 0 && (
