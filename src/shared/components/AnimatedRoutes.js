@@ -3,7 +3,7 @@ import { AnimatePresence } from "framer-motion";
 import PageNotFound from "../../pages/404";
 import DashboardAnalytics from "../../pages/dashboard/analytics";
 import DashboardHome from "../../pages/dashboard/home";
-// import DashboardOrders from "../../pages/dashboard/Orders";
+import DashboardOrders from "../../pages/dashboard/Orders";
 import DashboardSettings from "../../pages/dashboard/settings";
 import SplashScreen from "../../pages/menu-ui";
 import CustomerMenu from "../../pages/menu-ui/HomePage";
@@ -11,7 +11,7 @@ import CustomerOrder from "../../pages/menu-ui/OrderPage";
 import CustomerOrderStatus from "../../pages/menu-ui/StatusPage";
 import CustomerBillPage from "../../pages/menu-ui/BillPage";
 import CustomerSearchPage from "../../pages/menu-ui/SearchPage";
-// import DashboardKitchen from "../../pages/dashboard/Kitchen";
+import DashboardKitchen from "../../pages/dashboard/Kitchen";
 import Dashboard from "../../pages/dashboard";
 import Signup from "../../pages/signup";
 import Login from "../../pages/login";
@@ -41,8 +41,8 @@ function AnimatedRoutes() {
         <Route element={<ProtectedRoute />}>
           <Route path="dashboard" element={<Dashboard />}>
             <Route path="home" element={<DashboardHome />} />
-            {/* <Route path="orders" element={<DashboardOrders />} /> */}
-            {/* <Route path="kitchen" element={<DashboardKitchen />} /> */}
+            <Route path="orders" element={<DashboardOrders />} />
+            <Route path="kitchen" element={<DashboardKitchen />} />
             <Route path="analytics" element={<DashboardAnalytics />} />
             <Route path="settings" element={<DashboardSettings />} />
             <Route
