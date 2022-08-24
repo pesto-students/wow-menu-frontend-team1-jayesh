@@ -1,10 +1,78 @@
+/* eslint-disable react/jsx-props-no-spreading */
+import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { FaRegUser } from "react-icons/fa";
+import { HiOutlineMail } from "react-icons/hi";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { FaRegUser } from "react-icons/fa";
+import { GiCook } from "react-icons/gi";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../store/reducers/authReducer";
+import useAxios from "../../shared/hooks/useAxios";
 import user from "../../assets/images/user.svg";
 
+const schema = yup.object().shape({
+  userType: yup.string().required("User type is required"),
+  emailId: yup
+    .string()
+    .email("Email is invalid")
+    .when("userType", {
+      is: "owner",
+      then: yup.string().required("Email is required"),
+    }),
+  username: yup.string().when("userType", {
+    is: "user",
+    then: yup.string().required("Username is required"),
+  }),
+  password: yup
+    .string()
+    .required("Password is required")
+    .min(8, "Password is too short - should be 8 chars minimum."),
+});
+
 function Login() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {
+    response: loginResponse,
+    loading: loginLoading,
+    callApi,
+  } = useAxios();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+  const watchUserType = watch("userType", "owner");
+
+  const submitForm = (data) => {
+    const apiBody = {
+      ...(data.userType === "owner" && { emailId: data.emailId }),
+      ...(data.userType === "user" && { username: data.username }),
+      password: data.password,
+    };
+    callApi({
+      apiMethod: "post",
+      apiUrl: `/login/${data.userType}`,
+      params: {},
+      apiBody,
+      successToastMessage: "Successfully logged in!",
+    });
+  };
+
+  useEffect(() => {
+    if (loginResponse?.data?.accessToken) {
+      dispatch(loginSuccess(loginResponse));
+      navigate("/dashboard/orders");
+    }
+  }, [loginResponse]);
+
   return (
     <div className="flex w-full min-h-screen font-sans bg-gray-900 dark:bg-gray-800 bg-lightPattern">
       <div className="grid w-full grid-cols-2">
@@ -56,65 +124,136 @@ function Login() {
             animate={{ y: 0, opacity: 1 }}
             // exit={{ y: -10, opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="relative w-2/3 p-6 bg-gray-900 rounded-lg h-2/3 gap-y-6"
+            className="relative w-2/3 p-6 bg-gray-900 rounded-lg h-max gap-y-6"
           >
             {/* <div className="flex flex-col w-full p-8 mt-10 bg-gray-800 bg-opacity-50 rounded-lg lg:w-2/6 md:w-1/2 md:ml-auto md:mt-0"> */}
             <h2 className="mb-5 text-2xl font-bold text-center text-white">
               Login
             </h2>
             <img className="h-32 mx-auto my-6" src={user} alt="" />
-            <div className="relative mb-4">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 pointer-events-none">
-                <FaRegUser />
+            <form onSubmit={handleSubmit(submitForm)}>
+              <div className={`${errors?.userType?.message ? "mb-2" : "mb-4"}`}>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 pointer-events-none">
+                    <GiCook />
+                  </div>
+                  <select
+                    name="userType"
+                    {...register("userType")}
+                    className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-sm block w-full pl-10 p-2.5 
+                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary cursor-pointer"
+                  >
+                    <option
+                      value="owner"
+                      className="py-2 bg-gray-700 cursor-pointer text-md"
+                    >
+                      Login as Owner
+                    </option>
+                    <option
+                      value="user"
+                      className="py-2 bg-gray-700 cursor-pointer text-md"
+                    >
+                      Login as Manager/Chef
+                    </option>
+                  </select>
+                </div>
+                {errors.userType && (
+                  <p className="text-rose-400"> {errors.userType.message} </p>
+                )}
               </div>
-              <input
-                type="text"
-                id="email-address-icon"
-                className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-sm block w-full pl-10 p-2.5 
+              {watchUserType === "owner" && (
+                <div
+                  className={`${errors?.emailId?.message ? "mb-2" : "mb-4"}`}
+                >
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 pointer-events-none">
+                      <HiOutlineMail />
+                    </div>
+                    <input
+                      type="email"
+                      name="emailId"
+                      {...register("emailId")}
+                      className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-sm block w-full pl-10 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
-                placeholder="Username"
-              />
-            </div>
-            <div className="relative mb-4">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 pointer-events-none">
-                <RiLockPasswordLine />
-              </div>
-              <input
-                type="password"
-                className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-sm block w-full pl-10 p-2.5 
+                      placeholder="Email"
+                    />
+                  </div>
+                  {errors.emailId && (
+                    <p className="text-rose-400"> {errors.emailId.message} </p>
+                  )}
+                </div>
+              )}
+              {watchUserType === "user" && (
+                <div
+                  className={`${errors?.username?.message ? "mb-2" : "mb-4"}`}
+                >
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 pointer-events-none">
+                      <FaRegUser />
+                    </div>
+                    <input
+                      type="text"
+                      name="username"
+                      {...register("username")}
+                      className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-sm block w-full pl-10 p-2.5 
+                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
+                      placeholder="Username"
+                    />
+                  </div>
+                  {errors.username && (
+                    <p className="text-rose-400"> {errors.username.message} </p>
+                  )}
+                </div>
+              )}
+              <div className={`${errors?.password?.message ? "mb-2" : "mb-4"}`}>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 pointer-events-none">
+                    <RiLockPasswordLine />
+                  </div>
+                  <input
+                    type="password"
+                    name="password"
+                    {...register("password")}
+                    className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-sm block w-full pl-10 p-2.5 
                   transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
-                placeholder="Password"
-              />
-            </div>
-            <Link to="/dashboard/home">
+                    placeholder="Password"
+                  />
+                </div>
+                {errors.password && (
+                  <p className="text-rose-400"> {errors.password.message} </p>
+                )}
+              </div>
               <button
-                type="button"
-                className="w-full px-8 py-2 text-lg rounded cursor-pointer bg-primary focus:outline-none hover:bg-primary/80"
+                type="submit"
+                disabled={loginLoading}
+                className="w-full px-8 py-2 text-lg rounded cursor-pointer bg-primary focus:outline-none hover:bg-primary/80 disabled:opacity-50"
               >
                 <span className="text-white ">Login </span>
-                <svg
-                  role="status"
-                  className="inline w-4 h-4 mr-3 text-white animate-spin"
-                  viewBox="0 0 100 101"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                    fill="#E5E7EB"
-                  />
-                  <path
-                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                    fill="currentColor"
-                  />
-                </svg>
+                {loginLoading && (
+                  <svg
+                    role="status"
+                    className="inline w-4 h-4 mr-3 text-white animate-spin"
+                    viewBox="0 0 100 101"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                      fill="#E5E7EB"
+                    />
+                    <path
+                      d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                )}
               </button>
-            </Link>
+            </form>
             <p className="mt-3 text-sm text-center text-white cursor-pointer hover:underline">
               Forgot your password?
             </p>
 
-            <div className="absolute left-0 block w-full text-center text-white bottom-6 text-md">
+            <div className="block w-full mt-3 text-center text-white bottom-6 text-md">
               <span>Don&rsquo;t have an account? </span>
               <span className="font-bold cursor-pointer text-primary">
                 <Link to="/signup">Sign Up</Link>
