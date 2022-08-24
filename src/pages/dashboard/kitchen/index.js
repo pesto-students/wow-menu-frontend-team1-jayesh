@@ -6,7 +6,7 @@ import OrderList from "./OrderList";
 import OrderDetail from "./OrderDetail";
 import Filter from "../components/Filter";
 
-function Orders() {
+function Kitchen() {
   const firstRenderRef = useRef(true);
 
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -72,4 +72,4 @@ function Orders() {
   );
 }
 
-export default Orders;
+export default Kitchen;
