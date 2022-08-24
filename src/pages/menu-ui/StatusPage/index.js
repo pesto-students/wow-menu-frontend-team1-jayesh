@@ -11,7 +11,7 @@ import emptyCart from "../../../assets/images/emptyCart.svg";
 import RotateScreen from "../components/RotateScreen";
 import useScreenOrientation from "../../../shared/hooks/useScreenOrientation";
 
-const socket = io.connect("https://wow-menu-staging.herokuapp.com/");
+const socket = io.connect("http://localhost:5000/");
 function StatusPage() {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.order);

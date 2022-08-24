@@ -3,7 +3,7 @@ import { AnimatePresence } from "framer-motion";
 import PageNotFound from "../../pages/404";
 import DashboardAnalytics from "../../pages/dashboard/analytics";
 import DashboardHome from "../../pages/dashboard/home";
-import DashboardOrders from "../../pages/dashboard/orders";
+import DashboardOrders from "../../pages/dashboard/Orders";
 import DashboardSettings from "../../pages/dashboard/settings";
 import SplashScreen from "../../pages/menu-ui";
 import CustomerMenu from "../../pages/menu-ui/HomePage";
@@ -11,11 +11,12 @@ import CustomerOrder from "../../pages/menu-ui/OrderPage";
 import CustomerOrderStatus from "../../pages/menu-ui/StatusPage";
 import CustomerBillPage from "../../pages/menu-ui/BillPage";
 import CustomerSearchPage from "../../pages/menu-ui/SearchPage";
-import DashboardKitchen from "../../pages/dashboard/kitchen";
+import DashboardKitchen from "../../pages/dashboard/Kitchen";
 import Dashboard from "../../pages/dashboard";
 import Signup from "../../pages/signup";
 import Login from "../../pages/login";
 import AccessManagement from "../../pages/dashboard/settings/AccessManagement";
+import QRCode from "../../pages/dashboard/settings/QRCode";
 import ProductsList from "../../pages/dashboard/settings/ProductsManagement/ProductsList";
 import EditProduct from "../../pages/dashboard/settings/ProductsManagement/EditProduct";
 import AddProduct from "../../pages/dashboard/settings/ProductsManagement/AddProduct";
@@ -48,6 +49,7 @@ function AnimatedRoutes() {
               path="settings/access-management"
               element={<AccessManagement />}
             />
+            <Route path="settings/qrcode" element={<QRCode />} />
             <Route
               path="settings/categories-list"
               element={<CategoriesList />}

@@ -1,10 +1,10 @@
 const classes = {
-  base: "select-none rounded px-2 py-1 border bg-light-base3 dark:bg-dark-base3",
+  base: "select-none rounded px-2 py-1 bg-light-base3 dark:bg-dark-base3",
   status: {
-    Pending: "border-2 border-accent-orange text-accent-orange",
-    Rejected: "border-2 border-accent-red text-accent-red",
-    Preparing: "border-2 border-accent-purple text-accent-purple",
-    Completed: "border-2 border-accent-green text-accent-green",
+    Pending: "text-accent-orange",
+    Rejected: "text-accent-red",
+    Preparing: "text-accent-violet",
+    Completed: "text-accent-green",
   },
 };
 

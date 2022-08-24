@@ -31,7 +31,7 @@ export const getOrderById = (payload) => {
   return function (dispatch) {
     dispatch(postOrderRequest());
     axios
-      .get(`https://wow-menu-staging.herokuapp.com/api/orders/${payload}`)
+      .get(`http://localhost:5000/api/orders/${payload}`)
       .then((res) => {
         dispatch(postOrderSuccess(res.data.data));
       })
@@ -50,7 +50,7 @@ export const placeNewOrder = (payload) => {
     };
     dispatch(postOrderRequest());
     axios
-      .post("https://wow-menu-staging.herokuapp.com/api/orders", orderDetail)
+      .post("http://localhost:5000/api/orders", orderDetail)
       .then((res) => {
         dispatch(postOrderSuccess(res.data.data));
       })
@@ -63,9 +63,7 @@ export const placeNewOrder = (payload) => {
 export const placeOrderAgain = (payload) => {
   return function (dispatch, getState) {
     dispatch(postOrderRequest());
-    const url = `https://wow-menu-staging.herokuapp.com/api/orders/${
-      getState().order.id
-    }/add`;
+    const url = `http://localhost:5000/api/orders/${getState().order.id}/add`;
     axios
       .patch(url, payload)
       .then((res) => {
