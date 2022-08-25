@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { BiRupee, BiFoodTag } from "react-icons/bi";
-import Card from "../components/Card";
+import Card from "../../components/Card";
 
 const classes = {
   bg: "bg-light-base2 dark:bg-dark-base2",

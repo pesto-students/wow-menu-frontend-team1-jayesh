@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
-import Textfield from "../components/Textfield";
-import { addInstruction } from "../../../store/reducers/cartReducer";
+import Textfield from "../../components/Textfield";
+import { addInstruction } from "../../../../store/reducers/cartReducer";
 
 function Instruction() {
   const dispatch = useDispatch();

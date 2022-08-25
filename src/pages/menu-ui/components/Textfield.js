@@ -4,11 +4,11 @@ const classes = {
 
 function Textfield({ placeholder, onInput }) {
   return (
-    <input
+    <textarea
       onInput={onInput}
       className={`${classes.base}`}
       placeholder={placeholder}
-      type="text"
+      rows="1"
     />
   );
 }

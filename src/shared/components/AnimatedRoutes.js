@@ -5,7 +5,8 @@ import DashboardAnalytics from "../../pages/dashboard/analytics";
 import DashboardHome from "../../pages/dashboard/home";
 import DashboardOrders from "../../pages/dashboard/Orders";
 import DashboardSettings from "../../pages/dashboard/settings";
-import SplashScreen from "../../pages/menu-ui";
+import Customer from "../../pages/menu-ui";
+import SplashScreen from "../../pages/menu-ui/SplashScreen";
 import CustomerMenu from "../../pages/menu-ui/HomePage";
 import CustomerOrder from "../../pages/menu-ui/OrderPage";
 import CustomerOrderStatus from "../../pages/menu-ui/StatusPage";
@@ -30,12 +31,14 @@ function AnimatedRoutes() {
   return (
     <AnimatePresence exitBeforeEnter>
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<SplashScreen />} />
-        <Route path="/home" element={<CustomerMenu />} />
-        <Route path="/order" element={<CustomerOrder />} />
-        <Route path="/status" element={<CustomerOrderStatus />} />
-        <Route path="/bill" element={<CustomerBillPage />} />
-        <Route path="/search" element={<CustomerSearchPage />} />
+        <Route path="/" element={<Customer />}>
+          <Route path="" element={<SplashScreen />} />
+          <Route path="home" element={<CustomerMenu />} />
+          <Route path="order" element={<CustomerOrder />} />
+          <Route path="status" element={<CustomerOrderStatus />} />
+          <Route path="bill" element={<CustomerBillPage />} />
+          <Route path="search" element={<CustomerSearchPage />} />
+        </Route>
         <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
         <Route element={<ProtectedRoute />}>

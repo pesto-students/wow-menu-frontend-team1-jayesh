@@ -1,5 +1,5 @@
 import { AiOutlineSearch } from "react-icons/ai";
-import useDebounce from "../useDebounce";
+import useDebounce from "../../../../shared/hooks/useDebounce";
 
 function SearchInput({ onInput }) {
   const handleSearch = (e) => {

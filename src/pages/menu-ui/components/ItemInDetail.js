@@ -40,90 +40,79 @@ function ItemInDetail() {
   };
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      initial={{ y: 150, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: 150, opacity: 0 }}
       className="absolute top-0 z-10 flex flex-col justify-center w-full h-full bg-gray-800/80"
     >
       <div className="grow md:flex-none" />
-      <motion.div
-        initial={{ y: 150, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: 150, opacity: 0 }}
-        className="flex justify-center my-5"
-      >
+      <div className="flex justify-center my-5">
         <CloseButton onClick={() => dispatch(setItem(""))} />
-      </motion.div>
-      <motion.div
-        initial={{ y: 150, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: 150, opacity: 0 }}
-      >
-        <Card
-          className={`
+      </div>
+      <Card
+        className={`
           w-full md:w-[500px] xl:w-[600px] mx-auto
           ${classes.bg}
       `}
-        >
-          <div className="flex justify-center">
-            <img
-              className="w-3/6 rounded-lg text-light-text2"
-              src={item.imageUrl}
-              alt={item.name}
-            />
-          </div>
-          <div className="grid grid-cols-3 gap-1 mt-4">
-            <div className="col-span-2">
-              <div className="flex">
-                <BiFoodTag
-                  className={item.isVeg ? "text-green-600" : "text-red-800"}
-                  size="24"
-                />
-                {item.spicy === "medium" && (
+      >
+        <div className="flex justify-center">
+          <img
+            className="w-3/6 rounded-lg text-light-text2"
+            src={item.imageUrl}
+            alt={item.name}
+          />
+        </div>
+        <div className="grid grid-cols-3 gap-1 mt-4">
+          <div className="col-span-2">
+            <div className="flex">
+              <BiFoodTag
+                className={item.isVeg ? "text-green-600" : "text-red-800"}
+                size="24"
+              />
+              {item.spicy === "medium" && (
+                <GiChiliPepper className="text-red-800" size="24" />
+              )}
+              {item.spicy === "high" && (
+                <div className="flex">
                   <GiChiliPepper className="text-red-800" size="24" />
-                )}
-                {item.spicy === "high" && (
-                  <div className="flex">
-                    <GiChiliPepper className="text-red-800" size="24" />
-                    <GiChiliPepper className="text-red-800" size="24" />
-                  </div>
-                )}
-              </div>
-              <div className="grow">
-                <h2 className={`${classes.title}`}>{item.name}</h2>
-              </div>
-            </div>
-            <div>
-              {item.isAvailable && (
-                <QtyButton
-                  variant="outline"
-                  quantity={localQty}
-                  onInc={handleInc}
-                  onDec={handleDec}
-                />
+                  <GiChiliPepper className="text-red-800" size="24" />
+                </div>
               )}
             </div>
+            <div className="grow">
+              <h2 className={`${classes.title}`}>{item.name}</h2>
+            </div>
           </div>
-          <p className={`${classes.description}`}>{item.description}</p>
-          <div className="py-3">
-            {item.isAvailable ? (
-              <Button
-                size="block"
-                className="py-2 border-2 border-primary"
-                onClick={() => addInCart(item.id)}
-              >
-                Add Item
-                <BiRupee className="ml-2 mr-1" />
-                {parseFloat(item.price * localQty).toFixed(2)}
-              </Button>
-            ) : (
-              <div className="py-2 font-medium text-center text-white border-2 rounded bg-primary/60 border-primary/30">
-                Unavailable
-              </div>
+          <div>
+            {item.isAvailable && (
+              <QtyButton
+                variant="outline"
+                quantity={localQty}
+                onInc={handleInc}
+                onDec={handleDec}
+              />
             )}
           </div>
-        </Card>
-      </motion.div>
+        </div>
+        <p className={`${classes.description}`}>{item.description}</p>
+        <div className="py-3">
+          {item.isAvailable ? (
+            <Button
+              size="block"
+              className="py-2 border-2 border-primary"
+              onClick={() => addInCart(item.id)}
+            >
+              Add Item
+              <BiRupee className="ml-2 mr-1" />
+              {parseFloat(item.price * localQty).toFixed(2)}
+            </Button>
+          ) : (
+            <div className="py-2 font-medium text-center text-white border-2 rounded bg-primary/60 border-primary/30">
+              Unavailable
+            </div>
+          )}
+        </div>
+      </Card>
     </motion.div>
   );
 }

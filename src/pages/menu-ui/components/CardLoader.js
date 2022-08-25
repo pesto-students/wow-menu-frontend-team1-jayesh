@@ -1,10 +1,5 @@
 import { motion } from "framer-motion";
 
-// style for different props
-const classes = {
-  base: "shadow rounded-md p-4 max-w-sm w-full mx-auto bg-light-base3 dark:bg-dark-base1 my-5",
-};
-
 function CardLoader({ className }) {
   return (
     <motion.div
@@ -12,7 +7,7 @@ function CardLoader({ className }) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.5 }}
       className={`
-        ${classes.base}
+      shadow rounded-md p-4 max-w-sm w-full mx-auto bg-light-base3 dark:bg-dark-base1 my-5
         ${className}`}
     >
       <div className="flex my-3 space-x-4 animate-pulse">
