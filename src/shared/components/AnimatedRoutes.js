@@ -15,13 +15,15 @@ import DashboardKitchen from "../../pages/dashboard/kitchen";
 import Dashboard from "../../pages/dashboard";
 import Signup from "../../pages/signup";
 import Login from "../../pages/login";
-import AccessManagement from "../../pages/dashboard/settings/AccessManagement";
 import ProductsList from "../../pages/dashboard/settings/ProductsManagement/ProductsList";
 import EditProduct from "../../pages/dashboard/settings/ProductsManagement/EditProduct";
 import AddProduct from "../../pages/dashboard/settings/ProductsManagement/AddProduct";
 import CategoriesList from "../../pages/dashboard/settings/CategoriesManagement/CategoriesList";
 import AddCategory from "../../pages/dashboard/settings/CategoriesManagement/AddCategory";
 import EditCategory from "../../pages/dashboard/settings/CategoriesManagement/EditCategory";
+import UsersList from "../../pages/dashboard/settings/AccessManagement/UsersList";
+import AddUser from "../../pages/dashboard/settings/AccessManagement/AddUser";
+import EditUser from "../../pages/dashboard/settings/AccessManagement/EditUser";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -42,10 +44,9 @@ function AnimatedRoutes() {
           <Route path="kitchen" element={<DashboardKitchen />} />
           <Route path="analytics" element={<DashboardAnalytics />} />
           <Route path="settings" element={<DashboardSettings />} />
-          <Route
-            path="settings/access-management"
-            element={<AccessManagement />}
-          />
+          <Route path="settings/access-management" element={<UsersList />} />
+          <Route path="settings/access-management/add" element={<AddUser />} />
+          <Route path="settings/access-management/edit/:id" element={<EditUser />} />
           <Route path="settings/categories-list" element={<CategoriesList />} />
           <Route path="settings/add-category" element={<AddCategory />} />
           <Route path="settings/edit-category/:id" element={<EditCategory />} />
