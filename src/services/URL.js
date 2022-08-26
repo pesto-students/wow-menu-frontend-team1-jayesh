@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:5000/"; // STAGGING URL = https://wow-menu-staging.herokuapp.com/
+const BASE_URL = "https://wow-menu-staging.herokuapp.com/"; // "http://localhost:5000/";
 
 // eslint-disable-next-line
 export { BASE_URL };

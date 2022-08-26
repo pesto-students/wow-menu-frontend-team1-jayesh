@@ -43,7 +43,7 @@ function AnimatedRoutes() {
         </Route>
         <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
-        <Route element={<ProtectedRoute/>}>
+        <Route element={<ProtectedRoute />}>
           <Route path="dashboard" element={<Dashboard />}>
             <Route path="home" element={<DashboardHome />} />
             <Route path="orders" element={<DashboardOrders />} />
@@ -52,11 +52,23 @@ function AnimatedRoutes() {
             <Route path="settings" element={<DashboardSettings />} />
             <Route path="settings/qrcode" element={<QRCode />} />
             <Route path="settings/access-management" element={<UsersList />} />
-            <Route path="settings/access-management/add" element={<AddUser />} />
-            <Route path="settings/access-management/edit/:id" element={<EditUser />} />
-            <Route path="settings/categories-list" element={<CategoriesList />} />
+            <Route
+              path="settings/access-management/add"
+              element={<AddUser />}
+            />
+            <Route
+              path="settings/access-management/edit/:id"
+              element={<EditUser />}
+            />
+            <Route
+              path="settings/categories-list"
+              element={<CategoriesList />}
+            />
             <Route path="settings/add-category" element={<AddCategory />} />
-            <Route path="settings/edit-category/:id" element={<EditCategory />} />
+            <Route
+              path="settings/edit-category/:id"
+              element={<EditCategory />}
+            />
             <Route path="settings/products-list" element={<ProductsList />} />
             <Route path="settings/add-product" element={<AddProduct />} />
             <Route path="settings/edit-product/:id" element={<EditProduct />} />
