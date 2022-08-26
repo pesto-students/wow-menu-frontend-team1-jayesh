@@ -16,7 +16,6 @@ import DashboardKitchen from "../../pages/dashboard/Kitchen";
 import Dashboard from "../../pages/dashboard";
 import Signup from "../../pages/signup";
 import Login from "../../pages/login";
-import AccessManagement from "../../pages/dashboard/settings/AccessManagement";
 import QRCode from "../../pages/dashboard/settings/QRCode";
 import ProductsList from "../../pages/dashboard/settings/ProductsManagement/ProductsList";
 import EditProduct from "../../pages/dashboard/settings/ProductsManagement/EditProduct";
@@ -24,6 +23,9 @@ import AddProduct from "../../pages/dashboard/settings/ProductsManagement/AddPro
 import CategoriesList from "../../pages/dashboard/settings/CategoriesManagement/CategoriesList";
 import AddCategory from "../../pages/dashboard/settings/CategoriesManagement/AddCategory";
 import EditCategory from "../../pages/dashboard/settings/CategoriesManagement/EditCategory";
+import UsersList from "../../pages/dashboard/settings/AccessManagement/UsersList";
+import AddUser from "../../pages/dashboard/settings/AccessManagement/AddUser";
+import EditUser from "../../pages/dashboard/settings/AccessManagement/EditUser";
 import ProtectedRoute from "./ProtectedRoute";
 
 function AnimatedRoutes() {
@@ -41,27 +43,20 @@ function AnimatedRoutes() {
         </Route>
         <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
-        <Route element={<ProtectedRoute />}>
+        <Route element={<ProtectedRoute/>}>
           <Route path="dashboard" element={<Dashboard />}>
             <Route path="home" element={<DashboardHome />} />
             <Route path="orders" element={<DashboardOrders />} />
             <Route path="kitchen" element={<DashboardKitchen />} />
             <Route path="analytics" element={<DashboardAnalytics />} />
             <Route path="settings" element={<DashboardSettings />} />
-            <Route
-              path="settings/access-management"
-              element={<AccessManagement />}
-            />
             <Route path="settings/qrcode" element={<QRCode />} />
-            <Route
-              path="settings/categories-list"
-              element={<CategoriesList />}
-            />
+            <Route path="settings/access-management" element={<UsersList />} />
+            <Route path="settings/access-management/add" element={<AddUser />} />
+            <Route path="settings/access-management/edit/:id" element={<EditUser />} />
+            <Route path="settings/categories-list" element={<CategoriesList />} />
             <Route path="settings/add-category" element={<AddCategory />} />
-            <Route
-              path="settings/edit-category/:id"
-              element={<EditCategory />}
-            />
+            <Route path="settings/edit-category/:id" element={<EditCategory />} />
             <Route path="settings/products-list" element={<ProductsList />} />
             <Route path="settings/add-product" element={<AddProduct />} />
             <Route path="settings/edit-product/:id" element={<EditProduct />} />

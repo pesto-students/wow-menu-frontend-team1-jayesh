@@ -5,6 +5,7 @@ import DashboardSocket from "../../../services/dashboardSocket";
 export default function useLoadOrders(page = 1, filterBy = "") {
   const { response, loading, error, getOrders } = OrderService();
   const { newOrder } = DashboardSocket();
+
   const [orders, setOrders] = useState([]);
   const [hasMore, setHasMore] = useState(false);
 
@@ -16,6 +17,7 @@ export default function useLoadOrders(page = 1, filterBy = "") {
     const filterQuery = {};
     if (filterBy !== "") filterQuery.status = filterBy;
     getOrders(page, filterQuery);
+
   }, [page, filterBy]);
 
   useEffect(() => {
