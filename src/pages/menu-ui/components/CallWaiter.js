@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
 import { FaConciergeBell } from "react-icons/fa";
 import FloatingButton from "./FloatingButton";
+import NotificationService from "../../../services/notification";
 
 const classes = {
   pos: {
@@ -10,7 +11,9 @@ const classes = {
 };
 
 function CallWaiter({ pos = "left" }) {
+  const { callWaiter } = NotificationService();
   const handleCall = () => {
+    callWaiter();
     Swal.fire({
       text: "Waiter is on his way",
       icon: "success",

@@ -9,8 +9,11 @@ export default function CustomerSocket() {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.order);
   useEffect(() => {
-    socket.on(`${orders.id}`, (data) => {
+    const listener = (data) => {
       dispatch(setOrder(data));
-    });
-  }, [socket]);
+    };
+    socket.on(`${orders.id}`, listener);
+
+    return () => socket.off(`${orders.id}`, listener);
+  }, [`${orders.id}`]);
 }

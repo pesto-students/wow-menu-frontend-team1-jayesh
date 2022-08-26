@@ -33,7 +33,7 @@ export default function QRCode() {
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -10, opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="w-screen h-screen p-4 overflow-hidden pl-28"
+      className="w-screen h-screen p-4 overflow-x-hidden pl-28"
     >
       <header>
         <h1 className="text-3xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
