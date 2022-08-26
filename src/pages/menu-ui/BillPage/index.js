@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
-// import axios from "axios";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import BillCard from "./BillCard";
 import PaymentCard from "./PaymentCard";
@@ -27,6 +27,7 @@ function BillPage() {
   const billDetails = useSelector((state) => state.bill.details);
   const billloading = useSelector((state) => state.bill.loading);
   const { response: paymentData, getPaymentDetails } = RazorpayService();
+
   const openPayModal = async () => {
     const res = await loadRazorpay();
     if (!res) {
@@ -38,29 +39,37 @@ function BillPage() {
     // const paymentData = await axios.get(
     //   `https://wow-menu-staging.herokuapp.com/api/razorpay/${billDetails.id}`,
     // );
-    await getPaymentDetails(billDetails.id);
-    const options = {
-      key: "rzp_test_XHR14CbtOV2SNx",
-      amount: paymentData.data.data.amount,
-      name: restaurant.name,
-      description: restaurant.address,
-      order_id: paymentData.data.data.id,
-      handler() {
-        Swal.fire({
-          text: "Payment Received",
-          icon: "success",
-          showConfirmButton: false,
-          width: 300,
-          timer: 1500,
-        });
-      },
-      theme: {
-        color: "#252836",
-      },
-    };
-    const rzp1 = new window.Razorpay(options);
-    rzp1.open();
+    getPaymentDetails(billDetails.id);
   };
+
+  useEffect(() => {
+    if (paymentData) {
+      const options = {
+        key: "rzp_test_XHR14CbtOV2SNx",
+        amount: paymentData.data.amount,
+        name: restaurant.name,
+        description: restaurant.address,
+        order_id: paymentData.data.id,
+        handler(res) {
+          if (res.razorpay_order_id) {
+            Swal.fire({
+              text: "Payment Received",
+              icon: "success",
+              showConfirmButton: false,
+              width: 300,
+              timer: 1500,
+            });
+          }
+        },
+        theme: {
+          color: "#252836",
+        },
+      };
+      const rzp1 = new window.Razorpay(options);
+      rzp1.open();
+    }
+  }, [paymentData]);
+
   return (
     <>
       <motion.div

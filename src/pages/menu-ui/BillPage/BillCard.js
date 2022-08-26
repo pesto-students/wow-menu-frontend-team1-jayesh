@@ -13,16 +13,18 @@ function BillCard({ className, restaurant, bill }) {
     doc.setFontSize(22);
     doc.text(20, 25, `${restaurant.name}`);
     doc.setFontSize(14);
-    doc.text(20, 32, `${restaurant.address}`);
-    doc.text(20, 39, `${restaurant.gstNumber}`);
-    doc.text(20, 46, `${restaurant.phoneNumber}`);
+    doc.text(20, 32, `Address: ${restaurant.address}`);
+    doc.text(20, 39, `GSTIN: ${restaurant.gstNumber}`);
+    doc.text(20, 46, `Phone: ${restaurant.phoneNumber}`);
     doc.setFontSize(28);
     doc.text(20, 60, "TAX INVOICE");
     doc.setFontSize(14);
     doc.text(20, 67, `DATE: ${moment().format("DD-MM-yyyy")}`);
     doc.text(100, 67, `TABLE NO: ${bill.tableNo}`);
     doc.text(20, 74, "BILL NO: 7154");
-    doc.text(100, 74, "HOST: RAJESH AGARWAL");
+    if (bill.createdBy) {
+      doc.text(100, 74, `HOST: ${bill.createdBy}`);
+    }
 
     const headers = [
       {
@@ -131,10 +133,12 @@ function BillCard({ className, restaurant, bill }) {
                   7154
                 </h2>
                 <p>
-                  <span className="mr-1 font-medium text-light-text1 dark:text-dark-text1">
-                    Host:
-                  </span>
-                  Rajesh Agarwal
+                  {bill.createdBy && (
+                    <span className="mr-1 font-medium text-light-text1 dark:text-dark-text1">
+                      Host:
+                    </span>
+                  )}
+                  {bill.createdBy}
                 </p>
               </div>
             </div>
