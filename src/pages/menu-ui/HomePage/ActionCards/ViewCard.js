@@ -2,8 +2,8 @@ import { useSelector } from "react-redux";
 import { BiRupee } from "react-icons/bi";
 import { BsArrowRight } from "react-icons/bs";
 import { motion } from "framer-motion";
-import Card from "../../components/Card";
-import Button from "../../components/Button";
+import Card from "../../../../shared/components/Card";
+import Button from "../../../../shared/components/Button";
 
 const classes = {
   base: "absolute inset-x-0 bottom-0 pt-10 bg-light-base3 dark:bg-dark-base3 pb-20",

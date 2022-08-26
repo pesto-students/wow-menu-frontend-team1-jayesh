@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
-import Card from "../components/Card";
-import Button from "../components/Button";
+import Card from "../../../shared/components/Card";
+import Button from "../../../shared/components/Button";
 
 // style for different props
 const classes = {

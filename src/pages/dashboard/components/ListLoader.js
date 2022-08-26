@@ -6,7 +6,7 @@ function ListLoader() {
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.5 }}
-      className="w-full p-2 my-2 rounded-md shadow bg-light-base2 dark:bg-dark-base2"
+      className="w-full p-2 my-4 rounded-md shadow bg-light-base2 dark:bg-dark-base2"
     >
       <div className="flex my-3 space-x-4 animate-pulse">
         <div className="flex-1 py-1 space-y-6">

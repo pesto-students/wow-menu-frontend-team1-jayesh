@@ -3,8 +3,8 @@ import { FiChevronLeft } from "react-icons/fi";
 import { jsPDF } from "jspdf";
 import { AiOutlineCloudDownload } from "react-icons/ai";
 import moment from "moment";
-import Card from "../components/Card";
-import Button from "../components/Button";
+import Card from "../../../shared/components/Card";
+import Button from "../../../shared/components/Button";
 
 function BillCard({ className, restaurant, bill }) {
   const handleDownload = () => {

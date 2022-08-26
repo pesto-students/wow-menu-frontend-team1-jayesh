@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../services/URL";
 
-axios.defaults.baseURL = BASE_URL;
+axios.defaults.baseURL = `${BASE_URL}api/`;
 
 const useAxios = ({ url = null, method = null, headers = null } = {}) => {
   const navigate = useNavigate();

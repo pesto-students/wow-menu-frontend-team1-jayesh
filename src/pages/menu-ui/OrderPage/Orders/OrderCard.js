@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { BiRupee, BiFoodTag } from "react-icons/bi";
-import Card from "../../components/Card";
+import Card from "../../../../shared/components/Card";
 import QtyButton from "../../components/QtyButton";
 import Instruction from "./Instruction";
 import emptyCart from "../../../../assets/images/emptyCart.svg";

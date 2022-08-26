@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import BillCard from "./BillCard";
 import PaymentCard from "./PaymentCard";
 import RazorpayService from "../../../services/razorpay";
-import Card from "../components/Card";
+import Card from "../../../shared/components/Card";
 import noBill from "../../../assets/images/noBill.svg";
 
 function loadRazorpay() {

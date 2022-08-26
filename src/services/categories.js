@@ -1,18 +1,17 @@
-import { useEffect } from "react";
 import useAxios from "../shared/hooks/useAxios";
 import { CATEGORIES } from "./endpoints";
 
-export default function GetCategories(restaurantId) {
+export default function CategoriesService() {
   const { response, loading, error, callApi } = useAxios();
 
-  useEffect(() => {
+  const getCategories = (restaurantId) => {
     callApi({
       apiMethod: "get",
       apiUrl: `${CATEGORIES}`,
       params: { restaurant: restaurantId, isActive: true },
       errorToastMessage: error.message,
     });
-  }, [restaurantId]);
+  };
 
-  return { loading, error, response };
+  return { loading, error, response, getCategories };
 }

@@ -1,26 +1,15 @@
-import io from "socket.io-client";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import PageHeader from "../components/PageHeader";
 import CallWaiter from "../components/CallWaiter";
 import StatusCard from "./StatusCard";
-import Card from "../components/Card";
-import { setOrder } from "../../../store/reducers/orderReducer";
+import Card from "../../../shared/components/Card";
 import emptyCart from "../../../assets/images/emptyCart.svg";
-import { BASE_URL } from "../../../services/URL";
+import CustomerSocket from "../../../services/customerSocket";
 
-const socket = io.connect(BASE_URL);
 function StatusPage() {
-  const dispatch = useDispatch();
+  CustomerSocket();
   const orders = useSelector((state) => state.order);
-
-  useEffect(() => {
-    socket.on(`${orders.id}`, (data) => {
-      dispatch(setOrder(data));
-    });
-  }, [socket]);
-
   return (
     <>
       <motion.div

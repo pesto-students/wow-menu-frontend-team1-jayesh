@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { BiFoodTag } from "react-icons/bi";
-import Card from "../components/Card";
+import Card from "../../../shared/components/Card";
 import StatusChip from "../components/StatusChip";
 
 // style for different props

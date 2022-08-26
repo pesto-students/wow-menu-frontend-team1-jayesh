@@ -1,5 +1,5 @@
 import { FiChevronLeft } from "react-icons/fi";
-import Button from "./Button";
+import Button from "../../../shared/components/Button";
 
 function BackButton() {
   return (

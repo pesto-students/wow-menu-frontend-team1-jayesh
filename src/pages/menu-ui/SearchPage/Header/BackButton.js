@@ -1,7 +1,7 @@
 import { FiChevronLeft } from "react-icons/fi";
-import IconButton from "../../components/IconButton";
+import IconButton from "../../../../shared/components/IconButton";
 
-function OrderButton() {
+function BackButton() {
   return (
     <IconButton theme="primary" href="/home">
       <FiChevronLeft size="26" />
@@ -9,4 +9,4 @@ function OrderButton() {
   );
 }
 
-export default OrderButton;
+export default BackButton;

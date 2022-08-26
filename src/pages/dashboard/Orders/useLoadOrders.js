@@ -1,30 +1,24 @@
-import io from "socket.io-client";
 import { useState, useEffect } from "react";
-import useAxios from "../../../shared/hooks/useAxios";
-import useUpdateEffect from "../../../shared/hooks/useUpdateEffect";
+import OrderService from "../../../services/orders";
+import DashboardSocket from "../../../services/dashboardSocket";
 
-const socket = io.connect("http://localhost:5000/");
-export default function useProductSearch(page = 1, filterBy = "") {
-  // const restaurantId = useSelector((state) => state.restaurant.id);
-  const restaurantId = "62f125ea334c342911733c7e";
-  const { response, loading, error, callApi } = useAxios();
+export default function useLoadOrders(page = 1, filterBy = "") {
+  const { response, loading, error, getOrders } = OrderService();
+  const { newOrder } = DashboardSocket();
   const [orders, setOrders] = useState([]);
   const [hasMore, setHasMore] = useState(false);
-  const filterByStatus = filterBy === "" ? "" : `&status=${filterBy}`;
 
   useEffect(() => {
     setOrders([]);
   }, [filterBy]);
 
   useEffect(() => {
-    callApi({
-      apiUrl: `http://localhost:5000/api/orders?restaurant=${restaurantId}&limit=10&page=${page}${filterByStatus}`,
-      apiMethod: "get",
-      errorToastMessage: "Something went wrong, Please try again!",
-    });
+    const filterQuery = {};
+    if (filterBy !== "") filterQuery.status = filterBy;
+    getOrders(page, filterQuery);
   }, [page, filterBy]);
 
-  useUpdateEffect(() => {
+  useEffect(() => {
     if (response) {
       setOrders((prevOrders) => {
         const updatedOrder = [...prevOrders, ...response.data];
@@ -37,7 +31,7 @@ export default function useProductSearch(page = 1, filterBy = "") {
   }, [response]);
 
   useEffect(() => {
-    socket.on(`${restaurantId}`, (newOrder) => {
+    if (newOrder) {
       setOrders((prevOrders) => {
         let updatedOrder;
         const id = prevOrders.findIndex((order) => order.id === newOrder.id);
@@ -49,8 +43,8 @@ export default function useProductSearch(page = 1, filterBy = "") {
         else updatedOrder = [newOrder, ...prevOrders];
         return updatedOrder;
       });
-    });
-  }, [socket]);
+    }
+  }, [newOrder]);
 
   return { loading, error, orders, hasMore };
 }

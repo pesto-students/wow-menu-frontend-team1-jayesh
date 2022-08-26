@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BiRupee } from "react-icons/bi";
 import { BsArrowRight } from "react-icons/bs";
-import Card from "../components/Card";
-import Button from "../components/Button";
+import Card from "../../../shared/components/Card";
+import Button from "../../../shared/components/Button";
 import { resetCart } from "../../../store/reducers/cartReducer";
 import { setOrder } from "../../../store/reducers/orderReducer";
-import CustomerOrderService from "../../../services/customerOrder";
+import OrderService from "../../../services/orders";
 
 const classes = {
   base: "absolute inset-x-0 bottom-0 pt-10 pb-20 shadow-lg bg-light-base3 dark:bg-dark-base3",
@@ -22,7 +22,7 @@ function PlaceOrderCard({ className }) {
   const cart = useSelector((state) => state.cart);
   const order = useSelector((state) => state.order);
   const { response, loading, error, placeNewOrder, placeOrderAgain } =
-    CustomerOrderService();
+    OrderService();
 
   const subtotal = cart.items.reduce(
     (sum, curr) => sum + curr.quantity * curr.price,

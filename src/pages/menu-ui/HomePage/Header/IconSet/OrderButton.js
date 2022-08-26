@@ -1,5 +1,5 @@
 import { BiFoodMenu } from "react-icons/bi";
-import IconButton from "../../../components/IconButton";
+import IconButton from "../../../../../shared/components/IconButton";
 
 function OrderButton() {
   return (
