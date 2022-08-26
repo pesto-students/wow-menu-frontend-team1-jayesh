@@ -34,7 +34,7 @@ export default function AccessManagement() {
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -10, opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="w-screen h-screen p-4 overflow-hidden pl-28"
+      className="w-screen p-4 h-max pl-28"
     >
       <header>
         <h1 className="text-3xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
@@ -66,12 +66,8 @@ export default function AccessManagement() {
               key={url}
               className="flex justify-center"
             >
-              <div className="relative p-12 border border-gray-400 rounded dark:border-gray-700 border-1 ">
-                <a
-                  href={`https://wow-menu.netlify.app/${url}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+              <div className="relative pb-12 border border-gray-400 rounded p-9 dark:border-gray-700 border-1 ">
+                <div className="flex justify-center">
                   <QRCodeSVG
                     id={`Table${idx}`}
                     value={`https://wow-menu.netlify.app/${url}`}
@@ -79,8 +75,16 @@ export default function AccessManagement() {
                     level="L"
                     includeMargin
                   />
+                </div>
+                <a
+                  href={`https://wow-menu.netlify.app/${url}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-primary hover:underline hover:underline-offset-2"
+                >
+                  <p className="mt-2 text-xs text-center break-all">{`https://wow-menu.netlify.app/${url}`}</p>
                 </a>
-                <p className="my-5 text-lg font-medium text-center text-light-text1 dark:text-dark-text1">{`Table ${
+                <p className="mt-2 mb-5 text-lg font-medium text-center text-light-text1 dark:text-dark-text1">{`Table ${
                   idx + 1
                 }`}</p>
                 <button

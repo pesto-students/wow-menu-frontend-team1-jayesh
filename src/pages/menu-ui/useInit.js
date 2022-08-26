@@ -24,7 +24,7 @@ export default function useProductSearch() {
 
   axios
     .get(
-      `http://localhost:5000/api/categories?restaurant=${restaurantId}&isActive=true`,
+      `https://wow-menu-staging.herokuapp.com/api/categories?restaurant=${restaurantId}&isActive=true`,
     )
     .then((res) => {
       dispatch(

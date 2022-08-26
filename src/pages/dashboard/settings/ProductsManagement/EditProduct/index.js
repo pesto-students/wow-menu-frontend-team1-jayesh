@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { MdArrowBackIosNew } from "react-icons/md";
 import useAxios from "../../../../../shared/hooks/useAxios";
 
 const schema = yup.object().shape({
@@ -21,24 +22,43 @@ const schema = yup.object().shape({
 export default function EditProduct() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [productData, setProductData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [productData, setProductData] = useState(null);
+  const [categoriesData, setCategoriesData] = useState(null);
 
-  const {
-    response: productDetailsResponse,
-    loading: productDetailsLoading,
-    error: productDetailsError,
-    callApi,
-  } = useAxios({
-    url: `/menu-items/${id}?restaurant=12345`,
-    method: "get",
-    headers: { accept: "*/*" },
-  });
+  const { response, callApi } = useAxios();
 
   useEffect(() => {
-    if (productDetailsResponse !== null) {
-      setProductData(productDetailsResponse);
+    if (!loading && productData === null) {
+      setLoading(true);
+      callApi({
+        apiMethod: "get",
+        apiUrl: `/menu-items/${id}?restaurant=12345`,
+        params: {},
+        errorToastMessage: "Failed to fetch product data!",
+      });
     }
-  }, [productDetailsResponse]);
+    if (loading && productData === null) {
+      setProductData(response);
+      setLoading(false);
+    }
+  }, [response, productData]);
+
+  useEffect(() => {
+    if (!loading && productData !== null && categoriesData === null) {
+      setLoading(true);
+      callApi({
+        apiMethod: "get",
+        apiUrl: "/categories?restaurant=12345",
+        params: {},
+        errorToastMessage: "Failed to fetch categories data!",
+      });
+    }
+    if (loading && productData !== null) {
+      setCategoriesData(response);
+      setLoading(false);
+    }
+  }, [response, productData]);
 
   const {
     register,
@@ -51,7 +71,7 @@ export default function EditProduct() {
 
   useEffect(() => {
     reset();
-  }, [productData]);
+  }, [response]);
 
   const submitForm = (data) => {
     callApi({
@@ -77,7 +97,14 @@ export default function EditProduct() {
 
   return (
     <div className="flex flex-col flex-1 p-4 pl-28">
-      <div className="flex justify-between mb-3">
+      <div className="flex justify-start mb-3">
+        <button
+          type="button"
+          onClick={() => navigate("/dashboard/settings/products-list")}
+          className="px-3.5 mr-2 py-1 w-max rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#e66e59]"
+        >
+          <MdArrowBackIosNew />
+        </button>
         <h3 className="text-2xl font-semibold leading-loose text-slate-800 dark:text-white">
           Edit Product
         </h3>
@@ -117,7 +144,7 @@ export default function EditProduct() {
       >
         Delete Product
       </button>
-      {productDetailsLoading ? (
+      {!productData ? (
         <svg
           role="status"
           className="inline w-6 h-6 mr-3 text-white animate-spin"
@@ -135,228 +162,244 @@ export default function EditProduct() {
           />
         </svg>
       ) : (
-        <>
-          {productDetailsError && <p>{productDetailsError.message}</p>}
-          {productData && (
-            <form onSubmit={handleSubmit(submitForm)}>
-              <div className="flex mt-5">
-                <div className="w-1/2">
-                  <div className="relative mb-4">
-                    <label htmlFor="name">
-                      <div className="mb-2 font-semibold text-slate-300">
-                        Name
-                      </div>
-                      <input
-                        type="text"
-                        name="name"
-                        defaultValue={productData.data?.name}
-                        {...register("name")}
-                        className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
-                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
-                        placeholder="Name"
-                      />
-                    </label>
-                    {errors.name && (
-                      <p className="text-rose-400"> {errors.name.message} </p>
-                    )}
-                  </div>
-                  <div className="relative mb-4">
-                    <label htmlFor="price">
-                      <div className="mb-2 font-semibold text-slate-300">
-                        Price
-                      </div>
-                      <input
-                        type="text"
-                        name="price"
-                        defaultValue={productData.data?.price}
-                        {...register("price", {
-                          valueAsNumber: true,
-                        })}
-                        className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
-                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
-                        placeholder="Price"
-                      />
-                    </label>
-                    <p className="text-rose-400"> {errors?.price?.message} </p>
-                  </div>
-                  <div className="relative mb-4">
-                    <label htmlFor="category">
-                      <div className="mb-2 font-semibold text-slate-300">
-                        Category
-                      </div>
-                      <input
-                        type="text"
-                        name="category"
-                        defaultValue={productData.data?.category}
-                        {...register("category")}
-                        className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
-                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
-                        placeholder="Category"
-                      />
-                    </label>
-                    <p className="text-rose-400">{errors?.category?.message}</p>
-                  </div>
-                  <div className="relative mb-4">
-                    <label htmlFor="description">
-                      <div className="mb-2 font-semibold text-slate-300">
-                        Description
-                      </div>
-                      <textarea
-                        type="text"
-                        name="description"
-                        defaultValue={productData.data?.description}
-                        {...register("description")}
-                        rows="7"
-                        className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
-                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
-                        placeholder="Description"
-                      />
-                    </label>
-                    <p className="text-rose-400">
-                      {errors?.description?.message}
-                    </p>
-                  </div>
-                </div>
-                <div className="w-1/2 pl-4">
-                  <div className="relative mb-4">
-                    <label htmlFor="imageUrl">
-                      <div className="mb-2 font-semibold text-slate-300">
-                        Image URL
-                      </div>
-                      <input
-                        type="text"
-                        name="imageUrl"
-                        defaultValue={productData.data?.imageUrl}
-                        {...register("imageUrl")}
-                        className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
-                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
-                        placeholder="Image URL"
-                      />
-                    </label>
-                    <p className="text-rose-400">{errors?.imageUrl?.message}</p>
-                  </div>
-                  <div className="mt-12">
-                    <div className="text-slate-300">
-                      <input
-                        type="radio"
-                        name="veg"
-                        value="true"
-                        defaultChecked={productData.data?.isVeg}
-                        {...register("isVeg")}
-                      />{" "}
-                      Veg
-                      <input
-                        type="radio"
-                        name="veg"
-                        value="false"
-                        defaultChecked={!productData.data?.isVeg}
-                        {...register("isVeg")}
-                        className="ml-5"
-                      />{" "}
-                      Non-Veg
+        productData && (
+          <form onSubmit={handleSubmit(submitForm)}>
+            <div className="flex mt-5">
+              <div className="w-1/2">
+                <div className="relative mb-4">
+                  <label htmlFor="name">
+                    <div className="mb-2 font-semibold text-slate-300">
+                      Name
                     </div>
-                    <p className="text-rose-400">{errors?.isVeg?.message}</p>
-                  </div>
-                  <div className="mt-6 text-slate-300">
-                    <label htmlFor="spicy">
-                      <div className="font-semibold">Spicy</div>
-                      <input
-                        type="radio"
-                        name="spicy"
-                        value="low"
-                        defaultChecked={productData.data?.spicy === "low"}
-                        {...register("spicy")}
-                      />{" "}
-                      Low
-                      <input
-                        type="radio"
-                        name="spicy"
-                        value="medium"
-                        defaultChecked={productData.data?.spicy === "medium"}
-                        {...register("spicy")}
-                        className="ml-5"
-                      />{" "}
-                      Medium
-                      <input
-                        type="radio"
-                        name="spicy"
-                        value="high"
-                        defaultChecked={productData.data?.spicy === "high"}
-                        {...register("spicy")}
-                        className="ml-5"
-                      />{" "}
-                      High
-                    </label>
-                    <p className="text-rose-400"> {errors?.spicy?.message} </p>
-                  </div>
-                  <div className="mt-6 text-slate-300">
-                    <label htmlFor="isActive">
-                      <div className="font-semibold">Active</div>
-                      <input
-                        type="radio"
-                        name="isActive"
-                        value="true"
-                        defaultChecked={productData.data?.isActive}
-                        {...register("isActive")}
-                      />{" "}
-                      Yes
-                      <input
-                        type="radio"
-                        name="isActive"
-                        value="false"
-                        defaultChecked={!productData.data?.isActive}
-                        {...register("isActive")}
-                        className="ml-5"
-                      />{" "}
-                      No
-                    </label>
-                    <p className="text-rose-400">{errors?.isActive?.message}</p>
-                  </div>
-                  <div className="mt-6 text-slate-300">
-                    <label htmlFor="isAvailable">
-                      <div className="font-semibold">Available</div>
-                      <input
-                        type="radio"
-                        name="isAvailable"
-                        value="true"
-                        defaultChecked={productData.data?.isAvailable}
-                        {...register("isAvailable")}
-                      />{" "}
-                      Yes
-                      <input
-                        type="radio"
-                        name="isAvailable"
-                        value="false"
-                        defaultChecked={!productData.data?.isAvailable}
-                        {...register("isAvailable")}
-                        className="ml-5"
-                      />{" "}
-                      No
-                    </label>
-                    <p className="text-rose-400">
-                      {errors?.isAvailable?.message}
-                    </p>
-                  </div>
+                    <input
+                      type="text"
+                      name="name"
+                      defaultValue={productData.data?.name}
+                      {...register("name")}
+                      className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
+                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
+                      placeholder="Name"
+                    />
+                  </label>
+                  {errors.name && (
+                    <p className="text-rose-400"> {errors.name.message} </p>
+                  )}
+                </div>
+                <div className="relative mb-4">
+                  <label htmlFor="price">
+                    <div className="mb-2 font-semibold text-slate-300">
+                      Price
+                    </div>
+                    <input
+                      type="text"
+                      name="price"
+                      defaultValue={productData.data?.price}
+                      {...register("price", {
+                        valueAsNumber: true,
+                      })}
+                      className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
+                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
+                      placeholder="Price"
+                    />
+                  </label>
+                  <p className="text-rose-400"> {errors?.price?.message} </p>
+                </div>
+                <div className="relative mb-4">
+                  <label htmlFor="category">
+                    <div className="mb-2 font-semibold text-slate-300">
+                      Category
+                    </div>
+                    {!categoriesData && (
+                      <div className="animate-pulse">
+                        <div className="h-10 rounded-md bg-slate-300 dark:bg-slate-700" />
+                      </div>
+                    )}
+                    {categoriesData && (
+                      <select
+                        name="category"
+                        {...register("category")}
+                        defaultValue={productData.data?.category}
+                        className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
+                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary cursor-pointer"
+                        placeholder="Select Category"
+                      >
+                        <option
+                          className="py-2 bg-gray-700 cursor-pointer text-md"
+                          selected
+                        >
+                          -- Select Category --
+                        </option>
+                        {categoriesData?.data?.map((option) => {
+                          return (
+                            <option
+                              key={option.id}
+                              defaultValue={option.id}
+                              value={option.id}
+                              className="py-2 bg-gray-700 cursor-pointer text-md"
+                              selected={option.id === productData.category}
+                            >
+                              {option.name}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    )}
+                  </label>
+                  <p className="text-rose-400">{errors?.category?.message}</p>
+                </div>
+                <div className="relative mb-4">
+                  <label htmlFor="description">
+                    <div className="mb-2 font-semibold text-slate-300">
+                      Description
+                    </div>
+                    <textarea
+                      type="text"
+                      name="description"
+                      defaultValue={productData.data?.description}
+                      {...register("description")}
+                      rows="7"
+                      className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
+                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
+                      placeholder="Description"
+                    />
+                  </label>
+                  <p className="text-rose-400">
+                    {errors?.description?.message}
+                  </p>
                 </div>
               </div>
-              <div className="flex justify-center">
-                <button
-                  type="button"
-                  onClick={() => navigate("/dashboard/settings/products-list")}
-                  className="px-3.5 py-2 mr-2 rounded-lg border border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold"
-                >
-                  Discard Changes
-                </button>
-                <button
-                  type="submit"
-                  className="px-3.5 py-2 rounded-lg text-primary bg-gray-900 dark:bg-primary dark:text-white text-sm font-semibold"
-                >
-                  Save Changes
-                </button>
+              <div className="w-1/2 pl-4">
+                <div className="relative mb-4">
+                  <label htmlFor="imageUrl">
+                    <div className="mb-2 font-semibold text-slate-300">
+                      Image URL
+                    </div>
+                    <input
+                      type="text"
+                      name="imageUrl"
+                      defaultValue={productData.data?.imageUrl}
+                      {...register("imageUrl")}
+                      className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
+                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
+                      placeholder="Image URL"
+                    />
+                  </label>
+                  <p className="text-rose-400">{errors?.imageUrl?.message}</p>
+                </div>
+                <div className="mt-12">
+                  <div className="text-slate-300">
+                    <input
+                      type="radio"
+                      name="veg"
+                      value="true"
+                      defaultChecked={productData.data?.isVeg}
+                      {...register("isVeg")}
+                    />{" "}
+                    Veg
+                    <input
+                      type="radio"
+                      name="veg"
+                      value="false"
+                      defaultChecked={!productData.data?.isVeg}
+                      {...register("isVeg")}
+                      className="ml-5"
+                    />{" "}
+                    Non-Veg
+                  </div>
+                  <p className="text-rose-400">{errors?.isVeg?.message}</p>
+                </div>
+                <div className="mt-6 text-slate-300">
+                  <label htmlFor="spicy">
+                    <div className="font-semibold">Spicy</div>
+                    <input
+                      type="radio"
+                      name="spicy"
+                      value="low"
+                      defaultChecked={productData.data?.spicy === "low"}
+                      {...register("spicy")}
+                    />{" "}
+                    Low
+                    <input
+                      type="radio"
+                      name="spicy"
+                      value="medium"
+                      defaultChecked={productData.data?.spicy === "medium"}
+                      {...register("spicy")}
+                      className="ml-5"
+                    />{" "}
+                    Medium
+                    <input
+                      type="radio"
+                      name="spicy"
+                      value="high"
+                      defaultChecked={productData.data?.spicy === "high"}
+                      {...register("spicy")}
+                      className="ml-5"
+                    />{" "}
+                    High
+                  </label>
+                  <p className="text-rose-400"> {errors?.spicy?.message} </p>
+                </div>
+                <div className="mt-6 text-slate-300">
+                  <label htmlFor="isActive">
+                    <div className="font-semibold">Active</div>
+                    <input
+                      type="radio"
+                      name="isActive"
+                      value="true"
+                      defaultChecked={productData.data?.isActive}
+                      {...register("isActive")}
+                    />{" "}
+                    Yes
+                    <input
+                      type="radio"
+                      name="isActive"
+                      value="false"
+                      defaultChecked={!productData.data?.isActive}
+                      {...register("isActive")}
+                      className="ml-5"
+                    />{" "}
+                    No
+                  </label>
+                  <p className="text-rose-400">{errors?.isActive?.message}</p>
+                </div>
+                <div className="mt-6 text-slate-300">
+                  <label htmlFor="isAvailable">
+                    <div className="font-semibold">Available</div>
+                    <input
+                      type="radio"
+                      name="isAvailable"
+                      value="true"
+                      defaultChecked={productData.data?.isAvailable}
+                      {...register("isAvailable")}
+                    />{" "}
+                    Yes
+                    <input
+                      type="radio"
+                      name="isAvailable"
+                      value="false"
+                      defaultChecked={!productData.data?.isAvailable}
+                      {...register("isAvailable")}
+                      className="ml-5"
+                    />{" "}
+                    No
+                  </label>
+                  <p className="text-rose-400">
+                    {errors?.isAvailable?.message}
+                  </p>
+                </div>
               </div>
-            </form>
-          )}
-        </>
+            </div>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="px-3.5 py-3 mt-5 w-1/4 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#e66e59]"
+              >
+                Save Changes
+              </button>
+            </div>
+          </form>
+        )
       )}
     </div>
   );

@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL = "https://wow-menu-staging.herokuapp.com/api";
 
 const useAxios = ({ url = null, method = null, headers = null } = {}) => {
   const navigate = useNavigate();
@@ -44,7 +44,6 @@ const useAxios = ({ url = null, method = null, headers = null } = {}) => {
           navigate(navigationLink);
         }
       } catch (err) {
-        console.error(err.response.data.message);
         setError(err);
         toast.error(
           errorToastMessage || err.response.data.message || err.message,
