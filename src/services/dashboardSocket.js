@@ -1,4 +1,5 @@
 import io from "socket.io-client";
+import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { BASE_URL } from "./URL";
@@ -9,9 +10,42 @@ export default function DashboardSocket() {
   const [newOrder, setNewOrder] = useState(null);
 
   useEffect(() => {
-    socket.on(`${restaurantId}`, (order) => {
+    const listener = (order) => {
       setNewOrder(order);
-    });
-  }, [socket]);
+    };
+    socket.on(`${restaurantId}`, listener);
+
+    return () => socket.off(`${restaurantId}`, listener);
+  }, [`${restaurantId}`]);
+
+  useEffect(() => {
+    const listener = (obj) => {
+      toast.info(`Waiter is called at Table ${obj.tableNo}`, {
+        delay: 0,
+        autoClose: false,
+        theme: "colored",
+      });
+    };
+    socket.on(`${restaurantId}WaiterCalled`, listener);
+
+    return () => socket.off(`${restaurantId}WaiterCalled`, listener);
+  }, [`${restaurantId}WaiterCalled`]);
+
+  useEffect(() => {
+    const listener = (obj) => {
+      toast.info(
+        `Please receive payment from Customer at Table ${obj.tableNo}`,
+        {
+          delay: 0,
+          autoClose: false,
+          theme: "colored",
+        },
+      );
+    };
+    socket.on(`${restaurantId}ReceivePayment`, listener);
+
+    return () => socket.off(`${restaurantId}ReceivePayment`, listener);
+  }, [`${restaurantId}ReceivePayment`]);
+
   return { newOrder };
 }
