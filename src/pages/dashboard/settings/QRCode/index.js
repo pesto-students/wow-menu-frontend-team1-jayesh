@@ -1,14 +1,13 @@
+import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { jsPDF } from "jspdf";
 import { AiOutlineCloudDownload } from "react-icons/ai";
 import { QRCodeSVG } from "qrcode.react";
 
-export default function AccessManagement() {
-  // const restaurantId = useSelector((state) => state.restaurant.id);
-  // const tables = useSelector((state) => state.restaurant.details.tableNo);
-  const restaurantId = "62f125ea334c342911733c7e";
-  const tables = 7;
+export default function QRCode() {
+  const restaurantId = useSelector((state) => state.restaurant.details.id);
+  const tables = useSelector((state) => state.restaurant.details.totalTables);
   const urls = [];
   for (let i = 0; i < tables; i += 1) {
     urls.push(`${restaurantId}/${i + 1}`);

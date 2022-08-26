@@ -1,42 +1,36 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import ProductService from "../../../services/products";
 
 export default function useProductSearch(search, page, filter) {
-  // const restaurantId = useSelector((state) => state.restaurant.id);
-  const restaurantId = "62f125ea334c342911733c7e";
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const restaurantId = useSelector((state) => state.restaurant.id);
   const [products, setProducts] = useState([]);
   const [hasMore, setHasMore] = useState(false);
+  const { response, loading, error, getProducts } = ProductService();
 
   useEffect(() => {
     setProducts([]);
   }, [search, filter]);
+
   useEffect(() => {
-    setLoading(true);
-    setError(false);
-    let filterQuery;
-    if (filter === "veg") filterQuery = "&isVeg=true";
-    else if (filter === "nonveg") filterQuery = "&isVeg=false";
-    else filterQuery = "";
-    const searchQuery = search.length > 0 ? `&name=${search}` : "";
-    axios
-      .get(
-        `http://localhost:5000/api/menu-items?restaurant=${restaurantId}&limit=10&pageNo=${page}${searchQuery}${filterQuery}`,
-      )
-      .then((res) => {
-        setProducts((prevProducts) => {
-          return [...prevProducts, ...res.data.data];
-        });
-        setHasMore(res.data.data.length > 0);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-        setError(true);
-      });
+    const query = {};
+    if (filter === "veg") query.isVeg = true;
+    else if (filter === "nonveg") query.isVeg = false;
+    if (search.length > 0) query.name = search;
+    getProducts(restaurantId, page, query);
   }, [search, page, filter]);
+
+  useEffect(() => {
+    if (response) {
+      setProducts((prevProducts) => {
+        const updatedProducts = [...prevProducts, ...response.data];
+        return updatedProducts.filter(
+          (p1, i, a) => a.findIndex((p2) => p2.id === p1.id) === i,
+        );
+      });
+      setHasMore(response.data.length > 0);
+    }
+  }, [response]);
 
   return { loading, error, products, hasMore };
 }

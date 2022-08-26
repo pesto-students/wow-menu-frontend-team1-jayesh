@@ -1,16 +1,14 @@
 function UserListSkeleton() {
   return (
     <div className="flex flex-col w-auto px-4 pt-4 pb-12 bg-white rounded-lg shadow-md cursor-pointer h-max opacity-60 dark:bg-gray-800 gap-y-3">
-      <div className="animate-pulse mt-2 overflow-x-auto">
+      <div className="mt-2 overflow-x-auto animate-pulse">
         <table>
-          <thead>
-            <tr></tr>
-          </thead>
+          <thead>{/* <tr></tr> */}</thead>
           <tbody>
+            {/* <tr></tr>
             <tr></tr>
             <tr></tr>
-            <tr></tr>
-            <tr></tr>
+            <tr></tr> */}
           </tbody>
         </table>
         <div className="w-24 h-24 mx-auto rounded-full bg-slate-300 dark:bg-slate-700" />

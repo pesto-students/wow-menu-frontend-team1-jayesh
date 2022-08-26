@@ -2,7 +2,7 @@ import { useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import ListLoader from "../components/ListLoader";
 import noOrder from "../../../assets/images/noOrder.svg";
-import Card from "../../menu-ui/components/Card";
+import Card from "../../../shared/components/Card";
 
 const classes = {
   base: "relative grid w-full grid-cols-7 gap-2 px-3 py-5 text-lg rounded my-7 text-light-text1 dark:text-dark-text1 ",
@@ -35,20 +35,15 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
 
   return (
     <>
-      {loading && (
-        <>
-          <ListLoader />
-          <ListLoader />
-          <ListLoader />
-        </>
+      {orders.length > 0 && (
+        <div className="grid grid-cols-7 gap-2 my-3 text-xl font-semibold text-light-text1 dark:text-dark-text1">
+          <p className="col-span-2">Order Id</p>
+          <p className="text-center">Ordered At</p>
+          <p className="text-center">Table No.</p>
+          <p className="col-span-2">Managed By</p>
+          <p className="text-center">Status</p>
+        </div>
       )}
-      <div className="grid grid-cols-7 gap-2 my-3 text-xl font-semibold text-light-text1 dark:text-dark-text1">
-        <p className="col-span-2">Order Id</p>
-        <p className="text-center">Ordered At</p>
-        <p className="text-center">Table No.</p>
-        <p className="col-span-2">Managed By</p>
-        <p className="text-center">Status</p>
-      </div>
       {orders.length > 0 &&
         orders
           .sort(
@@ -87,7 +82,14 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
                     {new Date(order.createdAt).toLocaleTimeString()}
                   </p>
                   <p className="text-center">{order.tableNo}</p>
-                  <p className="col-span-2 text-start">Admin</p>
+
+                  {order.acceptedBy ? (
+                    <p className="col-span-2 text-start">
+                      {order.acceptedBy.firstname}
+                    </p>
+                  ) : (
+                    <p className="col-span-2 text-start"> </p>
+                  )}
                   <p
                     className={`text-center font-semibold ${
                       classes.text[order.status]
@@ -99,7 +101,13 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
               </motion.div>
             );
           })}
-      {orders.length === 0 && (
+      {loading && (
+        <>
+          <ListLoader />
+          <ListLoader />
+        </>
+      )}
+      {!loading && orders.length === 0 && (
         <Card className="my-3 bg-light-base2 dark:bg-dark-base2 text-light-text1 dark:text-dark-text2">
           <img className="w-48 mx-auto" src={noOrder} alt="No Order" />
           <h3 className="mt-3 text-lg font-medium text-center">

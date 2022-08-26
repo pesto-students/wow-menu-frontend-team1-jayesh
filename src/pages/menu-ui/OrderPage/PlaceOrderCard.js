@@ -1,30 +1,28 @@
 import Swal from "sweetalert2";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BiRupee } from "react-icons/bi";
 import { BsArrowRight } from "react-icons/bs";
-import Card from "../components/Card";
-import Button from "../components/Button";
-import useLocalStorage from "../../../shared/hooks/useLocalStorage";
+import Card from "../../../shared/components/Card";
+import Button from "../../../shared/components/Button";
 import { resetCart } from "../../../store/reducers/cartReducer";
-import useUpdateEffect from "../../../shared/hooks/useUpdateEffect";
-import {
-  placeNewOrder,
-  placeOrderAgain,
-} from "../../../store/reducers/orderReducer";
+import { setOrder } from "../../../store/reducers/orderReducer";
+import OrderService from "../../../services/orders";
 
-// style for different props
 const classes = {
   base: "absolute inset-x-0 bottom-0 pt-10 pb-20 shadow-lg bg-light-base3 dark:bg-dark-base3",
   amt: "text-light-text1 dark:text-dark-text1 text-lg",
 };
 
 function PlaceOrderCard({ className }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cart = useSelector((state) => state.cart);
   const order = useSelector((state) => state.order);
-  // eslint-disable-next-line
-  const [storedCart, setStoredCart] = useLocalStorage("cart", cart);
+  const { response, loading, error, placeNewOrder, placeOrderAgain } =
+    OrderService();
 
   const subtotal = cart.items.reduce(
     (sum, curr) => sum + curr.quantity * curr.price,
@@ -39,9 +37,6 @@ function PlaceOrderCard({ className }) {
       subtotal) /
     100;
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   const handleOrderPlacement = () => {
     const payload = {
       items: cart.items.map(({ id, quantity }) => {
@@ -50,22 +45,14 @@ function PlaceOrderCard({ className }) {
       instruction: cart.instruction || "",
     };
 
-    if (order.id) dispatch(placeOrderAgain(payload));
-    else dispatch(placeNewOrder(payload));
+    if (order.id) placeOrderAgain(order.id, payload);
+    else placeNewOrder(payload);
   };
 
-  useUpdateEffect(() => {
-    if (order.loading) {
-      Swal.fire({
-        title: "Placing Order",
-        width: 300,
-        timer: 1000,
-        showConfirmButton: false,
-        timerProgressBar: true,
-      });
-    } else if (!order.error) {
+  useEffect(() => {
+    if (response) {
+      dispatch(setOrder(response.data));
       dispatch(resetCart());
-      setStoredCart([]);
       navigate("/home");
       Swal.fire({
         title: "Sweet!!",
@@ -80,14 +67,33 @@ function PlaceOrderCard({ className }) {
         no-repeat
       `,
       });
-    } else {
+    }
+  }, [response]);
+
+  useEffect(() => {
+    if (loading) {
+      Swal.fire({
+        title: "Placing Order",
+        width: 300,
+        timer: 1000,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+    }
+  }, [loading]);
+
+  useEffect(() => {
+    if (error) {
       Swal.fire(
         "Are you online?",
         "Couldn't place Order. Please check your Internet Connection?",
         "question",
       );
     }
-  }, [order]);
+  }, [error]);
 
   return (
     <motion.div
@@ -101,39 +107,37 @@ function PlaceOrderCard({ className }) {
       ${className}
   `}
       >
-        <div>
-          <div className="flex justify-between">
-            <p className={`${classes.amt}`}>Subtotal</p>
-            <div className="flex items-center">
-              <BiRupee className={`${classes.amt}`} />
-              <p className={`${classes.amt}`}>
-                {parseFloat(subtotal).toFixed(2)}
-              </p>
-            </div>
+        <div className="flex justify-between">
+          <p className={`${classes.amt}`}>Subtotal</p>
+          <div className="flex items-center">
+            <BiRupee className={`${classes.amt}`} />
+            <p className={`${classes.amt}`}>
+              {parseFloat(subtotal).toFixed(2)}
+            </p>
           </div>
-          <div className="flex justify-between">
-            <p className={`${classes.amt}`}>CGST</p>
-            <div className="flex items-center">
-              <BiRupee className={`${classes.amt}`} />
-              <p className={`${classes.amt}`}>{parseFloat(cgst).toFixed(2)}</p>
-            </div>
+        </div>
+        <div className="flex justify-between">
+          <p className={`${classes.amt}`}>CGST</p>
+          <div className="flex items-center">
+            <BiRupee className={`${classes.amt}`} />
+            <p className={`${classes.amt}`}>{parseFloat(cgst).toFixed(2)}</p>
           </div>
-          <div className="flex justify-between">
-            <p className={`${classes.amt}`}>SGST</p>
-            <div className="flex items-center">
-              <BiRupee className={`${classes.amt}`} />
-              <p className={`${classes.amt}`}>{parseFloat(sgst).toFixed(2)}</p>
-            </div>
+        </div>
+        <div className="flex justify-between">
+          <p className={`${classes.amt}`}>SGST</p>
+          <div className="flex items-center">
+            <BiRupee className={`${classes.amt}`} />
+            <p className={`${classes.amt}`}>{parseFloat(sgst).toFixed(2)}</p>
           </div>
-          <hr className="my-2" />
-          <div className="flex justify-between mb-2">
-            <p className={`${classes.amt}`}>Total</p>
-            <div className="flex items-center">
-              <BiRupee className={`${classes.amt}`} />
-              <p className={`${classes.amt}`}>
-                {parseFloat(subtotal + cgst + sgst).toFixed(2)}
-              </p>
-            </div>
+        </div>
+        <hr className="my-2" />
+        <div className="flex justify-between mb-2">
+          <p className={`${classes.amt}`}>Total</p>
+          <div className="flex items-center">
+            <BiRupee className={`${classes.amt}`} />
+            <p className={`${classes.amt}`}>
+              {parseFloat(subtotal + cgst + sgst).toFixed(2)}
+            </p>
           </div>
         </div>
         <Button size="block" align="spaced" onClick={handleOrderPlacement}>

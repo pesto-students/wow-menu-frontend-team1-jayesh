@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { BiRupee, BiFoodTag } from "react-icons/bi";
-import Card from "../components/Card";
+import Card from "../../../../shared/components/Card";
 
 const classes = {
   bg: "bg-light-base2 dark:bg-dark-base2",
@@ -8,7 +8,7 @@ const classes = {
   subtitle: "text-light-text1 dark:text-dark-text1",
 };
 
-function OrderCard({ className, items = [] }) {
+function PreviousOrderCard({ className, items = [] }) {
   return (
     <motion.div
       initial={{ x: 30, opacity: 0 }}
@@ -73,4 +73,4 @@ function OrderCard({ className, items = [] }) {
   );
 }
 
-export default OrderCard;
+export default PreviousOrderCard;

@@ -17,7 +17,7 @@ const classes = {
   buttonBase: "flex items-center justify-center p-2 grow",
 };
 
-function QuantityButton({
+function QtyButton({
   quantity,
   id,
   onInc,
@@ -57,4 +57,4 @@ function QuantityButton({
   );
 }
 
-export default QuantityButton;
+export default QtyButton;

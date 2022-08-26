@@ -1,11 +1,13 @@
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
-import Card from "../../menu-ui/components/Card";
-import IconButton from "../../menu-ui/components/IconButton";
-import useAxios from "../../../shared/hooks/useAxios";
+import Card from "../../../shared/components/Card";
+import IconButton from "../../../shared/components/IconButton";
+import OrderService from "../../../services/orders";
 
 function IterationDetail({ iteration, orderId, updateOrder }) {
-  const { response, callApi } = useAxios();
+  const userId = useSelector((state) => state.auth.user.userDetails.id);
+  const { response, changeIterationsStatus } = OrderService();
 
   useEffect(() => {
     if (response) {
@@ -14,12 +16,7 @@ function IterationDetail({ iteration, orderId, updateOrder }) {
   }, [response]);
 
   const changeStatus = (iterationId, status) => {
-    callApi({
-      apiUrl: `/orders/${orderId}/iteration/${iterationId}`,
-      apiMethod: "patch",
-      apiBody: { status },
-      errorToastMessage: "Something went wrong, Please try again!",
-    });
+    changeIterationsStatus(orderId, iterationId, status, userId);
   };
   return (
     <motion.div

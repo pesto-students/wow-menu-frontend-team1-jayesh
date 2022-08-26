@@ -1,52 +1,25 @@
-import axios from "axios";
+const SET_BILL = "SET_BILL";
+const RESET_BILL = "RESET_BILL";
 
-const BILL_REQUESTED = "BILL_REQUESTED";
-const BILL_REQUEST_SUCCESS = "BILL_REQUEST_SUCCESS";
-const BILL_REQUEST_FAILURE = "BILL_REQUEST_FAILURE";
-
-const billRequest = () => ({
-  type: "BILL_REQUESTED",
-});
-const billSuccess = (payload) => ({
-  type: "BILL_REQUEST_SUCCESS",
+export const setBill = (payload) => ({
+  type: "SET_BILL",
   payload, // bill data
 });
-const billFailure = (payload) => ({
-  type: "BILL_REQUEST_FAILURE",
-  payload, // error message
+export const resetBill = () => ({
+  type: "RESET_BILL",
 });
-
-export const getBill = () => {
-  return function (dispatch, getState) {
-    const payload = { orderId: getState().order.id };
-    dispatch(billRequest());
-    axios
-      .post("http://localhost:5000/api/bills", payload)
-      .then((res) => {
-        dispatch(billSuccess(res.data.data));
-      })
-      .catch((error) => {
-        dispatch(billFailure(error.message));
-      });
-  };
-};
 
 const initialState = {
   details: "",
-  loading: null,
-  error: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case BILL_REQUESTED: {
-      return { ...state, loading: true, error: null };
+    case SET_BILL: {
+      return { ...state, details: action.payload };
     }
-    case BILL_REQUEST_SUCCESS: {
-      return { ...state, loading: false, details: action.payload, error: null };
-    }
-    case BILL_REQUEST_FAILURE: {
-      return { ...state, loading: false, details: null, error: action.payload };
+    case RESET_BILL: {
+      return initialState;
     }
     default:
       return state;

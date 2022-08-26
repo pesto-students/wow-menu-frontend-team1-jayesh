@@ -1,5 +1,5 @@
 import { AiOutlineSearch } from "react-icons/ai";
-import IconButton from "../../components/IconButton";
+import IconButton from "../../../../../shared/components/IconButton";
 
 function SearchButton({ className }) {
   return (

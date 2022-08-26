@@ -1,29 +1,28 @@
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { BsArrowLeft } from "react-icons/bs";
-import Button from "../../menu-ui/components/Button";
+import Button from "../../../shared/components/Button";
 import IterationDetail from "./IterationDetail";
-import useAxios from "../../../shared/hooks/useAxios";
+import OrderService from "../../../services/orders";
 
 function OrderDetail({ order, onClose, updateOrder }) {
-  const { response, callApi } = useAxios();
+  const userId = useSelector((state) => state.auth.user.userDetails.id);
+  const { response, acceptAllIterations } = OrderService();
   useEffect(() => {
     if (response) {
       updateOrder(response.data);
     }
   }, [response]);
+
   const acceptAll = () => {
-    callApi({
-      apiUrl: `/orders/${order.id}/accept`,
-      apiMethod: "patch",
-      errorToastMessage: "Something went wrong, Please try again!",
-    });
+    acceptAllIterations(order.id, userId);
   };
   const pending = order.iterations.filter(
     (iteration) => iteration.status === "Pending",
   );
   return (
-    <aside className="h-screen p-6 overflow-y-scroll w-96 bg-light-base2 dark:bg-dark-base2">
+    <aside className="h-screen p-6 overflow-x-hidden overflow-y-auto w-96 bg-light-base2 dark:bg-dark-base2">
       <BsArrowLeft
         className="text-2xl text-light-text1 dark:text-dark-text1"
         onClick={onClose}

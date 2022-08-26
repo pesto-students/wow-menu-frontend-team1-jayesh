@@ -1,23 +1,19 @@
 import { useEffect } from "react";
-import Button from "../../menu-ui/components/Button";
+import Button from "../../../shared/components/Button";
 import IterationDetail from "./IterationDetail";
-import useAxios from "../../../shared/hooks/useAxios";
+import OrderService from "../../../services/orders";
 
 const statuses = ["Pending", "Preparing", "Completed", "Rejected"];
 
 function OrderDetail({ order, updateOrder }) {
-  const { response, callApi } = useAxios();
+  const { response, completeAllIterations } = OrderService();
   useEffect(() => {
     if (response) {
       updateOrder(response.data);
     }
   }, [response]);
   const completeAll = () => {
-    callApi({
-      apiUrl: `/orders/${order.id}/complete`,
-      apiMethod: "patch",
-      errorToastMessage: "Something went wrong, Please try again!",
-    });
+    completeAllIterations(order.id);
   };
   const isPreparing = order.iterations.filter(
     (iteration) => iteration.status === "Preparing",
@@ -27,7 +23,7 @@ function OrderDetail({ order, updateOrder }) {
       <h1 className="flex-none text-2xl font-semibold leading-loose text-light-text2 dark:text-dark-text2">
         Order #{order.id.substring(18).toUpperCase()}
       </h1>
-      <div className="pb-20 overflow-y-auto grow">
+      <div className="pb-20 overflow-x-hidden overflow-y-auto grow">
         {order.iterations
           .sort(
             (itr1, itr2) =>

@@ -1,30 +1,24 @@
-import io from "socket.io-client";
 import { useState, useEffect } from "react";
-import useAxios from "../../../shared/hooks/useAxios";
-import useUpdateEffect from "../../../shared/hooks/useUpdateEffect";
+import OrderService from "../../../services/orders";
+import DashboardSocket from "../../../services/dashboardSocket";
 
-const socket = io.connect("https://wow-menu-staging.herokuapp.com/");
-export default function useProductSearch(page = 1, filterBy = "") {
-  // const restaurantId = useSelector((state) => state.restaurant.id);
-  const restaurantId = "62f125ea334c342911733c7e";
-  const { response, loading, error, callApi } = useAxios();
+export default function useLoadOrders(page = 1, filterBy = "") {
+  const { response, loading, error, getOrders } = OrderService();
+  const { newOrder } = DashboardSocket();
   const [orders, setOrders] = useState([]);
   const [hasMore, setHasMore] = useState(false);
-  const filterByStatus = filterBy === "" ? "" : `&status=${filterBy}`;
 
   useEffect(() => {
     setOrders([]);
   }, [filterBy]);
 
   useEffect(() => {
-    callApi({
-      apiUrl: `https://wow-menu-staging.herokuapp.com/api/orders?restaurant=${restaurantId}&limit=10&page=${page}${filterByStatus}`,
-      apiMethod: "get",
-      errorToastMessage: "Something went wrong, Please try again!",
-    });
+    const filterQuery = {};
+    if (filterBy !== "") filterQuery.status = filterBy;
+    getOrders(page, filterQuery);
   }, [page, filterBy]);
 
-  useUpdateEffect(() => {
+  useEffect(() => {
     if (response) {
       const filteredData = response.data.filter(
         (order) => order.status !== "Pending",
@@ -40,22 +34,20 @@ export default function useProductSearch(page = 1, filterBy = "") {
   }, [response]);
 
   useEffect(() => {
-    socket.on(`${restaurantId}`, (newOrder) => {
-      if (newOrder.status !== "Pending") {
-        setOrders((prevOrders) => {
-          let updatedOrder;
-          const id = prevOrders.findIndex((order) => order.id === newOrder.id);
-          if (id >= 0)
-            updatedOrder = [
-              newOrder,
-              ...prevOrders.filter((order) => order.id !== newOrder.id),
-            ];
-          else updatedOrder = [newOrder, ...prevOrders];
-          return updatedOrder;
-        });
-      }
-    });
-  }, [socket]);
+    if (newOrder && newOrder.status !== "Pending") {
+      setOrders((prevOrders) => {
+        let updatedOrder;
+        const id = prevOrders.findIndex((order) => order.id === newOrder.id);
+        if (id >= 0)
+          updatedOrder = [
+            newOrder,
+            ...prevOrders.filter((order) => order.id !== newOrder.id),
+          ];
+        else updatedOrder = [newOrder, ...prevOrders];
+        return updatedOrder;
+      });
+    }
+  }, [newOrder]);
 
   return { loading, error, orders, hasMore };
 }

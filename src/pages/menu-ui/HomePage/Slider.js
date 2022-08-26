@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { motion } from "framer-motion";
+import ButtonLoader from "../components/ButtonLoader";
 import TextButton from "../components/TextButton";
 import { selectCategory } from "../../../store/reducers/productReducer";
 
@@ -15,24 +15,9 @@ function Slider() {
       <div className="flex whitespace-nowrap snap-x">
         {categories.length === 0 && (
           <div className="flex my-3 space-x-4 animate-pulse">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.5 }}
-              className="w-20 h-6 rounded-full bg-slate-300 dark:bg-slate-700"
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.5 }}
-              className="w-20 h-6 rounded-full bg-slate-300 dark:bg-slate-700"
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.5 }}
-              className="w-20 h-6 rounded-full bg-slate-300 dark:bg-slate-700"
-            />
+            <ButtonLoader />
+            <ButtonLoader />
+            <ButtonLoader />
           </div>
         )}
         {categories.map((category) => (
