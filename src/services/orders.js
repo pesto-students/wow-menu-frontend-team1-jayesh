@@ -39,10 +39,11 @@ export default function OrderService() {
     });
   };
 
-  const acceptAllIterations = (orderId) => {
+  const acceptAllIterations = (orderId, userId) => {
     callApi({
       apiUrl: `${ORDERS}/${orderId}/accept`,
       apiMethod: "patch",
+      apiBody: { acceptedBy: userId },
       errorToastMessage: error.message,
     });
   };
@@ -55,11 +56,14 @@ export default function OrderService() {
     });
   };
 
-  const changeIterationsStatus = (orderId, iterationId, status) => {
+  const changeIterationsStatus = (orderId, iterationId, status, userId) => {
+    const payload = {};
+    payload.status = status;
+    if (status !== "Completed") payload.acceptedBy = userId;
     callApi({
       apiUrl: `${ORDERS}/${orderId}/iteration/${iterationId}`,
       apiMethod: "patch",
-      apiBody: { status },
+      apiBody: payload,
       errorToastMessage: error.message,
     });
   };

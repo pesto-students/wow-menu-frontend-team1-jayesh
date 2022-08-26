@@ -16,7 +16,6 @@ export default function useLoadOrders(page = 1, filterBy = "") {
     const filterQuery = {};
     if (filterBy !== "") filterQuery.status = filterBy;
     getOrders(page, filterQuery);
-
   }, [page, filterBy]);
 
   useEffect(() => {

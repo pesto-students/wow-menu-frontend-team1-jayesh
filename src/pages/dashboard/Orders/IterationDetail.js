@@ -1,10 +1,12 @@
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import Card from "../../../shared/components/Card";
 import IconButton from "../../../shared/components/IconButton";
 import OrderService from "../../../services/orders";
 
 function IterationDetail({ iteration, orderId, updateOrder }) {
+  const userId = useSelector((state) => state.auth.user.userDetails.id);
   const { response, changeIterationsStatus } = OrderService();
 
   useEffect(() => {
@@ -14,7 +16,7 @@ function IterationDetail({ iteration, orderId, updateOrder }) {
   }, [response]);
 
   const changeStatus = (iterationId, status) => {
-    changeIterationsStatus(orderId, iterationId, status);
+    changeIterationsStatus(orderId, iterationId, status, userId);
   };
   return (
     <motion.div

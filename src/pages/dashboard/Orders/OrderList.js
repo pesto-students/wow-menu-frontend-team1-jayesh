@@ -82,7 +82,14 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
                     {new Date(order.createdAt).toLocaleTimeString()}
                   </p>
                   <p className="text-center">{order.tableNo}</p>
-                  <p className="col-span-2 text-start">Admin</p>
+
+                  {order.acceptedBy ? (
+                    <p className="col-span-2 text-start">
+                      {order.acceptedBy.firstname}
+                    </p>
+                  ) : (
+                    <p className="col-span-2 text-start"> </p>
+                  )}
                   <p
                     className={`text-center font-semibold ${
                       classes.text[order.status]

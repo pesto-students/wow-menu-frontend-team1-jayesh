@@ -42,7 +42,6 @@ export default function Kitchen() {
     <div className="w-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">
       <div className="flex h-screen ml-28">
         <main className="relative flex flex-col h-full mr-4 overflow-x-hidden grow">
-
           <Header name="Kitchen" />
           <div className="absolute top-4 right-4">
             <Filter

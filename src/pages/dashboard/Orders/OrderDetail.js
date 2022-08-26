@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { BsArrowLeft } from "react-icons/bs";
 import Button from "../../../shared/components/Button";
@@ -6,6 +7,7 @@ import IterationDetail from "./IterationDetail";
 import OrderService from "../../../services/orders";
 
 function OrderDetail({ order, onClose, updateOrder }) {
+  const userId = useSelector((state) => state.auth.user.userDetails.id);
   const { response, acceptAllIterations } = OrderService();
   useEffect(() => {
     if (response) {
@@ -14,7 +16,7 @@ function OrderDetail({ order, onClose, updateOrder }) {
   }, [response]);
 
   const acceptAll = () => {
-    acceptAllIterations(order.id);
+    acceptAllIterations(order.id, userId);
   };
   const pending = order.iterations.filter(
     (iteration) => iteration.status === "Pending",
