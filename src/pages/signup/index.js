@@ -31,7 +31,7 @@ function Signup() {
   });
 
   const submitForm = (data) => {
-    const apiBody = { ...data, role: "owner", restaurant: "12345" };
+    const apiBody = { ...data, role: "owner" };
     callApi({
       apiMethod: "post",
       apiUrl: "/signup",

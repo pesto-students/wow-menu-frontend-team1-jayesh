@@ -7,7 +7,6 @@ import useDarkMode from "../../../shared/hooks/useDarkMode";
 
 export default function UserAndTheme() {
   const user = useSelector((state) => state.auth.user);
-  console.warn(user);
   const [darkMode, setDarkMode] = useDarkMode();
   const [theme, setTheme] = useState(darkMode ? "dark" : "light");
   const toggleTheme = () => {

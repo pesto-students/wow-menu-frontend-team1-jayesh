@@ -33,7 +33,7 @@ function DashboardSettings() {
       id: 4,
       icon: <TbDiscount2 />,
       title: "Products Management",
-      subtitle: "Manage your product, pricing etc",
+      subtitle: "Manage your products, pricing etc",
       link: "products-list",
     },
     {
@@ -46,9 +46,9 @@ function DashboardSettings() {
     {
       id: 6,
       icon: <BsInfoCircle />,
-      title: "About Us",
-      subtitle: "Find out more about WOW Menu",
-      link: "access-management",
+      title: "Restaurant Details",
+      subtitle: "Manage your restaurant details",
+      link: "restaurant",
     },
   ];
   return (
