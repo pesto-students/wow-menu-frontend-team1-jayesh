@@ -30,7 +30,6 @@ export default function OrderService() {
       apiMethod: "get",
       apiUrl: `${ORDERS}`,
       params: {
-        restaurant: restaurantId,
         limit: 10,
         page: pageNo,
         ...query,
@@ -39,11 +38,10 @@ export default function OrderService() {
     });
   };
 
-  const acceptAllIterations = (orderId, userId) => {
+  const acceptAllIterations = (orderId) => {
     callApi({
       apiUrl: `${ORDERS}/${orderId}/accept`,
       apiMethod: "patch",
-      apiBody: { acceptedBy: userId },
       errorToastMessage: error.message,
     });
   };
@@ -56,14 +54,11 @@ export default function OrderService() {
     });
   };
 
-  const changeIterationsStatus = (orderId, iterationId, status, userId) => {
-    const payload = {};
-    payload.status = status;
-    if (status !== "Completed") payload.acceptedBy = userId;
+  const changeIterationsStatus = (orderId, iterationId, status) => {
     callApi({
       apiUrl: `${ORDERS}/${orderId}/iteration/${iterationId}`,
       apiMethod: "patch",
-      apiBody: payload,
+      apiBody: { status },
       errorToastMessage: error.message,
     });
   };

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { jsPDF } from "jspdf";
 import { AiOutlineCloudDownload } from "react-icons/ai";
 import { QRCodeSVG } from "qrcode.react";
+import BackButton from "../../../../shared/components/BackButton";
 
 export default function QRCode() {
   const restaurantId = useSelector((state) => state.restaurant.details.id);
@@ -36,9 +37,12 @@ export default function QRCode() {
       className="w-screen h-screen p-4 overflow-x-hidden pl-28"
     >
       <header>
-        <h1 className="text-3xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
-          QR Code
-        </h1>
+        <div className="flex items-center">
+          <BackButton href="/dashboard/settings" />
+          <h1 className="ml-2 text-3xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
+            QR Code
+          </h1>
+        </div>
       </header>
       <nav className="w-full text-light-text1 dark:text-dark-text1">
         <ol className="flex">
