@@ -1,36 +1,36 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { BsArrowLeft } from "react-icons/bs";
-import Button from "../../menu-ui/components/Button";
+import Button from "../../../shared/components/Button";
 import IterationDetail from "./IterationDetail";
-import useAxios from "../../../shared/hooks/useAxios";
+import OrderService from "../../../services/orders";
+
+const statuses = ["Pending", "Preparing", "Completed", "Rejected"];
 
 function OrderDetail({ order, onClose, updateOrder }) {
-  const { response, callApi } = useAxios();
+  const { response, acceptAllIterations } = OrderService();
+
   useEffect(() => {
     if (response) {
       updateOrder(response.data);
     }
   }, [response]);
+
   const acceptAll = () => {
-    callApi({
-      apiUrl: `/orders/${order.id}/accept`,
-      apiMethod: "patch",
-      errorToastMessage: "Something went wrong, Please try again!",
-    });
+    acceptAllIterations(order.id);
   };
   const pending = order.iterations.filter(
     (iteration) => iteration.status === "Pending",
   );
   return (
-    <aside className="h-screen p-6 overflow-y-scroll w-96 bg-light-base2 dark:bg-dark-base2">
+    <aside className="absolute h-screen p-2 overflow-x-hidden overflow-y-auto md:p-6 md:relative w-50 md:w-96 bg-light-base2 dark:bg-dark-base2">
       <BsArrowLeft
         className="text-2xl text-light-text1 dark:text-dark-text1"
         onClick={onClose}
       />
       <div className="flex justify-between">
         <div>
-          <h1 className="text-3xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
+          <h1 className="text-xl font-semibold leading-loose md:text-3xl text-light-text1 dark:text-dark-text1">
             Order Details
           </h1>
           <h1 className="mb-2 text-lg text-light-text2 dark:text-dark-text2">
@@ -52,17 +52,22 @@ function OrderDetail({ order, onClose, updateOrder }) {
       </div>
       <hr className="mt-3 border-gray-700 dark:border-gray-500" />
       <div>
-        {order.iterations.map((iteration) => {
-          return (
-            <div key={iteration.id}>
-              <IterationDetail
-                iteration={iteration}
-                orderId={order.id}
-                updateOrder={updateOrder}
-              />
-            </div>
-          );
-        })}
+        {order.iterations
+          .sort(
+            (itr1, itr2) =>
+              statuses.indexOf(itr1.status) - statuses.indexOf(itr2.status),
+          )
+          .map((iteration) => {
+            return (
+              <div key={iteration.id}>
+                <IterationDetail
+                  iteration={iteration}
+                  orderId={order.id}
+                  updateOrder={updateOrder}
+                />
+              </div>
+            );
+          })}
       </div>
     </aside>
   );

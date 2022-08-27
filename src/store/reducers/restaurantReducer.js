@@ -1,6 +1,6 @@
 const SET_DETAILS = "SET_DETAILS";
 const SET_ID = "SET_ID";
-const SET_TABLE = "RESET_TABLE";
+const SET_TABLE = "SET_TABLE";
 
 export const setRestaurant = (payload) => ({
   type: "SET_DETAILS",

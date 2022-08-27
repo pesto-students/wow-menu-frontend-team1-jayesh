@@ -2,22 +2,23 @@ import { useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import ListLoader from "../components/ListLoader";
 import noOrder from "../../../assets/images/noOrder.svg";
-import Card from "../../menu-ui/components/Card";
+import Card from "../../../shared/components/Card";
 
 const classes = {
-  base: "relative grid w-full grid-cols-3 gap-2 px-3 py-5 text-lg my-7 text-light-text1 dark:text-dark-text1",
+  base: "relative grid w-full grid-cols-2 md:grid-cols-3 gap-2 px-3 py-5 text-lg my-7 text-light-text1 dark:text-dark-text1",
   bg: {
     Pending: "bg-accent-orange/30",
-    Incomplete: "bg-gray-500/30",
+    "In progress": "bg-gray-500/30",
     Complete: "bg-accent-green/30",
   },
   text: {
     Pending: "text-accent-orange",
-    Incomplete: "text-light-text1 dark:text-dark-text1",
+    "In progress": "text-light-text1 dark:text-dark-text1",
     Complete: "text-accent-green",
   },
 };
-const statuses = ["Incomplete", "Complete"];
+const statuses = ["In progress", "Complete"];
+
 function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
   const observer = useRef();
   const loadMoreElementRef = useCallback(
@@ -32,18 +33,13 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
     [loading, hasMore],
   );
   return (
-    <aside className="h-screen p-6 overflow-y-scroll w-96 bg-light-base2 dark:bg-dark-base2">
-      {loading && (
-        <>
-          <ListLoader />
-          <ListLoader />
-          <ListLoader />
-        </>
-      )}
+    <aside className="w-64 h-screen p-2 overflow-x-hidden overflow-y-auto md:p-6 md:w-96 bg-light-base2 dark:bg-dark-base2">
       {orders.length > 0 && (
-        <div className="grid grid-cols-3 gap-2 my-3 text-xl font-semibold text-light-text1 dark:text-dark-text1">
-          <p className="text-start">Order Id</p>
-          <p className="text-center">Table No.</p>
+        <div className="grid grid-cols-2 gap-2 my-3 text-xl font-semibold md:grid-cols-3 text-light-text1 dark:text-dark-text1">
+          <p className="hidden md:block">Order Id</p>
+          <p className="flex justify-center">
+            Table <span className="hidden ml-1 md:block">No.</span>
+          </p>
           <p className="text-end">Status</p>
         </div>
       )}
@@ -72,7 +68,7 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
                   }}
                   className={`${classes.base}`}
                 >
-                  <p className="text-start">
+                  <p className="hidden text-start md:block">
                     #{order.id.substring(18).toUpperCase()}
                   </p>
                   <p className="text-center">{order.tableNo}</p>
@@ -87,7 +83,14 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
               </motion.div>
             );
           })}
-      {orders.length === 0 && (
+      {loading && (
+        <>
+          <ListLoader />
+          <ListLoader />
+          <ListLoader />
+        </>
+      )}
+      {!loading && orders.length === 0 && (
         <Card className="my-3 bg-light-base2 dark:bg-dark-base2 text-light-text1 dark:text-dark-text2">
           <img className="w-48 mx-auto" src={noOrder} alt="No Order" />
           <h3 className="mt-3 text-lg font-medium text-center">

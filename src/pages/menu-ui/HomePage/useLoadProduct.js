@@ -1,38 +1,34 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useSelector } from "react-redux";
-import useUpdateEffect from "../../../shared/hooks/useUpdateEffect";
+import ProductService from "../../../services/products";
 
-export default function useProductSearch(page, category) {
+export default function useLoadProduct(page = 1, category) {
   const restaurantId = useSelector((state) => state.restaurant.id);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const [products, setProducts] = useState([]);
   const [hasMore, setHasMore] = useState(false);
+  const { response, loading, error, getProducts } = ProductService();
 
   useEffect(() => {
     setProducts([]);
   }, [category]);
 
-  useUpdateEffect(() => {
-    setLoading(true);
-    setError(false);
-    axios
-      .get(
-        `https://wow-menu-staging.herokuapp.com/api/menu-items?restaurant=${restaurantId}&isActive=true&limit=10&pageNo=${page}&category=${category.id}`,
-      )
-      .then((res) => {
-        setProducts((prevProducts) => {
-          return [...prevProducts, ...res.data.data];
-        });
-        setHasMore(res.data.data.length > 0);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-        setError(true);
-      });
+  useEffect(() => {
+    getProducts(restaurantId, page, {
+      category: category.id,
+    });
   }, [page, category]);
+
+  useEffect(() => {
+    if (response) {
+      setProducts((prevProducts) => {
+        const updatedProducts = [...prevProducts, ...response.data];
+        return updatedProducts.filter(
+          (p1, i, a) => a.findIndex((p2) => p2.id === p1.id) === i,
+        );
+      });
+      setHasMore(response.data.length > 0);
+    }
+  }, [response]);
 
   return { loading, error, products, hasMore };
 }

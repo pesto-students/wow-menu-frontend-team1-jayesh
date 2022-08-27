@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../services/URL";
 
-axios.defaults.baseURL = "https://wow-menu-staging.herokuapp.com/api";
+axios.defaults.baseURL = `${BASE_URL}api/`;
 
 const useAxios = ({ url = null, method = null, headers = null } = {}) => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const useAxios = ({ url = null, method = null, headers = null } = {}) => {
       params,
       data: apiBody,
       headers,
+      withCredentials: true,
     };
 
     if (config.url) {

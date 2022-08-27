@@ -26,7 +26,7 @@ export default function AddCategory() {
       apiMethod: "post",
       apiUrl: "/categories",
       params: {},
-      apiBody: { ...data, restaurant: "12345" },
+      apiBody: { ...data },
       successToastMessage: "Category was added successfully!",
       navigationLink: "/dashboard/settings/categories-list",
     });

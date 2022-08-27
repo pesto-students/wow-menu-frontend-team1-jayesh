@@ -69,7 +69,7 @@ function DashboardSettings() {
         <div className="flex flex-col content-start w-full py-4 mr-4 bg-white rounded-lg h-max dark:bg-gray-900 gap-y-6">
           {settingsOptions.map((element) => {
             return (
-              <Link to={`/dashboard/settings/${element.link}`}>
+              <Link key={element.id} to={`/dashboard/settings/${element.link}`}>
                 <div
                   key={element.id}
                   className="flex w-full px-6 py-2 cursor-pointer hover:bg-[#ea7c6970]"

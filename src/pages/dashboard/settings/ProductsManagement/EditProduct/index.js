@@ -77,7 +77,7 @@ export default function EditProduct() {
     callApi({
       apiMethod: "patch",
       apiUrl: `/menu-items/${id}`,
-      params: { restaurant: 12345 },
+      params: {},
       apiBody: data,
       successToastMessage: "Product details were saved successfully!",
       navigationLink: "/dashboard/settings/products-list",
@@ -88,7 +88,7 @@ export default function EditProduct() {
     callApi({
       apiMethod: "delete",
       apiUrl: `/menu-items/${id}`,
-      params: { restaurant: 12345 },
+      params: {},
       apiBody: {},
       successToastMessage: "Product was deleted successfully!",
       navigationLink: "/dashboard/settings/products-list",

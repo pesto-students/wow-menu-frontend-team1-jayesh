@@ -14,7 +14,7 @@
 /* Custom Scrollbar */
 /* width */
 ::-webkit-scrollbar {
-  width: 7px;
+  /* width: 7px; */
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -98,5 +98,15 @@
   }
   to {
     fill: #3b5162;
+  }
+}
+.landscape {
+  display: none;
+  z-index: 0;
+}
+@media only screen and (max-device-width: 915px) and (orientation: landscape) {
+  .landscape {
+    display: flex;
+    z-index: 100;
   }
 }
