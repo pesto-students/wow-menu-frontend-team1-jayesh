@@ -1,8 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { MdArrowBackIosNew } from "react-icons/md";
 import useAxios from "../../../../../shared/hooks/useAxios";
 
 const schema = yup.object().shape({
@@ -28,7 +30,21 @@ const schema = yup.object().shape({
 
 export default function AddProduct() {
   const navigate = useNavigate();
-  const { callApi } = useAxios();
+  const { response, callApi } = useAxios();
+  const [categoriesData, setCategoriesData] = useState();
+
+  useEffect(() => {
+    if (!categoriesData) {
+      callApi({
+        apiMethod: "get",
+        apiUrl: "/categories?restaurant=12345",
+        params: {},
+        errorToastMessage: "Failed to fetch categories data!",
+      });
+      setCategoriesData(response);
+    }
+  }, [response]);
+
   const {
     register,
     handleSubmit,
@@ -36,6 +52,7 @@ export default function AddProduct() {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
   const submitForm = (data) => {
     callApi({
       apiMethod: "post",
@@ -49,7 +66,14 @@ export default function AddProduct() {
 
   return (
     <div className="flex flex-col flex-1 p-4 pl-28">
-      <div className="flex justify-between mb-3">
+      <div className="flex justify-start mb-3">
+        <button
+          type="button"
+          onClick={() => navigate("/dashboard/settings/products-list")}
+          className="px-3.5 mr-2 py-1 w-max rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#e66e59]"
+        >
+          <MdArrowBackIosNew />
+        </button>
         <h3 className="text-2xl font-semibold leading-loose text-slate-800 dark:text-white">
           Add Product
         </h3>
@@ -122,14 +146,39 @@ export default function AddProduct() {
                 <div className="mb-2 font-semibold text-slate-300">
                   Category
                 </div>
-                <input
-                  type="text"
-                  name="category"
-                  {...register("category")}
-                  className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
-                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
-                  placeholder="Category"
-                />
+                {!categoriesData && (
+                  <div className="animate-pulse">
+                    <div className="h-10 rounded-md bg-slate-300 dark:bg-slate-700" />
+                  </div>
+                )}
+                {categoriesData && (
+                  <select
+                    name="category"
+                    {...register("category")}
+                    className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
+                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary cursor-pointer"
+                    placeholder="Select Category"
+                  >
+                    <option
+                      defaultValue=""
+                      className="py-2 bg-gray-700 cursor-pointer text-md"
+                      disabled
+                    >
+                      -- Select Category --
+                    </option>
+                    {categoriesData?.data?.map((option) => {
+                      return (
+                        <option
+                          key={option.id}
+                          value={option.id}
+                          className="py-2 bg-gray-700 cursor-pointer text-md"
+                        >
+                          {option.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                )}
               </label>
               <p className="text-rose-400">{errors?.category?.message}</p>
             </div>
@@ -174,6 +223,7 @@ export default function AddProduct() {
                   type="radio"
                   name="veg"
                   value="true"
+                  checked
                   {...register("isVeg")}
                 />{" "}
                 Veg
@@ -195,6 +245,7 @@ export default function AddProduct() {
                   type="radio"
                   name="spicy"
                   value="low"
+                  checked
                   {...register("spicy")}
                 />{" "}
                 Low
@@ -224,6 +275,7 @@ export default function AddProduct() {
                   type="radio"
                   name="isActive"
                   value="true"
+                  checked
                   {...register("isActive")}
                 />{" "}
                 Yes
@@ -245,6 +297,7 @@ export default function AddProduct() {
                   type="radio"
                   name="isAvailable"
                   value="true"
+                  checked
                   {...register("isAvailable")}
                 />{" "}
                 Yes
@@ -261,17 +314,10 @@ export default function AddProduct() {
             </div>
           </div>
         </div>
-        <div className="flex justify-center">
-          <button
-            type="button"
-            onClick={() => navigate("/dashboard/settings/products-list")}
-            className="px-3.5 py-2 mr-2 rounded-lg border border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold"
-          >
-            Discard Changes
-          </button>
+        <div className="flex justify-center mx-auto">
           <button
             type="submit"
-            className="px-3.5 py-2 rounded-lg text-primary bg-gray-900 dark:bg-primary dark:text-white text-sm font-semibold"
+            className="px-3.5 py-3 mt-5 w-1/4 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#e66e59]"
           >
             Save Changes
           </button>

@@ -46,7 +46,6 @@ const useAxios = ({ url = null, method = null, headers = null } = {}) => {
           navigate(navigationLink);
         }
       } catch (err) {
-        console.error(err.response.data.message);
         setError(err);
         toast.error(
           errorToastMessage || err.response.data.message || err.message,

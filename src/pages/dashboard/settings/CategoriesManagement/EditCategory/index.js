@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { MdArrowBackIosNew } from "react-icons/md";
 import useAxios from "../../../../../shared/hooks/useAxios";
 
 const schema = yup.object().shape({
@@ -70,7 +71,14 @@ export default function EditCategory() {
 
   return (
     <div className="flex flex-col flex-1 p-4 pl-28">
-      <div className="flex justify-between mb-3">
+      <div className="flex justify-start mb-3">
+        <button
+          type="button"
+          onClick={() => navigate("/dashboard/settings/categories-list")}
+          className="px-3.5 mr-2 py-1 w-max rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#e66e59]"
+        >
+          <MdArrowBackIosNew />
+        </button>
         <h3 className="text-2xl font-semibold leading-loose text-slate-800 dark:text-white">
           Edit Category
         </h3>
@@ -108,7 +116,7 @@ export default function EditCategory() {
         onClick={deleteCategoryHandler}
         className="px-3.5 py-2 w-max ml-auto mt-3 rounded-lg border border-dashed border-rose-400 text-rose-400 bg-rose-400 dark:bg-gray-900 dark:text-rose-400 text-sm font-semibold"
       >
-        Delete Product
+        Delete Category
       </button>
       {categoryDetailsLoading ? (
         <svg
@@ -182,17 +190,8 @@ export default function EditCategory() {
               </div>
               <div className="flex justify-center mt-5">
                 <button
-                  type="button"
-                  onClick={() =>
-                    navigate("/dashboard/settings/categories-list")
-                  }
-                  className="px-3.5 py-2 mr-2 rounded-lg border border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold"
-                >
-                  Discard Changes
-                </button>
-                <button
                   type="submit"
-                  className="px-3.5 py-2 rounded-lg text-primary bg-gray-900 dark:bg-primary dark:text-white text-sm font-semibold"
+                  className="px-3.5 py-3 mt-5 w-1/4 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#e66e59]"
                 >
                   Save Changes
                 </button>
