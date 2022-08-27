@@ -22,7 +22,7 @@ export default function EditCategory() {
     error: categoryDetailsError,
     callApi,
   } = useAxios({
-    url: `/categories/${id}?restaurant=12345`,
+    url: `/categories/${id}?`,
     method: "get",
     headers: { accept: "*/*" },
   });
@@ -50,7 +50,7 @@ export default function EditCategory() {
     callApi({
       apiMethod: "patch",
       apiUrl: `/categories/${id}`,
-      params: { restaurant: 12345 },
+      params: {},
       apiBody: data,
       successToastMessage: "Category details were saved successfully!",
       navigationLink: "/dashboard/settings/categories-list",
@@ -61,7 +61,7 @@ export default function EditCategory() {
     callApi({
       apiMethod: "delete",
       apiUrl: `/categories/${id}`,
-      params: { restaurant: 12345 },
+      params: {},
       apiBody: {},
       successToastMessage: "Category was deleted successfully!",
       navigationLink: "/dashboard/settings/categories-list",

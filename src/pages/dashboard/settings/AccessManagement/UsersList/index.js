@@ -7,7 +7,7 @@ import UserListSkeleton from "./UserListSkeleton";
 
 export default function UsersList() {
   const { response, loading, error } = useAxios({
-    url: "/users?restaurant=12345",
+    url: "/users?",
     method: "get",
     headers: { accept: "*/*" },
   });

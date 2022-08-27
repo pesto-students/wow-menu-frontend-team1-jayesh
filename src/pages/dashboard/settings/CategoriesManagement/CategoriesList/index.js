@@ -6,7 +6,7 @@ import CategoryCardSkeleton from "./CategoryCardSkeleton";
 
 function CategoriesList() {
   const { response, loading, error } = useAxios({
-    url: "/categories?restaurant=12345",
+    url: "/categories?",
     method: "get",
     headers: { accept: "*/*" },
   });

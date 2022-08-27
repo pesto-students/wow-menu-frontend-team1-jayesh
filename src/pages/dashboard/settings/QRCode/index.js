@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { jsPDF } from "jspdf";
 import { AiOutlineCloudDownload } from "react-icons/ai";
 import { QRCodeSVG } from "qrcode.react";
+import BackButton from "../../../../shared/components/BackButton";
 
 export default function QRCode() {
   const restaurantId = useSelector((state) => state.restaurant.details.id);
@@ -36,9 +37,12 @@ export default function QRCode() {
       className="w-screen h-screen p-4 overflow-x-hidden pl-28"
     >
       <header>
-        <h1 className="text-3xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
-          QR Code
-        </h1>
+        <div className="flex items-center">
+          <BackButton href="/dashboard/settings" />
+          <h1 className="ml-2 text-3xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
+            QR Code
+          </h1>
+        </div>
       </header>
       <nav className="w-full text-light-text1 dark:text-dark-text1">
         <ol className="flex">
@@ -54,7 +58,7 @@ export default function QRCode() {
         </ol>
       </nav>
       <hr className="mt-3 mb-8 border-gray-700 dark:border-gray-600" />
-      <div className="grid gap-8 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
+      <div className="grid gap-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
         {urls.map((url, idx) => {
           return (
             <motion.div
@@ -65,7 +69,7 @@ export default function QRCode() {
               key={url}
               className="flex justify-center"
             >
-              <div className="relative p-12 border border-gray-400 rounded dark:border-gray-700 border-1 ">
+              <div className="relative p-6 border border-gray-400 rounded md:p-12 dark:border-gray-700 border-1 ">
                 <a
                   href={`https://wow-menu.netlify.app/${url}`}
                   target="_blank"

@@ -34,10 +34,10 @@ function IterationDetail({ iteration, orderId, updateOrder }) {
                   <img
                     src={item.item.imageUrl}
                     alt={item.item.name}
-                    className="w-20 rounded-full"
+                    className="hidden w-20 rounded-full lg:block"
                   />
                 )}
-                <p className="my-auto ml-5 text-xl font-medium">
+                <p className="my-auto text-xl font-medium md:ml-5">
                   {item.item.name}
                 </p>
               </div>

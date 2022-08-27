@@ -28,6 +28,7 @@ const useAxios = ({ url = null, method = null, headers = null } = {}) => {
       params,
       data: apiBody,
       headers,
+      withCredentials: true,
     };
 
     if (config.url) {

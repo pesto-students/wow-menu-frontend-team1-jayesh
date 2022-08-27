@@ -6,7 +6,7 @@ import DishCardSkeleton from "./DishCardSkeleton";
 
 function ProductsList() {
   const { response, loading, error } = useAxios({
-    url: "/menu-items?restaurant=12345",
+    url: "/menu-items?",
     method: "get",
     headers: { accept: "*/*" },
   });
