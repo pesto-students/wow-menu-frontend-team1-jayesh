@@ -7,7 +7,7 @@ import useAxios from "../../../../shared/hooks/useAxios";
 function DishesListView() {
   const { response, loading, error } = useAxios({
     method: "get",
-    url: "/menu-items?restaurant=12345",
+    url: "/menu-items?restaurant=63077d6ac31f771aaca9c858",
     headers: { accept: "*/*" },
   });
   const [productsData, setProductsData] = useState([]);
@@ -34,7 +34,7 @@ function DishesListView() {
           </span>
         </button>
       </div>
-      <div className="grid grid-cols-4 gap-4 overflow-y-auto h-max">
+      <div className="grid gap-6 overflow-y-auto xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 h-max">
         {loading ? (
           <>
             <DishCardSkeleton />

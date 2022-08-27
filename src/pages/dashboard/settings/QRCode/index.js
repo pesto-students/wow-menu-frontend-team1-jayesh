@@ -54,10 +54,10 @@ export default function QRCode() {
           <li>
             <span className="mx-2">/</span>
           </li>
-          <li>QR Codes</li>
+          <li className="text-light-text2 dark:text-dark-text2">QR Codes</li>
         </ol>
       </nav>
-      <hr className="mt-3 mb-8 border-gray-700 dark:border-gray-600" />
+      <hr className="mt-3 mb-8 border-gray-400 dark:border-gray-600" />
       <div className="grid gap-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
         {urls.map((url, idx) => {
           return (
@@ -69,7 +69,7 @@ export default function QRCode() {
               key={url}
               className="flex justify-center"
             >
-              <div className="relative pb-12 border border-gray-400 rounded p-9 dark:border-gray-700 border-1 ">
+              <div className="relative p-6 border border-gray-300 rounded md:p-12 dark:border-gray-700 bg-light-base3 dark:bg-dark-base2 border-1">
                 <div className="flex justify-center">
                   <QRCodeSVG
                     id={`Table${idx}`}

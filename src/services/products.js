@@ -1,10 +1,12 @@
+import { useSelector } from "react-redux";
 import useAxios from "../shared/hooks/useAxios";
 import { PRODUCT } from "./endpoints";
 
 export default function ProductService() {
+  const restaurantId = useSelector((state) => state.restaurant.details.id);
   const { response, loading, error, callApi } = useAxios();
 
-  const getProducts = (restaurantId, page, query) => {
+  const getProducts = (page, query) => {
     callApi({
       apiMethod: "get",
       apiUrl: `${PRODUCT}`,

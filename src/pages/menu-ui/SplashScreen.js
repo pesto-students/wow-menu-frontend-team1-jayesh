@@ -1,15 +1,18 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import initialSetup from "./initialSetup";
 
 function SplashScreen() {
   const navigate = useNavigate();
-
+  const { success } = initialSetup();
   useEffect(() => {
-    setTimeout(() => {
-      navigate("/home");
-    }, 2000);
-  }, []);
+    if (success) {
+      setTimeout(() => {
+        navigate("/home");
+      }, 2000);
+    }
+  }, [success]);
 
   return (
     <AnimatePresence exitBeforeEnter>

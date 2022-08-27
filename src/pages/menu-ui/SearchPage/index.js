@@ -35,7 +35,7 @@ function SearchPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="h-full p-4 overflow-x-hidden overflow-y-auto bg-lightPattern"
+        className="h-full p-4 overflow-x-hidden overflow-y-auto bg-lightPattern customer"
       >
         <Header
           onInput={handleInput}

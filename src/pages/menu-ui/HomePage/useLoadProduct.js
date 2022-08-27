@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import ProductService from "../../../services/products";
 
 export default function useLoadProduct(page = 1, category) {
-  const restaurantId = useSelector((state) => state.restaurant.id);
   const [products, setProducts] = useState([]);
   const [hasMore, setHasMore] = useState(false);
   const { response, loading, error, getProducts } = ProductService();
@@ -13,7 +11,7 @@ export default function useLoadProduct(page = 1, category) {
   }, [category]);
 
   useEffect(() => {
-    getProducts(restaurantId, page, {
+    getProducts(page, {
       category: category.id,
     });
   }, [page, category]);

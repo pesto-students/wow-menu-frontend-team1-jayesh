@@ -76,7 +76,7 @@ function BillPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="h-full p-4 overflow-x-hidden overflow-y-auto bg-lightPattern"
+        className="h-full p-4 overflow-x-hidden overflow-y-auto customer bg-lightPattern"
       >
         <h2 className="text-2xl font-semibold text-center text-light-text1 dark:text-dark-text1">
           Bill
