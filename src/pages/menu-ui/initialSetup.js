@@ -38,7 +38,6 @@ export default function InitialSetup() {
 
   useEffect(() => {
     if (restaurant && restaurant.data) {
-      console.warn("restaurant: ", restaurant);
       dispatch(setRestaurant(restaurant.data));
       getCategories(restaurantId);
       setSuccess(true);

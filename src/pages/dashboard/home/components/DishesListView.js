@@ -7,7 +7,7 @@ import useAxios from "../../../../shared/hooks/useAxios";
 function DishesListView() {
   const { response, loading, error } = useAxios({
     method: "get",
-    url: "/menu-items?restaurant=12345",
+    url: "/menu-items?restaurant=63077d6ac31f771aaca9c858",
     headers: { accept: "*/*" },
   });
   const [productsData, setProductsData] = useState([]);

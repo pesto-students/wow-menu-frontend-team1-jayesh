@@ -7,9 +7,7 @@ function SplashScreen() {
   const navigate = useNavigate();
   const { success } = initialSetup();
   useEffect(() => {
-    console.warn("response out", success);
     if (success) {
-      console.warn("response in", success);
       setTimeout(() => {
         navigate("/home");
       }, 2000);

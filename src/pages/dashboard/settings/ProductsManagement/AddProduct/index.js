@@ -5,7 +5,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { MdArrowBackIosNew } from "react-icons/md";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import useAxios from "../../../../../shared/hooks/useAxios";
+import UploadImage from "../../../components/UploadImage";
+import storage from "../../../../../utils/firebase";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -15,7 +18,7 @@ const schema = yup.object().shape({
     .required("Price is required"),
   category: yup.string().required("Category is required"),
   description: yup.string().required("Description is required"),
-  imageUrl: yup.string().required("Image URL is required"),
+  // imageUrl: yup.string().required("Image URL is required"),
   isVeg: yup
     .boolean()
     .typeError("Field is required")
@@ -31,13 +34,17 @@ const schema = yup.object().shape({
 export default function AddProduct() {
   const navigate = useNavigate();
   const { response, callApi } = useAxios();
+  const [file, setFile] = useState(null);
+  const [percent, setPercent] = useState(0);
+  const [url, setUrl] = useState("");
+  const [data, setData] = useState(null);
   const [categoriesData, setCategoriesData] = useState();
 
   useEffect(() => {
     if (!categoriesData) {
       callApi({
         apiMethod: "get",
-        apiUrl: "/categories?restaurant=12345",
+        apiUrl: "/categories?restaurant=63077d6ac31f771aaca9c858",
         params: {},
         errorToastMessage: "Failed to fetch categories data!",
       });
@@ -53,15 +60,63 @@ export default function AddProduct() {
     resolver: yupResolver(schema),
   });
 
-  const submitForm = (data) => {
-    callApi({
-      apiMethod: "post",
-      apiUrl: "/menu-items",
-      params: {},
-      apiBody: { ...data },
-      successToastMessage: "Product was added successfully!",
-      navigationLink: "/dashboard/settings/products-list",
-    });
+  useEffect(() => {
+    if (percent > 0) {
+      // eslint-disable-next-line
+      console.log(`${percent}% Uploaded`);
+    }
+  }, [percent]);
+
+  useEffect(() => {
+    if (data) {
+      data.imageUrl = url;
+      callApi({
+        apiMethod: "post",
+        apiUrl: "/menu-items",
+        params: {},
+        apiBody: { ...data },
+        successToastMessage: "Product was added successfully!",
+        navigationLink: "/dashboard/settings/products-list",
+      });
+    }
+  }, [url]);
+
+  const upload = (name) => {
+    if (file) {
+      const storageRef = ref(storage, `/files/${name}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const percentUpload = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
+          );
+          // update progress
+          setPercent(percentUpload);
+        },
+        (err) => console.error(err),
+
+        () => {
+          // download url
+          getDownloadURL(uploadTask.snapshot.ref).then((urlPath) => {
+            setUrl(urlPath);
+          });
+        },
+      );
+    }
+  };
+
+  const submitForm = (formData) => {
+    setData(formData);
+    upload(formData.name);
+    // callApi({
+    //   apiMethod: "post",
+    //   apiUrl: "/menu-items",
+    //   params: {},
+    //   apiBody: { ...data },
+    //   successToastMessage: "Product was added successfully!",
+    //   navigationLink: "/dashboard/settings/products-list",
+    // });
   };
 
   return (
@@ -202,20 +257,7 @@ export default function AddProduct() {
           </div>
           <div className="w-1/2 pl-4">
             <div className="relative mb-4">
-              <label htmlFor="imageUrl">
-                <div className="mb-2 font-semibold text-slate-300">
-                  Image URL
-                </div>
-                <input
-                  type="text"
-                  name="imageUrl"
-                  {...register("imageUrl")}
-                  className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
-                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
-                  placeholder="Image URL"
-                />
-              </label>
-              <p className="text-rose-400">{errors?.imageUrl?.message}</p>
+              <UploadImage storeFile={(f) => setFile(f)} />
             </div>
             <div className="mt-12">
               <div className="text-slate-300">

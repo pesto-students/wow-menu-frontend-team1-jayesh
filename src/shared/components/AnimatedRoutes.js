@@ -34,6 +34,7 @@ function AnimatedRoutes() {
     <AnimatePresence exitBeforeEnter>
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Customer />}>
+          <Route path="" element={<SplashScreen />} />
           <Route path=":restaurantId/:table" element={<SplashScreen />} />
           <Route path="home" element={<CustomerMenu />} />
           <Route path="order" element={<CustomerOrder />} />

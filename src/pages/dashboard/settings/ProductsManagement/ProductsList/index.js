@@ -3,10 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import DishCard from "./DishCard";
 import useAxios from "../../../../../shared/hooks/useAxios";
 import DishCardSkeleton from "./DishCardSkeleton";
+import BackButton from "../../../../../shared/components/BackButton";
 
 function ProductsList() {
   const { response, loading, error } = useAxios({
-    url: "/menu-items?",
+    url: "/menu-items?restaurant=63077d6ac31f771aaca9c858",
     method: "get",
     headers: { accept: "*/*" },
   });
@@ -24,18 +25,16 @@ function ProductsList() {
 
   return (
     <div className="flex flex-col flex-1 p-4 pl-28">
-      <div className="flex justify-between mb-3">
-        <h3 className="text-2xl font-semibold leading-loose text-slate-800 dark:text-white">
+      <div className="flex items-center">
+        <BackButton href="/dashboard/settings" />
+        <h1 className="ml-2 text-3xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
           Products List
-        </h3>
+        </h1>
       </div>
-      <nav className="w-full mb-3">
-        <ol className="flex">
+      <nav className="w-full mb-3 ">
+        <ol className="flex text-light-text1 dark:text-dark-text1">
           <li>
-            <Link
-              to="/dashboard/settings"
-              className="text-white hover:text-primary"
-            >
+            <Link to="/dashboard/settings" className="hover:text-primary">
               Settings
             </Link>
           </li>
@@ -49,11 +48,11 @@ function ProductsList() {
       <button
         type="button"
         onClick={notify}
-        className="px-3.5 py-2 w-max ml-auto my-3 rounded-lg border border-dashed border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold"
+        className="px-3.5 py-2 w-max ml-auto my-3 rounded border border-dashed border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold"
       >
         + Add new dish
       </button>
-      <div className="grid grid-cols-4 gap-4 mt-2 overflow-y-auto h-max">
+      <div className="grid gap-6 mt-2 overflow-y-auto xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 h-max">
         {loading ? (
           <>
             <DishCardSkeleton />
