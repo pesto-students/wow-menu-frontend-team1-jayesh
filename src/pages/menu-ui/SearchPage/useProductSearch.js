@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import ProductService from "../../../services/products";
 
 export default function useProductSearch(search, page, filter) {
-  const restaurantId = useSelector((state) => state.restaurant.id);
   const [products, setProducts] = useState([]);
   const [hasMore, setHasMore] = useState(false);
   const { response, loading, error, getProducts } = ProductService();
@@ -17,7 +15,7 @@ export default function useProductSearch(search, page, filter) {
     if (filter === "veg") query.isVeg = true;
     else if (filter === "nonveg") query.isVeg = false;
     if (search.length > 0) query.name = search;
-    getProducts(restaurantId, page, query);
+    getProducts(page, query);
   }, [search, page, filter]);
 
   useEffect(() => {
