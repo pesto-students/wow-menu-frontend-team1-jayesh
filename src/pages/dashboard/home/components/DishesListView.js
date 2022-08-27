@@ -34,7 +34,7 @@ function DishesListView() {
           </span>
         </button>
       </div>
-      <div className="grid grid-cols-4 gap-4 overflow-y-auto h-max">
+      <div className="grid gap-6 overflow-y-auto xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 h-max">
         {loading ? (
           <>
             <DishCardSkeleton />

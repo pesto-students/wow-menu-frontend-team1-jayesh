@@ -7,7 +7,7 @@ function Customer() {
   initialSetup();
   CustomerSocket();
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">
+    <div className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1 customer">
       <RotateScreen />
       <Outlet />
     </div>
