@@ -54,7 +54,7 @@ export default function QRCode() {
         </ol>
       </nav>
       <hr className="mt-3 mb-8 border-gray-700 dark:border-gray-600" />
-      <div className="grid gap-8 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
+      <div className="grid gap-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
         {urls.map((url, idx) => {
           return (
             <motion.div
@@ -65,7 +65,7 @@ export default function QRCode() {
               key={url}
               className="flex justify-center"
             >
-              <div className="relative p-12 border border-gray-400 rounded dark:border-gray-700 border-1 ">
+              <div className="relative p-6 border border-gray-400 rounded md:p-12 dark:border-gray-700 border-1 ">
                 <a
                   href={`https://wow-menu.netlify.app/${url}`}
                   target="_blank"

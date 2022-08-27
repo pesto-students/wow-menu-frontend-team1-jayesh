@@ -5,19 +5,19 @@ import noOrder from "../../../assets/images/noOrder.svg";
 import Card from "../../../shared/components/Card";
 
 const classes = {
-  base: "relative grid w-full grid-cols-7 gap-2 px-3 py-5 text-lg rounded my-7 text-light-text1 dark:text-dark-text1 ",
+  base: "relative grid w-full grid-cols-4 xl:grid-cols-6 lg:grid-cols-5 gap-2 px-3 py-5 text-lg rounded my-7 text-light-text1 dark:text-dark-text1 ",
   bg: {
     Pending: "bg-accent-orange/30",
-    Incomplete: "bg-gray-500/30",
+    "In progress": "bg-gray-500/30",
     Complete: "bg-accent-green/30",
   },
   text: {
     Pending: "text-accent-orange",
-    Incomplete: "text-light-text1 dark:text-dark-text1",
+    "In progress": "text-light-text1 dark:text-dark-text1",
     Complete: "text-accent-green",
   },
 };
-const statuses = ["Pending", "Incomplete", "Complete"];
+const statuses = ["Pending", "In progress", "Complete"];
 
 function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
   const observer = useRef();
@@ -36,10 +36,12 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
   return (
     <>
       {orders.length > 0 && (
-        <div className="grid grid-cols-7 gap-2 my-3 text-xl font-semibold text-light-text1 dark:text-dark-text1">
-          <p className="col-span-2">Order Id</p>
-          <p className="text-center">Ordered At</p>
-          <p className="text-center">Table No.</p>
+        <div className="grid grid-cols-4 gap-2 my-3 text-xl font-semibold xl:grid-cols-6 lg:grid-cols-5 text-light-text1 dark:text-dark-text1">
+          <p className="hidden lg:block">Order Id</p>
+          <p className="hidden text-center xl:block">Ordered At</p>
+          <p className="flex justify-center">
+            Table <span className="hidden ml-1 lg:block">No.</span>
+          </p>
           <p className="col-span-2">Managed By</p>
           <p className="text-center">Status</p>
         </div>
@@ -75,10 +77,10 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
                       <span className="relative inline-flex w-3 h-3 rounded-full bg-accent-orange" />
                     </span>
                   )}
-                  <p className="col-span-2 text-start">
+                  <p className="hidden text-start lg:block">
                     #{order.id.substring(18).toUpperCase()}
                   </p>
-                  <p className="text-center">
+                  <p className="hidden text-center xl:block">
                     {new Date(order.createdAt).toLocaleTimeString()}
                   </p>
                   <p className="text-center">{order.tableNo}</p>

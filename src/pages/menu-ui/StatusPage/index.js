@@ -5,10 +5,8 @@ import CallWaiter from "../components/CallWaiter";
 import StatusCard from "./StatusCard";
 import Card from "../../../shared/components/Card";
 import emptyCart from "../../../assets/images/emptyCart.svg";
-import CustomerSocket from "../../../services/customerSocket";
 
 function StatusPage() {
-  CustomerSocket();
   const orders = useSelector((state) => state.order);
   return (
     <>
@@ -19,7 +17,7 @@ function StatusPage() {
         className="h-full p-4 overflow-x-hidden overflow-y-auto bg-lightPattern"
       >
         <PageHeader name="Order Status" />
-        <div className="w-full mx-auto mt-5 md:w-4/6 lg:w-2/6">
+        <div className="w-full mx-auto mt-5 pb-44 md:w-4/6 lg:w-2/6">
           {orders.list.map((iteration) => {
             return (
               <StatusCard

@@ -7,10 +7,11 @@ import Filter from "../components/Filter";
 
 export default function Kitchen() {
   const firstRenderRef = useRef(true);
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [page, setPage] = useState(1);
   const [filterBy, setFilterBy] = useState("");
   const { loading, hasMore, orders } = useLoadOrders(page, filterBy);
+  const selectedOrder = orders.find((o) => o.id === selectedOrderId);
 
   const handleNextPage = () => {
     setPage((prevPage) => prevPage + 1);
@@ -22,18 +23,18 @@ export default function Kitchen() {
   const updateOrder = (newOrder) => {
     const id = orders.findIndex((order) => order.id === newOrder.id);
     orders.splice(id, 1, newOrder);
-    setSelectedOrder(newOrder);
+    setSelectedOrderId(newOrder.id);
   };
   const handleSelectedOrder = (order) => {
-    setSelectedOrder(order);
+    setSelectedOrderId(order.id);
   };
   const clearSelected = () => {
-    setSelectedOrder(null);
+    setSelectedOrderId(null);
   };
 
   useEffect(() => {
     if (firstRenderRef.current && orders.length > 0) {
-      setSelectedOrder(orders[0]);
+      setSelectedOrderId(orders[0].id);
       firstRenderRef.current = false;
     }
   }, [orders]);
@@ -47,7 +48,7 @@ export default function Kitchen() {
             <Filter
               filterBy={filterBy}
               updateFilter={handleUpdateFilter}
-              options={["Incomplete", "Complete"]}
+              options={["In progress", "Complete"]}
             />
           </div>
           {selectedOrder && (
