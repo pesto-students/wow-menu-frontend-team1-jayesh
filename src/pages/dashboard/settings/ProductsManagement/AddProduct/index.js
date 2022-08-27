@@ -41,7 +41,7 @@ export default function AddProduct() {
       apiMethod: "post",
       apiUrl: "/menu-items",
       params: {},
-      apiBody: { ...data, restaurant: "12345" },
+      apiBody: { ...data },
       successToastMessage: "Product was added successfully!",
       navigationLink: "/dashboard/settings/products-list",
     });

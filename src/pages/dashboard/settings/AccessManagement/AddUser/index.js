@@ -31,7 +31,7 @@ export default function AddUser() {
     callApi({
       apiMethod: "post",
       apiUrl: "/signup",
-      apiBody: { ...data, restaurant: "12345" },
+      apiBody: { ...data },
       successToastMessage: "User is added successfully!",
       errorToastMessage: "Something went wrong, Please try again!",
       navigationLink: "/dashboard/settings/access-management",
