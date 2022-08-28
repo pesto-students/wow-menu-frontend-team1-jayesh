@@ -27,6 +27,7 @@ import UsersList from "../../pages/dashboard/settings/AccessManagement/UsersList
 import AddUser from "../../pages/dashboard/settings/AccessManagement/AddUser";
 import EditUser from "../../pages/dashboard/settings/AccessManagement/EditUser";
 import ProtectedRoute from "./ProtectedRoute";
+import RestaurantDeatils from "../../pages/dashboard/settings/RestaurantDetails";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -73,6 +74,7 @@ function AnimatedRoutes() {
             <Route path="settings/products-list" element={<ProductsList />} />
             <Route path="settings/add-product" element={<AddProduct />} />
             <Route path="settings/edit-product/:id" element={<EditProduct />} />
+            <Route path="settings/restaurant" element={<RestaurantDeatils />} />
           </Route>
         </Route>
         <Route path="*" element={<PageNotFound />} />

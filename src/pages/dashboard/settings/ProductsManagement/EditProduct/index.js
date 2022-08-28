@@ -40,7 +40,7 @@ export default function EditProduct() {
       setLoading(true);
       callApi({
         apiMethod: "get",
-        apiUrl: `/menu-items/${id}?restaurant=63077d6ac31f771aaca9c858`,
+        apiUrl: `/menu-items/${id}`,
         params: {},
         errorToastMessage: "Failed to fetch product data!",
       });
