@@ -1,13 +1,13 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { MdArrowBackIosNew } from "react-icons/md";
-import useAxios from "../../../../shared/hooks/useAxios";
+import RestaurantService from "../../../../services/restaurant";
+import { setRestaurant } from "../../../../store/reducers/restaurantReducer";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -24,10 +24,15 @@ const schema = yup.object().shape({
     .required("Total Tables number is required"),
 });
 
-export default function RestaurantDeatils() {
+export default function RestaurantDetails() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { response, callApi } = useAxios();
-  const [restaurantData, setRestaurantData] = useState(null);
+  const restaurantId = useSelector((state) => state.restaurant.id);
+  const userId = useSelector((state) => state.auth.user.userDetails.id);
+  const { response, getRestaurant, postRestaurant, updateRestaurant } =
+    RestaurantService();
+
+  const [restaurantData, setRestaurantData] = useState({ data: null });
   const {
     register,
     handleSubmit,
@@ -37,27 +42,24 @@ export default function RestaurantDeatils() {
   });
 
   useEffect(() => {
-    if (restaurantData === null) {
-      callApi({
-        apiMethod: "get",
-        apiUrl: "/restaurant",
-        params: {},
-      });
+    if (restaurantId) {
+      getRestaurant(restaurantId);
     }
-    if (response && restaurantData === null) {
+  }, [restaurantId]);
+
+  useEffect(() => {
+    if (response && response.data) {
       setRestaurantData(response);
+      dispatch(setRestaurant(response.data));
     }
-  }, []);
+  }, [response]);
 
   const submitForm = (data) => {
-    console.log({ data });
-    callApi({
-      apiMethod: "post",
-      apiUrl: "/restaurant",
-      params: {},
-      apiBody: { ...data },
-      successToastMessage: "Restaurant Details were updated successfully!",
-    });
+    if (restaurantId) {
+      updateRestaurant(restaurantId, { ...data });
+    } else {
+      postRestaurant({ ...data, createdBy: userId });
+    }
   };
 
   return (
@@ -100,6 +102,7 @@ export default function RestaurantDeatils() {
                 <input
                   type="text"
                   name="name"
+                  defaultValue={restaurantData.data?.name}
                   {...register("name")}
                   className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
@@ -118,6 +121,7 @@ export default function RestaurantDeatils() {
                 <input
                   type="text"
                   name="gstPercentage"
+                  defaultValue={restaurantData.data?.gstPercentage}
                   {...register("gstPercentage")}
                   className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
@@ -134,6 +138,7 @@ export default function RestaurantDeatils() {
                 <textarea
                   type="text"
                   name="address"
+                  defaultValue={restaurantData.data?.address}
                   {...register("address")}
                   className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
@@ -154,6 +159,7 @@ export default function RestaurantDeatils() {
                 <input
                   type="text"
                   name="phoneNumber"
+                  defaultValue={restaurantData.data?.phoneNumber}
                   {...register("phoneNumber")}
                   className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
@@ -172,6 +178,7 @@ export default function RestaurantDeatils() {
                 <input
                   type="text"
                   name="gstNumber"
+                  defaultValue={restaurantData.data?.gstNumber}
                   {...register("gstNumber")}
                   className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
@@ -190,6 +197,7 @@ export default function RestaurantDeatils() {
                 <input
                   type="text"
                   name="totalTables"
+                  defaultValue={restaurantData.data?.totalTables}
                   {...register("totalTables")}
                   className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"

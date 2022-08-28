@@ -1,9 +1,14 @@
-const SET_DETAILS = "SET_DETAILS";
+const SET_RESTAURANT = "SET_RESTAURANT";
+const RESET_RESTAURANT = "RESET_RESTAURANT";
 const SET_ID = "SET_ID";
 const SET_TABLE = "SET_TABLE";
 
 export const setRestaurant = (payload) => ({
-  type: "SET_DETAILS",
+  type: "SET_RESTAURANT",
+  payload, // restaurant details
+});
+export const resetRestaurant = (payload) => ({
+  type: "RESET_RESTAURANT",
   payload, // restaurant details
 });
 export const setRestaurantId = (payload) => ({
@@ -23,14 +28,17 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SET_DETAILS: {
-      return { ...state, details: action.payload };
+    case SET_RESTAURANT: {
+      return { ...state, details: action.payload, id: action.payload.id };
     }
     case SET_ID: {
       return { ...state, id: action.payload };
     }
     case SET_TABLE: {
       return { ...state, tableNo: action.payload };
+    }
+    case RESET_RESTAURANT: {
+      return initialState;
     }
     default:
       return state;
