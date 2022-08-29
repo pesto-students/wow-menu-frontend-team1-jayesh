@@ -13,7 +13,6 @@ export const resetOrder = () => ({
 const initialState = {
   list: [],
   id: null,
-  manager: { name: "John Doe", id: "12345" },
 };
 
 export default (state = initialState, action) => {
