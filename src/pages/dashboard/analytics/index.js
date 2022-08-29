@@ -59,7 +59,10 @@ function DashboardAnalytics() {
               bills.data &&
               bills.data.map((bill) => {
                 return (
-                  <div className="grid grid-cols-5 gap-2 my-5 text-light-text1 dark:text-dark-text2">
+                  <div
+                    key={bill.id}
+                    className="grid grid-cols-5 gap-2 my-5 text-light-text1 dark:text-dark-text2"
+                  >
                     <p>#{bill.id.substring(18).toUpperCase()}</p>
                     <p className="text-end">
                       {parseFloat(bill.subtotal).toFixed(2)}
