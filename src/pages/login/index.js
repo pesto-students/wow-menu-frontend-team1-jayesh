@@ -11,8 +11,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../store/reducers/authReducer";
+import { setRestaurant } from "../../store/reducers/restaurantReducer";
 import useAxios from "../../shared/hooks/useAxios";
 import user from "../../assets/images/user.svg";
+import RestaurantService from "../../services/restaurant";
 
 const schema = yup.object().shape({
   userType: yup.string().required("User type is required"),
@@ -36,6 +38,7 @@ const schema = yup.object().shape({
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { response: restaurantData, getRestaurant } = RestaurantService();
   const {
     response: loginResponse,
     loading: loginLoading,
@@ -70,8 +73,17 @@ function Login() {
     if (loginResponse?.data?.accessToken) {
       dispatch(loginSuccess(loginResponse));
       navigate("/dashboard/orders");
+      if (loginResponse?.data?.userDetails?.restaurant) {
+        getRestaurant(loginResponse?.data?.userDetails?.restaurant);
+      }
     }
   }, [loginResponse]);
+
+  useEffect(() => {
+    if (restaurantData && restaurantData.data) {
+      dispatch(setRestaurant(restaurantData.data));
+    }
+  }, [restaurantData]);
 
   return (
     <div className="flex w-full min-h-screen font-sans bg-gray-900 dark:bg-gray-800 bg-lightPattern">

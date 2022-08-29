@@ -11,6 +11,29 @@ export default function RestaurantService() {
       errorToastMessage: error.message,
     });
   };
+  const postRestaurant = (payload) => {
+    callApi({
+      apiMethod: "post",
+      apiUrl: `${RESTAURANT}`,
+      apiBody: payload,
+      errorToastMessage: error.message,
+    });
+  };
+  const updateRestaurant = (restaurantId, payload) => {
+    callApi({
+      apiMethod: "patch",
+      apiUrl: `${RESTAURANT}/${restaurantId}`,
+      apiBody: payload,
+      errorToastMessage: error.message,
+    });
+  };
 
-  return { loading, error, response, getRestaurant };
+  return {
+    loading,
+    error,
+    response,
+    getRestaurant,
+    postRestaurant,
+    updateRestaurant,
+  };
 }

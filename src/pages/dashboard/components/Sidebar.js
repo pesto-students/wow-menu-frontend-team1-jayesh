@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ReactComponent as StoreIcon } from "../../../assets/icons/store.svg";
 import { logout } from "../../../store/reducers/authReducer";
+import { resetRestaurant } from "../../../store/reducers/restaurantReducer";
 
 function DashboardSideBar() {
   const dispatch = useDispatch();
@@ -56,6 +57,7 @@ function DashboardSideBar() {
                   navigate(menu.link);
                 } else {
                   dispatch(logout());
+                  dispatch(resetRestaurant());
                 }
               }}
             >
