@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineUserAdd } from "react-icons/ai";
-import { RiEditCircleFill } from "react-icons/ri";
+import { FaRegEdit } from "react-icons/fa";
 import useAxios from "../../../../../shared/hooks/useAxios";
 import UserListSkeleton from "./UserListSkeleton";
 
@@ -49,7 +49,7 @@ export default function UsersList() {
       <button
         type="button"
         onClick={notify}
-        className="px-3.5 py-2 w-max ml-auto my-3 rounded-lg border border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold flex"
+        className="px-3.5 py-2 w-max ml-auto my-3 rounded-lg border border-dashed border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold flex"
       >
         <AiOutlineUserAdd size={20} className="mr-2" /> Add New User
       </button>
@@ -57,7 +57,7 @@ export default function UsersList() {
         {loading ? (
           <UserListSkeleton />
         ) : (
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 table-auto">
+          <table className="w-full text-sm text-left text-gray-500 table-auto dark:text-gray-400">
             <thead className="text-xs text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3">
@@ -83,15 +83,12 @@ export default function UsersList() {
                 usersData.data.map((val) => {
                   return (
                     val.role.toLowerCase() !== "owner" && (
-                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-white">
+                      <tr className="text-gray-900 bg-white border-b dark:bg-gray-800 dark:border-gray-700 dark:text-white">
                         <th
                           scope="row"
                           className="px-6 py-4 font-medium whitespace-nowrap"
                         >
-                          {val.firstname.charAt(0).toUpperCase() +
-                            val.firstname.slice(1)}{" "}
-                          {val.lastname.charAt(0).toUpperCase() +
-                            val.lastname.slice(1)}
+                          {val.firstname} {val.lastname}
                         </th>
                         <td className="px-6 py-4">{val.username}</td>
                         <td className="px-6 py-4">
@@ -109,8 +106,9 @@ export default function UsersList() {
                                 )
                               }
                             >
-                              <RiEditCircleFill
-                                size={25}
+                              <FaRegEdit
+                                size={20}
+                                title="Edit"
                                 className="mx-1 cursor-pointer"
                               />
                             </span>

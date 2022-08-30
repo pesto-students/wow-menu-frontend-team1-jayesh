@@ -5,7 +5,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { MdArrowBackIosNew } from "react-icons/md";
+import { RiDeleteBinLine } from "react-icons/ri";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { useSelector } from "react-redux";
 import useAxios from "../../../../../shared/hooks/useAxios";
 import UploadImage from "../../../components/UploadImage";
 import storage from "../../../../../utils/firebase";
@@ -31,7 +33,8 @@ export default function EditProduct() {
   const [percent, setPercent] = useState(0);
   const [url, setUrl] = useState("");
   const [data, setData] = useState(null);
-  const [categoriesData, setCategoriesData] = useState();
+  const [categoriesData, setCategoriesData] = useState(null);
+  const restaurantID = useSelector((state) => state.restaurant.id);
 
   const { response, callApi } = useAxios();
 
@@ -56,7 +59,7 @@ export default function EditProduct() {
       setLoading(true);
       callApi({
         apiMethod: "get",
-        apiUrl: "/categories?restaurant=63077d6ac31f771aaca9c858",
+        apiUrl: `/categories?restaurant=${restaurantID}`,
         params: {},
         errorToastMessage: "Failed to fetch categories data!",
       });
@@ -103,7 +106,10 @@ export default function EditProduct() {
 
   const upload = (name) => {
     if (file) {
-      const storageRef = ref(storage, `/files/${name}`);
+      const storageRef = ref(
+        storage,
+        `/files/${name}${new Date().toISOString()}`,
+      );
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on(
         "state_changed",
@@ -189,7 +195,9 @@ export default function EditProduct() {
         onClick={deleteProductHandler}
         className="px-3.5 py-2 w-max ml-auto mt-3 rounded-lg border border-dashed border-rose-400 text-rose-400 bg-rose-400 dark:bg-gray-900 dark:text-rose-400 text-sm font-semibold"
       >
-        Delete Product
+        <div className="flex">
+          <RiDeleteBinLine size={19} className="mr-1" /> Delete Product
+        </div>
       </button>
       {!productData ? (
         <svg
@@ -211,8 +219,8 @@ export default function EditProduct() {
       ) : (
         productData && (
           <form onSubmit={handleSubmit(submitForm)}>
-            <div className="flex mt-5">
-              <div className="w-1/2">
+            <div className="grid mt-5 md:grid-cols-2">
+              <div className="">
                 <div className="relative mb-4">
                   <label htmlFor="name">
                     <div className="mb-2 font-semibold text-slate-300">
@@ -304,7 +312,7 @@ export default function EditProduct() {
                       name="description"
                       defaultValue={productData.data?.description}
                       {...register("description")}
-                      rows="7"
+                      rows="8"
                       className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
                       placeholder="Description"
@@ -315,7 +323,7 @@ export default function EditProduct() {
                   </p>
                 </div>
               </div>
-              <div className="w-1/2 pl-4">
+              <div className="md:pl-4">
                 <div className="relative mb-4">
                   <UploadImage
                     storeFile={(f) => setFile(f)}
@@ -337,7 +345,7 @@ export default function EditProduct() {
                   </label>
                   <p className="text-rose-400">{errors?.imageUrl?.message}</p> */}
                 </div>
-                <div className="mt-12">
+                <div className="mt-7">
                   <div className="text-slate-300">
                     <input
                       type="radio"

@@ -21,10 +21,8 @@ const initialState = {
 
 function procesUserData(userData) {
   let user = null;
-  if (userData.data.accessToken) {
+  if (userData.data.userDetails) {
     user = {
-      accessToken: userData.data.accessToken,
-      refreshToken: userData.data.refreshToken,
       userDetails: userData.data.userDetails,
     };
   }

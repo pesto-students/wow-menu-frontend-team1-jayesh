@@ -1,64 +1,72 @@
+/* eslint-disable no-console */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { TiDeleteOutline } from "react-icons/ti";
+import { MdArrowBackIosNew } from "react-icons/md";
+import { AiOutlineUserDelete } from "react-icons/ai";
 import useAxios from "../../../../../shared/hooks/useAxios";
 
 const schema = yup.object().shape({
   firstname: yup.string().required("Firstname is required"),
   lastname: yup.string().required("Lastname is required"),
-  username: yup.string().required("Username is required"),
-  password: yup.string().required("Password is required"),
-  isAdmin: yup
-    .boolean()
-    .typeError("Field is required")
-    .required("Choose isAdmin"),
-  role: yup.string().required("Role is required"),
+  // username: yup.string().required("Username is required"),
+  // password: yup.string().required("Password is required"),
+  isAdmin: yup.boolean().typeError("Field is required"),
+  role: yup.string().typeError("Role is required").required("Role is required"),
 });
 
 export default function EditUser() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [userData, setUserData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState(null);
 
-  const {
-    response: userDetailsResponse,
-    loading: userDetailsLoading,
-    error: userDetailsError,
-    callApi,
-  } = useAxios({
-    url: `/user/${id}`,
-    method: "get",
-    headers: { accept: "*/*" },
-  });
+  const { response, callApi } = useAxios();
 
   useEffect(() => {
-    if (userDetailsResponse !== null) {
-      setUserData(userDetailsResponse);
+    if (!loading && userData === null) {
+      setLoading(true);
+      callApi({
+        apiMethod: "get",
+        apiUrl: `/user/${id}`,
+        params: {},
+        errorToastMessage: "Failed to fetch user data!",
+      });
     }
-  }, [userDetailsResponse]);
+    if (loading && userData === null) {
+      setUserData(response);
+      setLoading(false);
+    }
+  }, [response, userData]);
 
   const {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const watchRoleType = watch("role", "chef");
 
   useEffect(() => {
     reset();
-  }, [userData]); // eslint-disable-line
+  }, [response]); // eslint-disable-line
 
   const submitForm = (data) => {
+    console.log(data);
+    const body = {
+      ...data,
+      isAdmin: data.role === "chef" ? false : data.isAdmin,
+    };
     callApi({
       apiMethod: "patch",
       apiUrl: `/user/${id}`,
-      apiBody: data,
+      apiBody: body,
       successToastMessage: "User details were saved successfully!",
       navigationLink: "/dashboard/settings/access-management",
     });
@@ -68,14 +76,21 @@ export default function EditUser() {
     callApi({
       apiMethod: "delete",
       apiUrl: `/user/${id}`,
-      successToastMessage: "User is deleted successfully!",
+      successToastMessage: "User was removed successfully!",
       navigationLink: "/dashboard/settings/access-management",
     });
   };
 
   return (
     <div className="flex flex-col flex-1 p-4 pl-28">
-      <div className="flex justify-between mb-3">
+      <div className="flex justify-start mb-3">
+        <button
+          type="button"
+          onClick={() => navigate("/dashboard/settings/access-management")}
+          className="px-3.5 mr-2 py-1 w-max rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#e66e59]"
+        >
+          <MdArrowBackIosNew />
+        </button>
         <h3 className="text-2xl font-semibold leading-loose text-slate-800 dark:text-white">
           Edit User
         </h3>
@@ -108,7 +123,16 @@ export default function EditUser() {
         </ol>
       </nav>
       <hr className="border-gray-700 dark:border-gray-600" />
-      {userDetailsLoading ? (
+      <button
+        type="button"
+        onClick={deleteUserHandler}
+        className="px-3.5 py-2 w-max ml-auto mt-3 rounded-lg border border-dashed border-rose-400 text-rose-400 bg-rose-400 dark:bg-gray-900 dark:text-rose-400 text-sm font-semibold"
+      >
+        <div className="flex">
+          <AiOutlineUserDelete size={19} className="mr-1" /> Remove User
+        </div>
+      </button>
+      {!userData ? (
         <svg
           role="status"
           className="inline w-6 h-6 mr-3 text-white animate-spin"
@@ -126,68 +150,49 @@ export default function EditUser() {
           />
         </svg>
       ) : (
-        <>
-          {userDetailsError && <p>{userDetailsError.message}</p>}
-          {userData && (
-            <form onSubmit={handleSubmit(submitForm)}>
-              <div className="flex">
-                <div className="w-1/2">
-                  <div className="relative mb-4 mt-4">
-                    <label htmlFor="firstname">
-                      <div className="mb-2 font-semibold dark:border-gray-600 text-gray-600 dark:text-white">
-                        Firstname
-                      </div>
-                      <input
-                        type="text"
-                        name="firstname"
-                        defaultValue={userData.data?.firstname}
-                        {...register("firstname")}
-                        className="dark:bg-gray-700 placeholder-gray-500 dark:text-white text-sm rounded-md block w-full pl-3 p-2.5
+        userData && (
+          <form onSubmit={handleSubmit(submitForm)}>
+            <div className="grid mt-5 md:grid-cols-2">
+              <div className="">
+                <div className="relative mb-4">
+                  <label htmlFor="firstname">
+                    <div className="mb-2 font-semibold text-gray-600 dark:border-gray-600 dark:text-white">
+                      Firstname
+                    </div>
+                    <input
+                      type="text"
+                      name="firstname"
+                      defaultValue={userData.data?.firstname}
+                      {...register("firstname")}
+                      className="dark:bg-gray-700 placeholder-gray-500 dark:text-white text-sm rounded-md block w-full pl-3 p-2.5
                 transition-colors duration-200 ease-in-out outline-none focus:ring-1 focus:ring-primary"
-                        placeholder="Firstname"
-                      />
-                    </label>
-                    <p className="text-rose-400">
-                      {errors?.firstname?.message}
-                    </p>
-                  </div>
-                  <div className="relative mb-4">
-                    <label htmlFor="lastname">
-                      <div className="mb-2 font-semibold dark:border-gray-600 text-gray-600 dark:text-white">
-                        Lastname
-                      </div>
-                      <input
-                        type="text"
-                        name="lastname"
-                        defaultValue={userData.data?.lastname}
-                        {...register("lastname")}
-                        className="dark:bg-gray-700 placeholder-gray-500 dark:text-white text-sm rounded-md block w-full pl-3 p-2.5
-                transition-colors duration-200 ease-in-out outline-none focus:ring-1 focus:ring-primary"
-                        placeholder="Lastname"
-                      />
-                    </label>
-                    <p className="text-rose-400">{errors?.lastname?.message}</p>
-                  </div>
-                  <div className="relative mb-4">
-                    <label htmlFor="username">
-                      <div className="mb-2 font-semibold dark:border-gray-600 text-gray-600 dark:text-white">
-                        Username
-                      </div>
-                      <input
-                        type="text"
-                        name="username"
-                        defaultValue={userData.data?.username}
-                        {...register("username")}
-                        className="dark:bg-gray-700 placeholder-gray-500 dark:text-white text-sm rounded-md block w-full pl-3 p-2.5
-                transition-colors duration-200 ease-in-out outline-none focus:ring-1 focus:ring-primary"
-                        placeholder="Username"
-                      />
-                    </label>
-                    <p className="text-rose-400">{errors?.username?.message}</p>
-                  </div>
+                      placeholder="Firstname"
+                    />
+                  </label>
+                  <p className="text-rose-400">{errors?.firstname?.message}</p>
+                </div>
+                <div className="relative mb-4">
+                  <label htmlFor="username">
+                    <div className="mb-2 font-semibold text-gray-600 dark:border-gray-600 dark:text-white">
+                      Username
+                    </div>
+                    <input
+                      type="text"
+                      name="username"
+                      defaultValue={userData.data?.username}
+                      disabled
+                      {...register("username")}
+                      className="dark:bg-gray-700 placeholder-gray-500 dark:text-white text-sm rounded-md block w-full pl-3 p-2.5
+                transition-colors duration-200 ease-in-out outline-none focus:ring-1 focus:ring-primary disabled:opacity-50"
+                      placeholder="Username"
+                    />
+                  </label>
+                  <p className="text-rose-400">{errors?.username?.message}</p>
+                </div>
+                {watchRoleType === "manager" && (
                   <div className="relative mb-4">
                     <label htmlFor="isAdmin">
-                      <div className="mb-2 font-semibold dark:border-gray-600 text-gray-600 dark:text-white">
+                      <div className="mb-2 font-semibold text-gray-600 dark:border-gray-600 dark:text-white">
                         Admin Access
                       </div>
                       <div className="dark:border-gray-600">
@@ -203,6 +208,7 @@ export default function EditUser() {
                           type="radio"
                           name="isAdmin"
                           value="false"
+                          checked
                           defaultChecked={!userData.data?.isAdmin}
                           {...register("isAdmin")}
                           className="ml-5"
@@ -212,68 +218,65 @@ export default function EditUser() {
                     </label>
                     <p className="text-rose-400">{errors?.isAdmin?.message}</p>
                   </div>
-                  <div className="relative mb-4">
-                    <label htmlFor="role">
-                      <div className="mb-2 font-semibold dark:border-gray-600 text-gray-600 dark:text-white">
-                        Role
-                      </div>
-                      <div className="dark:border-gray-600">
-                        <input
-                          type="radio"
-                          name="role"
-                          value="Chef"
-                          defaultChecked={
-                            userData.data?.role.toLowerCase() === "chef"
-                          }
-                          {...register("role")}
-                        />
-                        <span className="dark:text-gray-400">Chef</span>
-                        <input
-                          type="radio"
-                          name="role"
-                          value="Manager"
-                          defaultChecked={
-                            userData.data?.role.toLowerCase() === "manager"
-                          }
-                          {...register("role")}
-                          className="ml-5"
-                        />
-                        <span className="dark:text-gray-400">Manager</span>
-                      </div>
-                    </label>
-                    <p className="text-rose-400"> {errors?.role?.message} </p>
-                  </div>
+                )}
+              </div>
+              <div className="md:pl-4">
+                <div className="relative mb-4">
+                  <label htmlFor="lastname">
+                    <div className="mb-2 font-semibold text-gray-600 dark:border-gray-600 dark:text-white">
+                      Lastname
+                    </div>
+                    <input
+                      type="text"
+                      name="lastname"
+                      defaultValue={userData.data?.lastname}
+                      {...register("lastname")}
+                      className="dark:bg-gray-700 placeholder-gray-500 dark:text-white text-sm rounded-md block w-full pl-3 p-2.5
+                transition-colors duration-200 ease-in-out outline-none focus:ring-1 focus:ring-primary"
+                      placeholder="Lastname"
+                    />
+                  </label>
+                  <p className="text-rose-400">{errors?.lastname?.message}</p>
+                </div>
+                <div className="relative mb-4">
+                  <label htmlFor="role">
+                    <div className="mb-2 font-semibold text-gray-600 dark:border-gray-600 dark:text-white">
+                      Role
+                    </div>
+                    <div className="dark:border-gray-600">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="chef"
+                        defaultChecked={userData.data?.role === "chef"}
+                        {...register("role")}
+                      />
+                      <span className="dark:text-gray-400">Chef</span>
+                      <input
+                        type="radio"
+                        name="role"
+                        value="manager"
+                        defaultChecked={userData.data?.role === "manager"}
+                        {...register("role")}
+                        className="ml-5"
+                      />
+                      <span className="dark:text-gray-400">Manager</span>
+                    </div>
+                  </label>
+                  <p className="text-rose-400"> {errors?.role?.message} </p>
                 </div>
               </div>
-              <div className="relative my-8 flex justify-items-start">
-                <button
-                  type="button"
-                  onClick={() =>
-                    navigate("/dashboard/settings/access-management")
-                  }
-                  className="px-3.5 py-2 mr-2 rounded-lg border border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold"
-                >
-                  Discard Changes
-                </button>
-                <button
-                  type="submit"
-                  className="px-3.5 py-2 mr-2 rounded-lg border border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold"
-                >
-                  Update User
-                </button>
-                <button
-                  type="button"
-                  onClick={deleteUserHandler}
-                  className="px-3.5 py-2 mr-2 rounded-lg border border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold"
-                >
-                  <div className="flex">
-                    <TiDeleteOutline size={20} className="mr-2" /> Delete User
-                  </div>
-                </button>
-              </div>
-            </form>
-          )}
-        </>
+            </div>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="px-3.5 py-3 mt-5 w-1/4 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#e66e59]"
+              >
+                Save Changes
+              </button>
+            </div>
+          </form>
+        )
       )}
     </div>
   );

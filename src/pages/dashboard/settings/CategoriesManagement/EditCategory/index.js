@@ -140,8 +140,8 @@ export default function EditCategory() {
           {categoryDetailsError && <p>{categoryDetailsError.message}</p>}
           {categoryData && (
             <form onSubmit={handleSubmit(submitForm)}>
-              <div className="flex mt-5">
-                <div className="w-1/2">
+              <div className="grid mt-5 md:grid-cols-2">
+                <div className="">
                   <div className="relative mb-4">
                     <label htmlFor="name">
                       <div className="mb-2 font-semibold text-slate-300">
@@ -162,7 +162,7 @@ export default function EditCategory() {
                     )}
                   </div>
                 </div>
-                <div className="w-1/2 pl-4">
+                <div className="md:pl-4">
                   <div className="mt-6 text-slate-300">
                     <label htmlFor="isActive">
                       <div className="font-semibold">Active</div>

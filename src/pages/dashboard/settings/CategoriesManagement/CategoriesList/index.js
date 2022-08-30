@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import CategoryCard from "./CategoryCard";
 import useAxios from "../../../../../shared/hooks/useAxios";
 import CategoryCardSkeleton from "./CategoryCardSkeleton";
 
 function CategoriesList() {
+  const restaurantID = useSelector((state) => state.restaurant.id);
   const { response, loading, error } = useAxios({
-    url: "/categories?restaurant=63077d6ac31f771aaca9c858",
+    url: `/categories?restaurant=${restaurantID}`,
     method: "get",
     headers: { accept: "*/*" },
   });
   const [categoriesData, setCategoriesData] = useState([]);
   const navigate = useNavigate();
-  const notify = () => {
-    navigate("../settings/add-category");
-  };
 
   useEffect(() => {
     if (response !== null) {
@@ -48,12 +47,14 @@ function CategoriesList() {
       <hr className="border-gray-700 dark:border-gray-600" />
       <button
         type="button"
-        onClick={notify}
+        onClick={() => {
+          navigate("../settings/add-category");
+        }}
         className="px-3.5 py-2 w-max ml-auto my-3 rounded-lg border border-dashed border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold"
       >
         + Add new category
       </button>
-      <div className="grid grid-cols-4 gap-4 mt-2 overflow-y-auto h-max">
+      <div className="grid gap-6 mt-2 overflow-y-auto xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 h-max">
         {loading ? (
           <>
             <CategoryCardSkeleton />

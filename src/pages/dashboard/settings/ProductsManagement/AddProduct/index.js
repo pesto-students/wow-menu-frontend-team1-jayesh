@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { useSelector } from "react-redux";
 import useAxios from "../../../../../shared/hooks/useAxios";
 import UploadImage from "../../../components/UploadImage";
 import storage from "../../../../../utils/firebase";
@@ -39,12 +40,13 @@ export default function AddProduct() {
   const [url, setUrl] = useState("");
   const [data, setData] = useState(null);
   const [categoriesData, setCategoriesData] = useState();
+  const restaurantID = useSelector((state) => state.restaurant.id);
 
   useEffect(() => {
     if (!categoriesData) {
       callApi({
         apiMethod: "get",
-        apiUrl: "/categories?restaurant=63077d6ac31f771aaca9c858",
+        apiUrl: `/categories?restaurant=${restaurantID}`,
         params: {},
         errorToastMessage: "Failed to fetch categories data!",
       });
@@ -83,7 +85,10 @@ export default function AddProduct() {
 
   const upload = (name) => {
     if (file) {
-      const storageRef = ref(storage, `/files/${name}`);
+      const storageRef = ref(
+        storage,
+        `/files/${name}${new Date().toISOString()}`,
+      );
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on(
         "state_changed",
@@ -162,8 +167,8 @@ export default function AddProduct() {
       </nav>
       <hr className="border-gray-700 dark:border-gray-600" />
       <form onSubmit={handleSubmit(submitForm)}>
-        <div className="flex mt-5">
-          <div className="w-1/2">
+        <div className="grid mt-5 md:grid-cols-2">
+          <div className="">
             <div className="relative mb-4">
               <label htmlFor="name">
                 <div className="mb-2 font-semibold text-slate-300">Name</div>
@@ -246,7 +251,7 @@ export default function AddProduct() {
                   type="text"
                   name="description"
                   {...register("description")}
-                  rows="7"
+                  rows="8"
                   className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
                   placeholder="Description"
@@ -255,11 +260,11 @@ export default function AddProduct() {
               <p className="text-rose-400">{errors?.description?.message}</p>
             </div>
           </div>
-          <div className="w-1/2 pl-4">
+          <div className="md:pl-4">
             <div className="relative mb-4">
               <UploadImage storeFile={(f) => setFile(f)} />
             </div>
-            <div className="mt-12">
+            <div className="mt-7">
               <div className="text-slate-300">
                 <input
                   type="radio"

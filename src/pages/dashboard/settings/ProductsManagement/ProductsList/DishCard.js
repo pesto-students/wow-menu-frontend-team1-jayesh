@@ -1,10 +1,14 @@
+import { forwardRef } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-function DishCard({ id, image, name, price, description }) {
+function DishCard({ id, image, name, price, description }, ref) {
   const navigate = useNavigate();
   return (
-    <div className="relative flex flex-col w-auto px-4 pt-4 pb-12 bg-white border rounded-md shadow-sm border-slate-700 dark:bg-gray-900 gap-y-3">
+    <div
+      ref={ref}
+      className="relative flex flex-col w-auto px-4 pt-4 pb-12 bg-white border rounded-md shadow-sm border-slate-700 dark:bg-gray-900 gap-y-3"
+    >
       <img className="w-24 h-24 mx-auto rounded-full" src={image} alt="" />
       <div className="font-bold tracking-wide text-center text-md text-slate-500 dark:text-white">
         {name}
@@ -27,4 +31,4 @@ function DishCard({ id, image, name, price, description }) {
   );
 }
 
-export default DishCard;
+export default forwardRef(DishCard);
