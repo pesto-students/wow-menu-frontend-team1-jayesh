@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import OrderService from "../../../services/orders";
 import DashboardSocket from "../../../services/dashboardSocket";
 
 export default function useLoadOrders(page = 1, filterBy = "") {
+  const restaurantId = useSelector((state) => state.restaurant.id);
   const { response, loading, error, getOrders } = OrderService();
   const { newOrder } = DashboardSocket();
   const [orders, setOrders] = useState([]);
@@ -15,7 +17,9 @@ export default function useLoadOrders(page = 1, filterBy = "") {
   useEffect(() => {
     const filterQuery = {};
     if (filterBy !== "") filterQuery.status = filterBy;
-    getOrders(page, filterQuery);
+    if (restaurantId) {
+      getOrders(page, filterQuery);
+    }
   }, [page, filterBy]);
 
   useEffect(() => {

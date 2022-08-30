@@ -2,24 +2,26 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CategoryCard from "./CategoryCard";
-import useAxios from "../../../../../shared/hooks/useAxios";
 import CategoryCardSkeleton from "./CategoryCardSkeleton";
+import CategoriesService from "../../../../../services/categories";
 
 function CategoriesList() {
-  const restaurantID = useSelector((state) => state.restaurant.id);
-  const { response, loading, error } = useAxios({
-    url: `/categories?restaurant=${restaurantID}`,
-    method: "get",
-    headers: { accept: "*/*" },
-  });
+  const restaurantId = useSelector((state) => state.restaurant.id);
+  const { response, loading, error, getCategories } = CategoriesService();
   const [categoriesData, setCategoriesData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (response !== null) {
+    if (response && response.data) {
       setCategoriesData(response);
     }
   }, [response]);
+
+  useEffect(() => {
+    if (restaurantId) {
+      getCategories({ restaurantId, active: "" });
+    }
+  }, [restaurantId]);
 
   return (
     <div className="flex flex-col flex-1 p-4 pl-28">

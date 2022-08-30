@@ -4,11 +4,12 @@ import { CATEGORIES } from "./endpoints";
 export default function CategoriesService() {
   const { response, loading, error, callApi } = useAxios();
 
-  const getCategories = (restaurantId) => {
+  const getCategories = ({ restaurantId, active = true }) => {
+    const query = active !== "" ? { isActive: active } : "";
     callApi({
       apiMethod: "get",
       apiUrl: `${CATEGORIES}`,
-      params: { restaurant: restaurantId, isActive: true },
+      params: { restaurant: restaurantId, ...query },
       errorToastMessage: error.message,
     });
   };

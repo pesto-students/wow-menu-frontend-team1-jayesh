@@ -2,10 +2,9 @@ import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD0UytI9INAprPtZN_cFFRBB3Io5qjwB1w",
-  authDomain: "workflow-19f2c.firebaseapp.com",
-  databaseURL:
-    "https://workflow-19f2c-default-rtdb.asia-southeast1.firebasedatabase.app",
+  apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASEURL,
   projectId: "workflow-19f2c",
   storageBucket: "workflow-19f2c.appspot.com",
   messagingSenderId: "913546000732",

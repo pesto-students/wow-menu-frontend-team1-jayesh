@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { BiFoodMenu } from "react-icons/bi";
 import { GiHotMeal } from "react-icons/gi";
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
+import { useSelector } from "react-redux";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import Header from "../components/Header";
@@ -12,11 +13,14 @@ import Card from "../../../shared/components/Card";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 function DashboardAnalytics() {
+  const restaurantId = useSelector((state) => state.restaurant.details.id);
   const { response: analytics, getAnalytics } = AnalyticService();
   const { response: bills, getBills } = BillService();
   useEffect(() => {
-    getAnalytics();
-    getBills();
+    if (restaurantId) {
+      getAnalytics();
+      getBills();
+    }
   }, []);
 
   return (

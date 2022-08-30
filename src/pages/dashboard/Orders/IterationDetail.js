@@ -5,7 +5,7 @@ import IconButton from "../../../shared/components/IconButton";
 import OrderService from "../../../services/orders";
 
 function IterationDetail({ iteration, orderId, updateOrder }) {
-  const { response, changeIterationsStatus } = OrderService();
+  const { loading, response, changeIterationsStatus } = OrderService();
 
   useEffect(() => {
     if (response) {
@@ -64,14 +64,16 @@ function IterationDetail({ iteration, orderId, updateOrder }) {
             <>
               <IconButton
                 theme="outline"
-                className="mr-4 border border-1 border-accent-green"
+                disabled={loading}
+                className="mr-4 border border-1 border-accent-green disabled:opacity-50"
                 onClick={() => changeStatus(iteration.id, "Preparing")}
               >
                 <p className="text-base text-accent-green">Accept Order</p>
               </IconButton>
               <IconButton
                 theme="outline"
-                className="border border-1 border-accent-red"
+                disabled={loading}
+                className="border border-1 border-accent-red disabled:opacity-50"
                 onClick={() => changeStatus(iteration.id, "Rejected")}
               >
                 <p className="text-base text-accent-red">Reject Order</p>

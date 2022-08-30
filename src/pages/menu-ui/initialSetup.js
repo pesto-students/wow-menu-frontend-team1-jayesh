@@ -39,7 +39,7 @@ export default function InitialSetup() {
   useEffect(() => {
     if (restaurant && restaurant.data) {
       dispatch(setRestaurant(restaurant.data));
-      getCategories(restaurantId);
+      getCategories({ restaurantId });
       setSuccess(true);
     }
   }, [restaurant]);

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { MdQrCode2 } from "react-icons/md";
 import { TbDiscount2 } from "react-icons/tb";
-import { BsShieldLock, BsInfoCircle } from "react-icons/bs";
+import { BsInfoCircle } from "react-icons/bs"; // BsShieldLock,
 import { BiCategoryAlt } from "react-icons/bi";
 import { FaRegUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -10,17 +10,17 @@ function DashboardSettings() {
   const settingsOptions = [
     {
       id: 1,
+      icon: <BsInfoCircle />,
+      title: "Restaurant Details",
+      subtitle: "Manage your restaurant details",
+      link: "restaurant",
+    },
+    {
+      id: 2,
       icon: <FaRegUser />,
       title: "Access Management",
       subtitle: "Roles and Permissions",
       link: "access-management",
-    },
-    {
-      id: 2,
-      icon: <MdQrCode2 />,
-      title: "QR Code",
-      subtitle: "Share, Download QR Code",
-      link: "qrcode",
     },
     {
       id: 3,
@@ -38,18 +38,18 @@ function DashboardSettings() {
     },
     {
       id: 5,
-      icon: <BsShieldLock />,
-      title: "Security",
-      subtitle: "Configure Kitchen",
-      link: "access-management",
+      icon: <MdQrCode2 />,
+      title: "QR Code",
+      subtitle: "Share, Download QR Code",
+      link: "qrcode",
     },
-    {
-      id: 6,
-      icon: <BsInfoCircle />,
-      title: "Restaurant Details",
-      subtitle: "Manage your restaurant details",
-      link: "restaurant",
-    },
+    // {
+    //   id: 6,
+    //   icon: <BsShieldLock />,
+    //   title: "Security",
+    //   subtitle: "Configure Kitchen",
+    //   link: "access-management",
+    // },
   ];
   return (
     <motion.main

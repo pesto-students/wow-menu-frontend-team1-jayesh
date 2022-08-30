@@ -17,6 +17,7 @@ function IconButton({
   className,
   children,
   onClick,
+  disabled = false,
   href = "",
   theme = "normal",
 }) {
@@ -28,6 +29,7 @@ function IconButton({
     <motion.button
       whileTap={{ scale: 0.85 }}
       type="button"
+      disabled={disabled}
       className={`${classes.base} ${classes.theme[theme]} ${className}`}
       onClick={href === "" ? onClick : handleRoute}
     >

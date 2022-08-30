@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { FaRegEdit } from "react-icons/fa";
@@ -6,9 +7,10 @@ import useAxios from "../../../../../shared/hooks/useAxios";
 import UserListSkeleton from "./UserListSkeleton";
 
 export default function UsersList() {
+  const restaurantId = useSelector((state) => state.restaurant.details.id);
   const { response, loading, error } = useAxios({
-    url: "/users?",
     method: "get",
+    url: "/users",
     headers: { accept: "*/*" },
   });
   const [usersData, setUsersData] = useState([]);
@@ -18,10 +20,10 @@ export default function UsersList() {
   };
 
   useEffect(() => {
-    if (response !== null) {
+    if (response && restaurantId) {
       setUsersData(response);
     }
-  }, [response]);
+  }, [response, restaurantId]);
   return (
     <div className="flex flex-col flex-1 p-4 pl-28">
       <div className="flex justify-between">
@@ -83,7 +85,10 @@ export default function UsersList() {
                 usersData.data.map((val) => {
                   return (
                     val.role.toLowerCase() !== "owner" && (
-                      <tr className="text-gray-900 bg-white border-b dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+                      <tr
+                        key={val.id}
+                        className="text-gray-900 bg-white border-b dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                      >
                         <th
                           scope="row"
                           className="px-6 py-4 font-medium whitespace-nowrap"
