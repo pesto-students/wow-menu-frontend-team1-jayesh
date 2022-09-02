@@ -91,7 +91,7 @@ function DashboardSideBar() {
               >
                 <button
                   type="button"
-                  className={`p-4 my-4 mr-4 ml-3 rounded-xl transition-all duration-100 ease-linear ${
+                  className={`relative p-4 my-4 mr-4 ml-3 rounded-xl transition-all duration-100 ease-linear ${
                     activeMenu.indexOf(menu.link) > -1
                       ? "text-white shadow-primary bg-primary"
                       : "text-primary hover:text-white hover:bg-primary"
@@ -107,10 +107,10 @@ function DashboardSideBar() {
                 >
                   <menu.icon className="w-6 h-6 fill-current" />
                   {menu.badge && unseenOrder > 0 && (
-                <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold bg-red-500 border-2 border-white rounded-full text-dark-text1 -top-2 -right-2 dark:border-gray-900">
-                  {unseenOrder}
-                </div>
-              )}
+                    <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold bg-red-500 border-2 border-white rounded-full text-dark-text1 -top-2 -right-2 dark:border-gray-900">
+                      {unseenOrder}
+                    </div>
+                  )}
                 </button>
                 <span className="sidebar-tooltip group-hover:scale-100">
                   {menu.name}
