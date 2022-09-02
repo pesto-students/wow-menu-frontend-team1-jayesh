@@ -1,22 +1,22 @@
 import { useState, useEffect } from "react";
 import ProductService from "../../../../../services/products";
 
-export default function useLoadProduct(page = 1, category) {
+export default function useLoadProduct(page = 1, filterQuery) {
   const [products, setProducts] = useState([]);
   const [hasMore, setHasMore] = useState(false);
   const { response, loading, error, getProducts } = ProductService();
 
   useEffect(() => {
     setProducts([]);
-  }, [category]);
+  }, [filterQuery]);
 
   useEffect(() => {
-    if (category) {
-      getProducts(page, { category });
+    if (filterQuery) {
+      getProducts(page, filterQuery);
     } else {
       getProducts(page);
     }
-  }, [page, category]);
+  }, [page, filterQuery]);
 
   useEffect(() => {
     if (response) {

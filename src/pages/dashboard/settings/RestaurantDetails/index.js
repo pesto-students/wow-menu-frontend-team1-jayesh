@@ -110,8 +110,8 @@ export default function RestaurantDetails() {
               <label htmlFor="name">
                 <div className="mb-2 font-semibold text-slate-300">Name</div>
                 {loading ? (
-                  <div className="max-w-sm animate-pulse">
-                    <div className="w-full h-8 mb-4 bg-gray-200 rounded dark:bg-gray-700" />
+                  <div className="animate-pulse">
+                    <div className="h-10 rounded-md bg-slate-300 dark:bg-slate-700" />
                   </div>
                 ) : (
                   <input
@@ -135,8 +135,8 @@ export default function RestaurantDetails() {
                   GST Percentage
                 </div>
                 {loading ? (
-                  <div className="max-w-sm animate-pulse">
-                    <div className="w-full h-8 mb-4 bg-gray-200 rounded dark:bg-gray-700" />
+                  <div className="animate-pulse">
+                    <div className="h-10 rounded-md bg-slate-300 dark:bg-slate-700" />
                   </div>
                 ) : (
                   <input
@@ -158,8 +158,8 @@ export default function RestaurantDetails() {
               <label htmlFor="address">
                 <div className="mb-2 font-semibold text-slate-300">Address</div>
                 {loading ? (
-                  <div className="max-w-sm animate-pulse">
-                    <div className="w-full h-8 mb-4 bg-gray-200 rounded dark:bg-gray-700" />
+                  <div className="animate-pulse">
+                    <div className="h-16 rounded-md bg-slate-300 dark:bg-slate-700" />
                   </div>
                 ) : (
                   <textarea
@@ -185,8 +185,8 @@ export default function RestaurantDetails() {
                   Phone Number
                 </div>
                 {loading ? (
-                  <div className="max-w-sm animate-pulse">
-                    <div className="w-full h-8 mb-4 bg-gray-200 rounded dark:bg-gray-700" />
+                  <div className="animate-pulse">
+                    <div className="h-10 rounded-md bg-slate-300 dark:bg-slate-700" />
                   </div>
                 ) : (
                   <input
@@ -210,8 +210,8 @@ export default function RestaurantDetails() {
                   GST Number
                 </div>
                 {loading ? (
-                  <div className="max-w-sm animate-pulse">
-                    <div className="w-full h-8 mb-4 bg-gray-200 rounded dark:bg-gray-700" />
+                  <div className="animate-pulse">
+                    <div className="h-10 rounded-md bg-slate-300 dark:bg-slate-700" />
                   </div>
                 ) : (
                   <input
@@ -235,8 +235,8 @@ export default function RestaurantDetails() {
                   Total Tables
                 </div>
                 {loading ? (
-                  <div className="max-w-sm animate-pulse">
-                    <div className="w-full h-8 mb-4 bg-gray-200 rounded dark:bg-gray-700" />
+                  <div className="animate-pulse">
+                    <div className="h-10 rounded-md bg-slate-300 dark:bg-slate-700" />
                   </div>
                 ) : (
                   <input
