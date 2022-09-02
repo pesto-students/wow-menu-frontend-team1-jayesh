@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import useDarkMode from "./useDarkMode";
 
 axios.defaults.baseURL = `${process.env.REACT_APP_BASE_URL}api/`;
 
 const useAxios = ({ url = null, method = null, headers = null } = {}) => {
+  const [darkMode] = useDarkMode();
+  const theme = darkMode ? "light" : "dark";
   const navigate = useNavigate();
   const [response, setResponse] = useState(null);
   const [error, setError] = useState("");
@@ -38,6 +41,7 @@ const useAxios = ({ url = null, method = null, headers = null } = {}) => {
           success: {
             render: successToastMessage,
             autoClose: 2000,
+            theme,
           },
         });
         setResponse(responseData.data);
@@ -51,6 +55,7 @@ const useAxios = ({ url = null, method = null, headers = null } = {}) => {
           {
             delay: 0,
             autoClose: false,
+            theme,
           },
         );
       } finally {

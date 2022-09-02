@@ -58,7 +58,7 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
                 viewport={{ once: true }}
                 exit={{ x: -30, opacity: 0 }}
                 key={order.id}
-                className={`${classes.bg[order.status]} `}
+                className={`rounded-lg ${classes.bg[order.status]} `}
               >
                 <button
                   ref={orders.length === idx + 1 ? loadMoreElementRef : null}
