@@ -17,7 +17,12 @@ export default function InitialSetup() {
   // const restaurantId = "63077d6ac31f771aaca9c858";
   // const table = 7;
 
-  const { response: restaurant, getRestaurant } = RestaurantService();
+  const {
+    loading,
+    response: restaurant,
+    error,
+    getRestaurant,
+  } = RestaurantService();
   const { response: categories, getCategories } = CategoriesService();
 
   useEffect(() => {
@@ -43,5 +48,5 @@ export default function InitialSetup() {
       setSuccess(true);
     }
   }, [restaurant]);
-  return { success };
+  return { loading, success, error };
 }

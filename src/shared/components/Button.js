@@ -36,7 +36,7 @@ function Button({
   };
   return (
     <motion.button
-      whileTap={{ scale: 0.85 }}
+      whileTap={{ scale: 0.9 }}
       type="button"
       disabled={disabled}
       className={`

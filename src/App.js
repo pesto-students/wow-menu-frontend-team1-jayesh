@@ -9,10 +9,7 @@ function App() {
   const [darkMode] = useDarkMode();
   return (
     <BrowserRouter>
-      <ToastContainer
-        newestOnTop
-        toastStyle={{ backgroundColor: "#1f1d2b", color: "#fff" }}
-      />
+      <ToastContainer newestOnTop />
       <AnimatedRoutes clasName={`${darkMode}?'dark':''`} />
     </BrowserRouter>
   );
