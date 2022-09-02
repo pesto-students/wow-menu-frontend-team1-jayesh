@@ -5,25 +5,45 @@ import { GiCook } from "react-icons/gi";
 import { TiThListOutline } from "react-icons/ti";
 import "./Sidebar.scss";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { ReactComponent as StoreIcon } from "../../../assets/icons/store.svg";
 import { logout } from "../../../store/reducers/authReducer";
 import { resetRestaurant } from "../../../store/reducers/restaurantReducer";
+import DashboardSocket from "../../../services/dashboardSocket";
 
 function DashboardSideBar() {
   const dispatch = useDispatch();
+  const { newOrder } = DashboardSocket();
   const menus = [
     { name: "Home", icon: FaHome, link: "/dashboard/home" },
-    { name: "Orders", icon: TiThListOutline, link: "/dashboard/orders" },
+    {
+      name: "Orders",
+      icon: TiThListOutline,
+      link: "/dashboard/orders",
+      badge: true,
+    },
     { name: "Kitchen", icon: GiCook, link: "/dashboard/kitchen" },
     { name: "Analytics", icon: FaChartPie, link: "/dashboard/analytics" },
     { name: "Settings", icon: BsGearFill, link: "/dashboard/settings" },
     { name: "Logout", icon: MdLogout },
   ];
-
   const location = useLocation();
   const activeMenu = location.pathname;
   const navigate = useNavigate();
+  const [unseenOrder, setUnseenOrder] = useState(0);
+
+  useEffect(() => {
+    if (newOrder && activeMenu !== menus[1].link) {
+      setUnseenOrder((lastOrder) => lastOrder + 1);
+    }
+  }, [newOrder]);
+
+  useEffect(() => {
+    if (activeMenu === menus[1].link) {
+      setUnseenOrder(0);
+    }
+  }, [activeMenu]);
 
   return (
     <div className="fixed z-50 flex flex-col items-center w-24 h-screen py-8 bg-white dark:bg-gray-900 gap-y-4">
@@ -47,7 +67,7 @@ function DashboardSideBar() {
           >
             <button
               type="button"
-              className={`p-4 my-4 mr-4 ml-3 rounded-xl transition-all duration-100 ease-linear ${
+              className={`relative p-4 my-4 mr-4 ml-3 rounded-xl transition-all duration-100 ease-linear ${
                 activeMenu.indexOf(menu.link) > -1
                   ? "text-white shadow-primary bg-primary"
                   : "text-primary hover:text-white hover:bg-primary"
@@ -62,6 +82,11 @@ function DashboardSideBar() {
               }}
             >
               <menu.icon className="w-6 h-6 fill-current" />
+              {menu.badge && unseenOrder > 0 && (
+                <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold bg-red-500 border-2 border-white rounded-full text-dark-text1 -top-2 -right-2 dark:border-gray-900">
+                  {unseenOrder}
+                </div>
+              )}
             </button>
             <span className="sidebar-tooltip group-hover:scale-100">
               {menu.name}
