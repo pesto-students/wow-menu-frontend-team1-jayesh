@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { useSelector, useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import { BiRupee, BiFoodTag } from "react-icons/bi";
@@ -32,7 +33,18 @@ function ItemInDetail() {
     dispatch(setItem(""));
   };
   const handleInc = () => {
-    setLocalQty(localQty + 1);
+    if (localQty >= 20) {
+      Swal.fire({
+        title: "Order Limit Exceeded?",
+        text: "You can't place more than 20 plates of a Single Item in a Order. If you need to order more than 20 plates please place this order and order again",
+        icon: "warning",
+        confirmButtonColor: "#50D1AA",
+        confirmButtonText: "Ok",
+        width: 300,
+      });
+    } else {
+      setLocalQty(localQty + 1);
+    }
   };
   const handleDec = () => {
     if (localQty === 1) dispatch(setItem(""));

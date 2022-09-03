@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -20,6 +21,7 @@ const schema = yup.object().shape({
 });
 
 export default function AddUser() {
+  const restaurantId = useSelector((state) => state.restaurant.details.id);
   const navigate = useNavigate();
   const restaurantID = useSelector((state) => state.restaurant.id);
   const { callApi } = useAxios();
@@ -34,8 +36,7 @@ export default function AddUser() {
     callApi({
       apiMethod: "post",
       apiUrl: "/signup",
-      apiBody: { ...data },
-      params: { restaurant: restaurantID },
+      apiBody: { ...data, restaurant: restaurantId },
       successToastMessage: "User is added successfully!",
       errorToastMessage: "Something went wrong, Please try again!",
       navigationLink: "/dashboard/settings/access-management",

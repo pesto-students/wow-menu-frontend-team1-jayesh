@@ -91,7 +91,7 @@ function DashboardAnalytics() {
         <aside className="flex flex-col w-full py-4 pr-4 gap-y-4 lg:w-96">
           <Card className="bg-light-base2 dark:bg-dark-base2">
             <h2 className="mb-5 text-xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
-              Billing Report
+              Most Ordered
             </h2>
             <hr className="mb-3 dark:border-gray-600" />
             <div className="flex flex-col mb-3 gap-y-4">
