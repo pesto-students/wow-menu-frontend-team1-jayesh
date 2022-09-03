@@ -4,6 +4,7 @@ import { MdArrowBackIosNew } from "react-icons/md";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useSelector } from "react-redux";
 import useAxios from "../../../../../shared/hooks/useAxios";
 
 const schema = yup.object().shape({
@@ -20,6 +21,7 @@ const schema = yup.object().shape({
 
 export default function AddUser() {
   const navigate = useNavigate();
+  const restaurantID = useSelector((state) => state.restaurant.id);
   const { callApi } = useAxios();
   const {
     register,
@@ -33,6 +35,7 @@ export default function AddUser() {
       apiMethod: "post",
       apiUrl: "/signup",
       apiBody: { ...data },
+      params: { restaurant: restaurantID },
       successToastMessage: "User is added successfully!",
       errorToastMessage: "Something went wrong, Please try again!",
       navigationLink: "/dashboard/settings/access-management",
