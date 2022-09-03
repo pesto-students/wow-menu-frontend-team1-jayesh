@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import Header from "../components/Header";
 import OrderList from "./OrderList";
 import OrderDetail from "./OrderDetail";
@@ -41,7 +42,13 @@ function Orders() {
   }, [orders]);
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">
+    <motion.div
+      initial={{ y: 10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: -10, opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1"
+    >
       <div className="flex ml-28">
         <main className="relative h-screen pr-4 overflow-x-hidden overflow-y-auto grow">
           <Header name="Orders" />
@@ -68,7 +75,7 @@ function Orders() {
           />
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
 

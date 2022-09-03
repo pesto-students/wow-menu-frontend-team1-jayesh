@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 import { BiFoodMenu } from "react-icons/bi";
 import { GiHotMeal } from "react-icons/gi";
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
@@ -24,7 +25,13 @@ function DashboardAnalytics() {
   }, []);
 
   return (
-    <div className="relative w-screen h-screen overflow-x-hidden bg-light-base1 dark:bg-dark-base1">
+    <motion.div
+      initial={{ y: 10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: -10, opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="relative w-screen h-screen overflow-x-hidden bg-light-base1 dark:bg-dark-base1"
+    >
       <div className="flex flex-wrap ml-28">
         <main className="relative flex flex-col h-screen gap-4 pr-4 overflow-x-hidden overflow-y-auto grow">
           <Header name="Analytics" />
@@ -148,7 +155,7 @@ function DashboardAnalytics() {
           </Card>
         </aside>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

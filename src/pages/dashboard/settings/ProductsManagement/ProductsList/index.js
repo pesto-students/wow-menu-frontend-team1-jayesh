@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback } from "react";
+import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import DishCard from "./DishCard";
 import DishCardSkeleton from "./DishCardSkeleton";
@@ -33,7 +34,13 @@ function ProductsList() {
   );
 
   return (
-    <div className="flex flex-col flex-1 p-4 pl-28">
+    <motion.div
+      initial={{ y: 10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: -10, opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="flex flex-col flex-1 p-4 pl-28"
+    >
       <div className="flex items-center">
         <BackButton href="/dashboard/settings" />
         <h1 className="ml-2 text-3xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
@@ -95,7 +102,7 @@ function ProductsList() {
           </>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
 

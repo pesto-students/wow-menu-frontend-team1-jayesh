@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -33,7 +34,13 @@ export default function AddCategory() {
   };
 
   return (
-    <div className="flex flex-col flex-1 p-4 pl-28">
+    <motion.div
+      initial={{ y: 10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: -10, opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="flex flex-col flex-1 p-4 pl-28"
+    >
       <div className="flex justify-start mb-3">
         <button
           type="button"
@@ -147,6 +154,6 @@ export default function AddCategory() {
           </button>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 }

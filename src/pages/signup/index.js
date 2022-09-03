@@ -1,8 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaRegUser } from "react-icons/fa";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { HiOutlineMail } from "react-icons/hi";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -21,6 +23,14 @@ const schema = yup.object().shape({
 });
 
 function Signup() {
+  const [passwordType, setPasswordType] = useState("password");
+  const togglePassword = () => {
+    if (passwordType === "password") {
+      setPasswordType("text");
+      return;
+    }
+    setPasswordType("password");
+  };
   const { loading: signupLoading, callApi } = useAxios();
   const {
     register,
@@ -163,13 +173,26 @@ function Signup() {
                     <RiLockPasswordLine />
                   </div>
                   <input
-                    type="password"
+                    type={passwordType}
                     name="password"
                     {...register("password")}
-                    className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-sm block w-full pl-10 p-2.5 
+                    className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-sm block w-full px-10 p-2.5 
                   transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
                     placeholder="Password"
                   />
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 cursor-pointer">
+                    <button
+                      type="button"
+                      className="text-xl"
+                      onClick={togglePassword}
+                    >
+                      {passwordType === "password" ? (
+                        <AiOutlineEyeInvisible />
+                      ) : (
+                        <AiOutlineEye />
+                      )}
+                    </button>
+                  </div>
                 </div>
                 {errors.password && (
                   <p className="text-rose-400"> {errors.password.message} </p>
