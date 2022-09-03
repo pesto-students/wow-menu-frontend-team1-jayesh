@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Card from "../../../shared/components/Card";
 import IconButton from "../../../shared/components/IconButton";
 import OrderService from "../../../services/orders";
+import noImg from "../../../assets/images/noImg.png";
 
 function IterationDetail({ iteration, orderId, updateOrder }) {
   const { loading, response, changeIterationsStatus } = OrderService();
@@ -31,9 +32,15 @@ function IterationDetail({ iteration, orderId, updateOrder }) {
               key={item.item.id}
               className="grid items-center grid-cols-4 gap-1 mb-5 md:grid-cols-6 md:gap-2"
             >
-              {item.item.imageUrl && (
+              {item.item.imageUrl ? (
                 <img
                   src={item.item.imageUrl}
+                  alt={item.item.name}
+                  className="p-0.5 rounded-full"
+                />
+              ) : (
+                <img
+                  src={noImg}
                   alt={item.item.name}
                   className="p-0.5 rounded-full"
                 />

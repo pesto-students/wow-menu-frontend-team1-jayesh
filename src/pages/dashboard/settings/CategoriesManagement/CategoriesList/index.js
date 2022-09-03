@@ -7,6 +7,7 @@ import CategoryCardSkeleton from "./CategoryCardSkeleton";
 import CategoriesService from "../../../../../services/categories";
 import CategoryFilterBar from "./CategoryFilterBar";
 import BackButton from "../../../../../shared/components/BackButton";
+import noCategory from "../../../../../assets/images/noOrder.svg";
 
 function CategoriesList() {
   const restaurantId = useSelector((state) => state.restaurant.id);
@@ -39,43 +40,45 @@ function CategoriesList() {
       transition={{ duration: 0.2 }}
       className="flex flex-col flex-1 p-4 pl-28"
     >
-      <div className="flex items-center mb-3">
+      <header className="flex items-center">
         <BackButton href="/dashboard/settings" />
-        <h1 className="ml-2 text-3xl font-semibold leading-loose text-slate-800 dark:text-white">
-          Categories List
+        <h1 className="flex ml-2 text-2xl font-semibold leading-loose sm:text-3xl text-light-text1 dark:text-dark-text1">
+          Categories <span className="hidden ml-2 sm:block">List</span>
         </h1>
         <button
           type="button"
           onClick={() => {
             navigate("../settings/add-category");
           }}
-          className="px-3.5 py-2 w-max ml-auto my-3 rounded-lg border border-dashed border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold"
+          className="flex px-3.5 py-2 w-max ml-auto my-3 rounded-lg border border-dashed border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold"
         >
-          + Add new category
+          <span className="hidden mr-2 sm:block">Add</span>
+          <span className="block mr-2 sm:hidden">+</span>
+          Category
         </button>
-      </div>
-      <nav className="w-full mb-3">
+      </header>
+      <nav className="w-full text-light-text1 dark:text-dark-text1">
         <ol className="flex">
           <li>
-            <Link
-              to="/dashboard/settings"
-              className="text-white hover:text-primary"
-            >
+            <Link to="/dashboard/settings" className="hover:text-primary">
               Settings
             </Link>
           </li>
           <li>
-            <span className="mx-2 text-gray-500">/</span>
+            <span className="mx-2">/</span>
           </li>
-          <li className="text-gray-500">Categories List</li>
+          <li className="text-light-text2 dark:text-dark-text2">
+            Categories List
+          </li>
         </ol>
       </nav>
-      <hr className="border-gray-700 dark:border-gray-600" />
+
+      <hr className="mt-3 mb-8 border-gray-400 dark:border-gray-600" />
 
       <div className="flex justify-end px-3.5 py-1 w-full my-3">
         <CategoryFilterBar updateFilter={handleUpdateFilter} />
       </div>
-      <div className="grid gap-6 mt-2 overflow-y-auto xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 h-max">
+      <div className="grid gap-6 p-4 mt-2 overflow-y-auto xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 h-max">
         {loading ? (
           <>
             <CategoryCardSkeleton />
@@ -100,6 +103,16 @@ function CategoriesList() {
           </>
         )}
       </div>
+      {categoriesData && categoriesData.data?.length === 0 && (
+        <div className="flex items-center justify-center w-full h-full">
+          <div>
+            <img className="w-64 mx-auto" src={noCategory} alt="No Order" />
+            <h3 className="mt-3 text-lg font-medium text-center text-light-text1 dark:text-dark-text2">
+              No Categories present
+            </h3>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 }

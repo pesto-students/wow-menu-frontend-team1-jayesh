@@ -66,14 +66,16 @@ function MenuCard({ className, item }, ref) {
             </p>
           </button>
           <div className="relative">
-            <img
-              className={`mx-auto rounded-full ${
-                item.isAvailable ? "" : "grayscale"
-              }`}
-              src={item.imageUrl}
-              alt={item.name}
-              width={150}
-            />
+            {item.imageUrl && (
+              <img
+                className={`mx-auto rounded-full ${
+                  item.isAvailable ? "" : "grayscale"
+                }`}
+                src={item.imageUrl}
+                alt={item.name}
+                width={150}
+              />
+            )}
             {item.isAvailable && (
               <div className="absolute inset-x-0 bottom-0">
                 {quantity === 0 ? (
