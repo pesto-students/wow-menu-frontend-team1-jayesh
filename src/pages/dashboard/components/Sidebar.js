@@ -91,7 +91,7 @@ function DashboardSideBar() {
               >
                 <button
                   type="button"
-                  className={`p-4 my-4 mr-4 ml-3 rounded-xl transition-all duration-100 ease-linear ${
+                  className={`relative p-4 my-4 mr-4 ml-3 rounded-xl transition-all duration-100 ease-linear ${
                     activeMenu.indexOf(menu.link) > -1
                       ? "text-white shadow-primary bg-primary"
                       : "text-primary hover:text-white hover:bg-primary"

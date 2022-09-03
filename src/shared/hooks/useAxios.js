@@ -8,7 +8,7 @@ axios.defaults.baseURL = `${process.env.REACT_APP_BASE_URL}api/`;
 
 const useAxios = ({ url = null, method = null, headers = null } = {}) => {
   const [darkMode] = useDarkMode();
-  const theme = darkMode ? "light" : "dark";
+  const theme = darkMode ? "dark" : "light";
   const navigate = useNavigate();
   const [response, setResponse] = useState(null);
   const [error, setError] = useState("");

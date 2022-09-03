@@ -11,7 +11,7 @@ export default function UploadImage({ storeFile, uploadedUrl }) {
     }
   };
   return (
-    <div className="relative flex items-center justify-center w-48 h-48 my-4 mr-4 text-lg text-center border border-dashed rounded md:ml-4 border-primary text-primary">
+    <div className="relative flex items-center justify-center w-48 h-48 mt-4 mr-4 text-lg text-center border border-dashed rounded md:ml-4 border-primary text-primary">
       {src ? (
         <img src={src} alt={`${src}`} className="rounded w-44 h-44" />
       ) : (

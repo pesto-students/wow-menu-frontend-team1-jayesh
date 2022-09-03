@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { FiChevronLeft } from "react-icons/fi";
 import { jsPDF } from "jspdf";
 import { AiOutlineCloudDownload } from "react-icons/ai";
-import moment from "moment";
 import Card from "../../../shared/components/Card";
 import Button from "../../../shared/components/Button";
 
@@ -13,13 +12,17 @@ function BillCard({ className, restaurant, bill }) {
     doc.setFontSize(22);
     doc.text(20, 25, `${restaurant.name}`);
     doc.setFontSize(14);
-    doc.text(20, 32, `Address: ${restaurant.address}`);
+    doc.text(
+      20,
+      32,
+      `Address: ${restaurant.address.street}, ${restaurant.address.state} - ${restaurant.address.pincode} `,
+    );
     doc.text(20, 39, `GSTIN: ${restaurant.gstNumber}`);
     doc.text(20, 46, `Phone: ${restaurant.phoneNumber}`);
     doc.setFontSize(28);
     doc.text(20, 60, "TAX INVOICE");
     doc.setFontSize(14);
-    doc.text(20, 67, `DATE: ${moment().format("DD-MM-yyyy")}`);
+    doc.text(20, 67, `DATE: ${new Date().toISOString().substring(0, 10)}`);
     doc.text(100, 67, `TABLE NO: ${bill.tableNo}`);
     doc.text(20, 74, "BILL NO: 7154");
     if (bill.createdBy) {
@@ -98,7 +101,10 @@ function BillCard({ className, restaurant, bill }) {
               {restaurant.name}
             </h2>
             <p className="text-center text-light-text1 dark:text-dark-text1">
-              {restaurant.address}
+              {restaurant.address.street}
+            </p>
+            <p className="text-center text-light-text1 dark:text-dark-text1">
+              {restaurant.address.state} - {restaurant.address.pincode}
             </p>
             <p className="text-center text-light-text1 dark:text-dark-text1">
               GSTIN: {restaurant.gstNumber}
@@ -116,7 +122,7 @@ function BillCard({ className, restaurant, bill }) {
                   <span className="mr-1 font-medium text-light-text1 dark:text-dark-text1">
                     Date:
                   </span>
-                  {moment().format("DD-MM-yyyy")}
+                  {new Date().toISOString().substring(0, 10)}
                 </p>
                 <p>
                   <span className="mr-1 font-medium text-light-text1 dark:text-dark-text1">

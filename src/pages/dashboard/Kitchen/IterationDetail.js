@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Card from "../../../shared/components/Card";
 import IconButton from "../../../shared/components/IconButton";
 import OrderService from "../../../services/orders";
+import noImg from "../../../assets/images/noImg.png";
 
 function IterationDetail({ iteration, orderId, updateOrder }) {
   const { loading, response, changeIterationsStatus } = OrderService();
@@ -30,9 +31,15 @@ function IterationDetail({ iteration, orderId, updateOrder }) {
           return (
             <div key={item.item.id} className="flex justify-between mb-5">
               <div className="flex">
-                {item.item.imageUrl && (
+                {item.item.imageUrl ? (
                   <img
                     src={item.item.imageUrl}
+                    alt={item.item.name}
+                    className="hidden w-20 rounded-full lg:block"
+                  />
+                ) : (
+                  <img
+                    src={noImg}
                     alt={item.item.name}
                     className="hidden w-20 rounded-full lg:block"
                   />

@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { MdArrowBackIosNew } from "react-icons/md";
+import BackButton from "../../../../../shared/components/BackButton";
 import useAxios from "../../../../../shared/hooks/useAxios";
 
 const schema = yup.object().shape({
@@ -13,7 +13,6 @@ const schema = yup.object().shape({
 });
 
 export default function AddCategory() {
-  const navigate = useNavigate();
   const { loading, callApi } = useAxios();
   const {
     register,
@@ -41,57 +40,51 @@ export default function AddCategory() {
       transition={{ duration: 0.2 }}
       className="flex flex-col flex-1 p-4 pl-28"
     >
-      <div className="flex justify-start mb-3">
-        <button
-          type="button"
-          onClick={() => navigate("/dashboard/settings/categories-list")}
-          className="px-3.5 mr-2 py-1 w-max rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#e66e59]"
-        >
-          <MdArrowBackIosNew />
-        </button>
-        <h3 className="text-2xl font-semibold leading-loose text-slate-800 dark:text-white">
-          Add Category
-        </h3>
-      </div>
-      <nav className="w-full mb-3">
+      <header>
+        <div className="flex items-center">
+          <BackButton href="/dashboard/settings/categories-list" />
+          <h1 className="ml-2 text-2xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
+            Add Category
+          </h1>
+        </div>
+      </header>
+
+      <nav className="w-full mb-3 text-light-text1 dark:text-dark-text1">
         <ol className="flex">
           <li>
-            <Link
-              to="/dashboard/settings"
-              className="text-white hover:text-primary"
-            >
+            <Link to="/dashboard/settings" className="hover:text-primary">
               Settings
             </Link>
           </li>
+          <span className="mx-2 text-gray-500">/</span>
           <li>
-            <span className="mx-2 text-gray-500">/</span>
-          </li>
-          <li className="text-gray-500">
             <Link
               to="/dashboard/settings/categories-list"
-              className="text-white hover:text-primary"
+              className="hover:text-primary"
             >
               Categories List
             </Link>
           </li>
-          <li>
-            <span className="mx-2 text-gray-500">/</span>
+          <span className="mx-2 text-gray-500">/</span>
+          <li className="text-light-text2 dark:text-dark-text2">
+            Add Category
           </li>
-          <li className="text-gray-500">Add Category</li>
         </ol>
       </nav>
-      <hr className="border-gray-700 dark:border-gray-600" />
+      <hr className="mt-3 mb-8 border-gray-400 dark:border-gray-600" />
       <form onSubmit={handleSubmit(submitForm)}>
         <div className="grid mt-5 md:grid-cols-2">
           <div className="">
             <div className="relative mb-4">
               <label htmlFor="name">
-                <div className="mb-2 font-semibold text-slate-300">Name</div>
+                <p className="mb-2 font-semibold text-light-text1 dark:text-dark-text2 ">
+                  Name
+                </p>
                 <input
                   type="text"
                   name="name"
                   {...register("name")}
-                  className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
+                  className="border-2 dark:border-0 bg-light-base2 dark:bg-dark-base2 placeholder-light-text2 text-light-text1 dark:text-dark-text1 text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
                   placeholder="Name"
                 />
@@ -102,25 +95,33 @@ export default function AddCategory() {
             </div>
           </div>
           <div className="md:pl-4">
-            <div className="mt-6 text-slate-300">
+            <div className="mt-6">
               <label htmlFor="isActive">
-                <div className="font-semibold">Active</div>
-                <input
-                  type="radio"
-                  name="isActive"
-                  value="true"
-                  checked
-                  {...register("isActive")}
-                />{" "}
-                Yes
-                <input
-                  type="radio"
-                  name="isActive"
-                  value="false"
-                  {...register("isActive")}
-                  className="ml-5"
-                />{" "}
-                No
+                <p className="mb-2 font-semibold text-light-text1 dark:text-dark-text2">
+                  Active
+                </p>
+                <div className="flex">
+                  <input
+                    type="radio"
+                    name="isActive"
+                    value="true"
+                    checked
+                    {...register("isActive")}
+                  />
+                  <p className="ml-2 text-light-text1 dark:text-dark-text2">
+                    Yes
+                  </p>
+                  <input
+                    type="radio"
+                    name="isActive"
+                    value="false"
+                    {...register("isActive")}
+                    className="ml-5"
+                  />
+                  <p className="ml-2 text-light-text1 dark:text-dark-text2">
+                    No
+                  </p>
+                </div>
               </label>
               <p className="text-rose-400">{errors?.isActive?.message}</p>
             </div>

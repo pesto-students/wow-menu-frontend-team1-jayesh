@@ -16,8 +16,8 @@ function ProductFilterBar({ filterBy, updateFilter }) {
   const selectFilter = (status) => {
     updateFilter({
       ...(status.category && { category: status.category }),
-      ...(status.isActive && { isActive: status.isActive }),
-      ...(status.isAvailable && { isAvailable: status.isAvailable }),
+      ...(status.isActive !== "" && { isActive: status.isActive }),
+      ...(status.isAvailable !== "" && { isAvailable: status.isAvailable }),
     });
   };
   const restaurantID = useSelector((state) => state.restaurant.id);
@@ -42,7 +42,7 @@ function ProductFilterBar({ filterBy, updateFilter }) {
         // exit={{ scale: 0.5, opacity: 0 }}
         // transition={{ duration: 0.25 }}
         type="button"
-        className="relative flex items-center justify-center min-w-[192px] mr-2 p-2 px-3 border rounded shadow-sm select-none bg-light-base3 border-dark-text2 text-light-text1 dark:bg-dark-base3 dark:border-light-text1 dark:text-dark-text1"
+        className="relative flex items-center justify-center p-2 px-3 mx-2 my-1 border rounded shadow-sm select-none md:my-0 bg-light-base3 border-dark-text2 text-light-text1 dark:bg-dark-base3 dark:border-light-text1 dark:text-dark-text1"
         onClick={() => setFilter(!filter)}
       >
         <FaChevronDown className="mr-2 text-base text-light-text1 dark:text-dark-text1" />
@@ -68,7 +68,6 @@ function ProductFilterBar({ filterBy, updateFilter }) {
                     selectFilter({ ...filterBy, category: element.id });
                     setCategoryName(element.name);
                   }}
-                  selected={element.id === filterBy}
                   className="px-8 py-2 hover:dark:bg-slate-300"
                 >
                   {element.name}
@@ -84,7 +83,7 @@ function ProductFilterBar({ filterBy, updateFilter }) {
         // exit={{ scale: 0.5, opacity: 0 }}
         // transition={{ duration: 0.25 }}
         type="button"
-        className="relative flex items-center justify-center min-w-[192px] mr-2 p-2 px-3 border rounded shadow-sm select-none bg-light-base3 border-dark-text2 text-light-text1 dark:bg-dark-base3 dark:border-light-text1 dark:text-dark-text1"
+        className="relative flex items-center justify-center p-2 px-3 mx-2 border rounded shadow-sm select-none bg-light-base3 border-dark-text2 text-light-text1 dark:bg-dark-base3 dark:border-light-text1 dark:text-dark-text1"
         onClick={() => setActiveFilter(!activeFilter)}
       >
         <FaChevronDown className="mr-2 text-base text-light-text1 dark:text-dark-text1" />
@@ -108,7 +107,6 @@ function ProductFilterBar({ filterBy, updateFilter }) {
                 selectFilter({ ...filterBy, isActive: true });
                 setActive("Active");
               }}
-              selected={filterBy === "active"}
               className="px-8 py-2 hover:dark:bg-slate-300"
             >
               Active
@@ -119,7 +117,6 @@ function ProductFilterBar({ filterBy, updateFilter }) {
                 selectFilter({ ...filterBy, isActive: false });
                 setActive("Inactive");
               }}
-              selected={filterBy === "active"}
               className="px-8 py-2 hover:dark:bg-slate-300"
             >
               Inactive
@@ -133,7 +130,7 @@ function ProductFilterBar({ filterBy, updateFilter }) {
         // exit={{ scale: 0.5, opacity: 0 }}
         // transition={{ duration: 0.25 }}
         type="button"
-        className="relative flex items-center justify-center min-w-[192px] p-2 px-3 border rounded shadow-sm select-none bg-light-base3 border-dark-text2 text-light-text1 dark:bg-dark-base3 dark:border-light-text1 dark:text-dark-text1"
+        className="relative flex items-center justify-center p-2 px-3 mx-2 my-1 border rounded shadow-sm select-none sm:my-0 bg-light-base3 border-dark-text2 text-light-text1 dark:bg-dark-base3 dark:border-light-text1 dark:text-dark-text1"
         onClick={() => setAvailableFilter(!availableFilter)}
       >
         <FaChevronDown className="mr-2 text-base text-light-text1 dark:text-dark-text1" />
@@ -157,7 +154,6 @@ function ProductFilterBar({ filterBy, updateFilter }) {
                 selectFilter({ ...filterBy, isAvailable: true });
                 setAvailable("Available");
               }}
-              selected={filterBy === "available"}
               className="px-8 py-2 hover:dark:bg-slate-300"
             >
               Available
@@ -168,7 +164,6 @@ function ProductFilterBar({ filterBy, updateFilter }) {
                 selectFilter({ ...filterBy, isAvailable: false });
                 setAvailable("Unavailable");
               }}
-              selected={filterBy === "available"}
               className="px-8 py-2 hover:dark:bg-slate-300"
             >
               Unavailable

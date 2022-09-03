@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaChevronDown } from "react-icons/fa";
 
-function CategoryFilterBar({ filterBy, updateFilter }) {
+function CategoryFilterBar({ updateFilter }) {
   const [activeFilter, setActiveFilter] = useState(false);
   const [active, setActive] = useState(null);
   const selectFilter = (status) => {
@@ -40,7 +40,6 @@ function CategoryFilterBar({ filterBy, updateFilter }) {
               selectFilter(true);
               setActive("Active");
             }}
-            selected={filterBy === "active"}
             className="px-8 py-2 hover:dark:bg-slate-300"
           >
             Active
@@ -51,7 +50,6 @@ function CategoryFilterBar({ filterBy, updateFilter }) {
               selectFilter(false);
               setActive("Inactive");
             }}
-            selected={filterBy === "inactive"}
             className="px-8 py-2 hover:dark:bg-slate-300"
           >
             Inactive

@@ -15,7 +15,7 @@ export default function useProductSearch(search, page, filter) {
     if (filter === "veg") query.isVeg = true;
     else if (filter === "nonveg") query.isVeg = false;
     if (search.length > 0) query.name = search;
-    getProducts(page, query);
+    getProducts(page, { isActive: true, ...query });
   }, [search, page, filter]);
 
   useEffect(() => {
