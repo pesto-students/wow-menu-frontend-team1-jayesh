@@ -54,7 +54,8 @@ const useAxios = ({ url = null, method = null, headers = null } = {}) => {
           errorToastMessage || err.response.data.message || err.message,
           {
             delay: 0,
-            autoClose: false,
+            render: errorToastMessage,
+            autoClose: 3000,
             theme,
           },
         );

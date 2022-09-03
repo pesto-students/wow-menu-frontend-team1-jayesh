@@ -5,6 +5,7 @@ import { BsInfoCircle } from "react-icons/bs"; // BsShieldLock,
 import { BiCategoryAlt } from "react-icons/bi";
 import { FaRegUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import UserAndTheme from "../components/UserAndTheme";
 
 function DashboardSettings() {
   const settingsOptions = [
@@ -59,10 +60,11 @@ function DashboardSettings() {
       transition={{ duration: 0.2 }}
       className="flex flex-col flex-1 gap-6 p-4 pl-28"
     >
-      <header>
+      <header className="flex justify-between">
         <h1 className="text-3xl font-semibold leading-loose text-slate-800 dark:text-white">
           Settings
         </h1>
+        <UserAndTheme />
       </header>
       <hr className="border-gray-700 dark:border-gray-600" />
       <div className="flex flex-col pr-3">
