@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { FaRegEdit } from "react-icons/fa";
+import { MdArrowBackIosNew } from "react-icons/md";
 import useAxios from "../../../../../shared/hooks/useAxios";
 import UserListSkeleton from "./UserListSkeleton";
 
@@ -25,11 +27,24 @@ export default function UsersList() {
     }
   }, [response, restaurantId]);
   return (
-    <div className="flex flex-col flex-1 p-4 pl-28">
-      <div className="flex justify-between">
-        <h2 className="text-2xl font-semibold leading-loose text-slate-800 dark:text-white">
+    <motion.div
+      initial={{ y: 10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: -10, opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="flex flex-col flex-1 p-4 pl-28"
+    >
+      <div className="flex justify-start mb-3">
+        <button
+          type="button"
+          onClick={() => navigate("/dashboard/settings")}
+          className="px-3.5 mr-2 py-1 w-max rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#e66e59]"
+        >
+          <MdArrowBackIosNew />
+        </button>
+        <h3 className="text-2xl font-semibold leading-loose text-slate-800 dark:text-white">
           Users
-        </h2>
+        </h3>
       </div>
       <nav className="w-full mb-3">
         <ol className="flex">
@@ -127,6 +142,6 @@ export default function UsersList() {
           </table>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }

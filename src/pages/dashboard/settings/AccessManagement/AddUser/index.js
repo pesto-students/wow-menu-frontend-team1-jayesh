@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { useForm } from "react-hook-form";
@@ -42,7 +43,13 @@ export default function AddUser() {
   };
 
   return (
-    <div className="flex flex-col flex-1 p-4 pl-28">
+    <motion.div
+      initial={{ y: 10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: -10, opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="flex flex-col flex-1 p-4 pl-28"
+    >
       <div className="flex justify-start mb-3">
         <button
           type="button"
@@ -215,6 +222,6 @@ export default function AddUser() {
           </button>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 }

@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -73,7 +74,13 @@ export default function RestaurantDetails() {
   };
 
   return (
-    <div className="flex flex-col flex-1 p-4 pl-28">
+    <motion.div
+      initial={{ y: 10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: -10, opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="flex flex-col flex-1 p-4 pl-28"
+    >
       <div className="flex justify-start mb-3">
         <button
           type="button"
@@ -284,6 +291,6 @@ export default function RestaurantDetails() {
           </button>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 }
