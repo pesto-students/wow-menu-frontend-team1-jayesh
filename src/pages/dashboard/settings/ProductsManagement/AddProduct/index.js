@@ -1,16 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { MdArrowBackIosNew } from "react-icons/md";
 import { useSelector } from "react-redux";
 import UploadImage from "../../../components/UploadImage";
 import CategoriesService from "../../../../../services/categories";
 import ProductService from "../../../../../services/products";
 import FirebaseService from "../../../../../services/firebase";
+import BackButton from "../../../../../shared/components/BackButton";
 
 const schema = yup.object().shape({
   name: yup
@@ -37,7 +37,6 @@ const schema = yup.object().shape({
 });
 
 export default function AddProduct() {
-  const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [data, setData] = useState(null);
   const { response: categoriesData, getCategories } = CategoriesService();
@@ -81,57 +80,50 @@ export default function AddProduct() {
       transition={{ duration: 0.2 }}
       className="flex flex-col flex-1 p-4 pl-28"
     >
-      <div className="flex justify-start mb-3">
-        <button
-          type="button"
-          onClick={() => navigate("/dashboard/settings/products-list")}
-          className="px-3.5 mr-2 py-1 w-max rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#e66e59]"
-        >
-          <MdArrowBackIosNew />
-        </button>
-        <h3 className="text-2xl font-semibold leading-loose text-slate-800 dark:text-white">
-          Add Product
-        </h3>
-      </div>
-      <nav className="w-full mb-3">
+      <header>
+        <div className="flex items-center">
+          <BackButton href="/dashboard/settings/products-list" />
+          <h1 className="ml-2 text-2xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
+            Add Product
+          </h1>
+        </div>
+      </header>
+
+      <nav className="w-full mb-3 text-light-text1 dark:text-dark-text1">
         <ol className="flex">
           <li>
-            <Link
-              to="/dashboard/settings"
-              className="text-white hover:text-primary"
-            >
+            <Link to="/dashboard/settings" className="hover:text-primary">
               Settings
             </Link>
           </li>
+          <span className="mx-2 text-gray-500">/</span>
           <li>
-            <span className="mx-2 text-gray-500">/</span>
-          </li>
-          <li className="text-gray-500">
             <Link
               to="/dashboard/settings/products-list"
-              className="text-white hover:text-primary"
+              className="hover:text-primary"
             >
               Products List
             </Link>
           </li>
-          <li>
-            <span className="mx-2 text-gray-500">/</span>
-          </li>
-          <li className="text-gray-500">Add Product</li>
+          <span className="mx-2 text-gray-500">/</span>
+          <li className="text-light-text2 dark:text-dark-text2">Add Product</li>
         </ol>
       </nav>
-      <hr className="border-gray-700 dark:border-gray-600" />
+
+      <hr className="mt-3 mb-8 border-gray-400 dark:border-gray-600" />
       <form onSubmit={handleSubmit(submitForm)}>
         <div className="grid mt-5 md:grid-cols-2">
           <div className="">
             <div className="relative mb-4">
               <label htmlFor="name">
-                <div className="mb-2 font-semibold text-slate-300">Name</div>
+                <p className="mb-2 font-semibold text-light-text1 dark:text-dark-text2">
+                  Name
+                </p>
                 <input
                   type="text"
                   name="name"
                   {...register("name")}
-                  className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
+                  className="border-2 dark:border-0 bg-light-base2 dark:bg-dark-base2 placeholder-light-text2 text-light-text1 dark:text-dark-text1 text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
                   placeholder="Name"
                 />
@@ -142,14 +134,16 @@ export default function AddProduct() {
             </div>
             <div className="relative mb-4">
               <label htmlFor="price">
-                <div className="mb-2 font-semibold text-slate-300">Price</div>
+                <p className="mb-2 font-semibold text-light-text1 dark:text-dark-text2">
+                  Price
+                </p>
                 <input
                   type="text"
                   name="price"
                   {...register("price", {
                     valueAsNumber: true,
                   })}
-                  className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
+                  className="border-2 dark:border-0 bg-light-base2 dark:bg-dark-base2 placeholder-light-text2 text-light-text1 dark:text-dark-text1 text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
                   placeholder="Price"
                 />
@@ -158,9 +152,9 @@ export default function AddProduct() {
             </div>
             <div className="relative mb-4">
               <label htmlFor="category">
-                <div className="mb-2 font-semibold text-slate-300">
+                <p className="mb-2 font-semibold text-light-text1 dark:text-dark-text2">
                   Category
-                </div>
+                </p>
                 {!categoriesData && (
                   <div className="animate-pulse">
                     <div className="h-10 rounded-md bg-slate-300 dark:bg-slate-700" />
@@ -170,13 +164,13 @@ export default function AddProduct() {
                   <select
                     name="category"
                     {...register("category")}
-                    className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
+                    className="border-2 dark:border-0 bg-light-base2 dark:bg-dark-base2 placeholder-light-text2 text-light-text1 dark:text-dark-text1 text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary cursor-pointer"
                     placeholder="Select Category"
                   >
                     <option
                       defaultValue=""
-                      className="py-2 bg-gray-700 cursor-pointer text-md"
+                      className="py-2 cursor-pointer bg-light-base2 dark:bg-dark-base2 text-light-text1 dark:text-dark-text1 text-md"
                       disabled
                     >
                       -- Select Category --
@@ -186,7 +180,7 @@ export default function AddProduct() {
                         <option
                           key={option.id}
                           value={option.id}
-                          className="py-2 bg-gray-700 cursor-pointer text-md"
+                          className="py-2 cursor-pointer bg-light-base2 dark:bg-dark-base2 text-light-text1 dark:text-dark-text1 text-md"
                         >
                           {option.name}
                         </option>
@@ -199,15 +193,15 @@ export default function AddProduct() {
             </div>
             <div className="relative mb-4">
               <label htmlFor="description">
-                <div className="mb-2 font-semibold text-slate-300">
+                <p className="mb-2 font-semibold text-light-text1 dark:text-dark-text2">
                   Description
-                </div>
+                </p>
                 <textarea
                   type="text"
                   name="description"
                   {...register("description")}
                   rows="8"
-                  className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
+                  className="border-2 dark:border-0 bg-light-base2 dark:bg-dark-base2 placeholder-light-text2 text-light-text1 dark:text-dark-text1 text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
                   placeholder="Description"
                 />
@@ -220,7 +214,7 @@ export default function AddProduct() {
               <UploadImage storeFile={(f) => setFile(f)} />
             </div>
             <div className="mt-7">
-              <div className="text-slate-300">
+              <div className="text-light-text1 dark:text-dark-text1">
                 <input
                   type="radio"
                   name="veg"
@@ -240,7 +234,7 @@ export default function AddProduct() {
               </div>
               <p className="text-rose-400">{errors?.isVeg?.message}</p>
             </div>
-            <div className="mt-6 text-slate-300">
+            <div className="mt-6 text-light-text1 dark:text-dark-text1">
               <label htmlFor="spicy">
                 <div className="font-semibold">Spicy</div>
                 <input
@@ -270,7 +264,7 @@ export default function AddProduct() {
               </label>
               <p className="text-rose-400"> {errors?.spicy?.message} </p>
             </div>
-            <div className="mt-6 text-slate-300">
+            <div className="mt-6 text-light-text1 dark:text-dark-text1">
               <label htmlFor="isActive">
                 <div className="font-semibold">Active</div>
                 <input
@@ -292,7 +286,7 @@ export default function AddProduct() {
               </label>
               <p className="text-rose-400">{errors?.isActive?.message}</p>
             </div>
-            <div className="mt-6 text-slate-300">
+            <div className="mt-6 text-light-text1 dark:text-dark-text1">
               <label htmlFor="isAvailable">
                 <div className="font-semibold">Available</div>
                 <input

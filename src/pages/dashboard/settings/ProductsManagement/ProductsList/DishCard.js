@@ -26,7 +26,7 @@ function DishCard(
     >
       {image && image !== "" && (
         <img
-          className="absolute inset-x-0 w-32 h-32 mx-auto border-2 rounded-full border-dark-text2 dark:border-light-text1 -top-12"
+          className="absolute inset-x-0 w-32 h-32 mx-auto border-2 rounded-full bg-dark-text2 dark:bg-light-text1 border-dark-text2 dark:border-light-text1 -top-12"
           src={image}
           alt={name}
         />

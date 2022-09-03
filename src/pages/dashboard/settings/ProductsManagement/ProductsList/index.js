@@ -7,6 +7,7 @@ import BackButton from "../../../../../shared/components/BackButton";
 import SearchInput from "../../../../../shared/components/SearchInput";
 import useLoadProducts from "./useLoadProducts";
 import ProductFilterBar from "./ProductFilterBar";
+import noProduct from "../../../../../assets/images/noOrder.svg";
 
 function ProductsList() {
   const navigate = useNavigate();
@@ -118,6 +119,16 @@ function ProductsList() {
           </>
         )}
       </div>
+      {products && products?.length === 0 && (
+        <div className="flex items-center justify-center w-full h-full">
+          <div>
+            <img className="w-64 mx-auto" src={noProduct} alt="No Order" />
+            <h3 className="mt-3 text-lg font-medium text-center text-light-text1 dark:text-dark-text2">
+              No Categories present
+            </h3>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 }

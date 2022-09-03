@@ -1,11 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { MdArrowBackIosNew } from "react-icons/md";
+import BackButton from "../../../../../shared/components/BackButton";
 import useAxios from "../../../../../shared/hooks/useAxios";
 
 const schema = yup.object().shape({
@@ -14,7 +14,6 @@ const schema = yup.object().shape({
 });
 
 export default function EditCategory() {
-  const navigate = useNavigate();
   const { id } = useParams();
   const [categoryData, setCategoryData] = useState([]);
 
@@ -78,50 +77,42 @@ export default function EditCategory() {
       transition={{ duration: 0.2 }}
       className="flex flex-col flex-1 p-4 pl-28"
     >
-      <div className="flex justify-start mb-3">
-        <button
-          type="button"
-          onClick={() => navigate("/dashboard/settings/categories-list")}
-          className="px-3.5 mr-2 py-1 w-max rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#e66e59]"
-        >
-          <MdArrowBackIosNew />
-        </button>
-        <h3 className="text-2xl font-semibold leading-loose text-slate-800 dark:text-white">
-          Edit Category
-        </h3>
-      </div>
-      <nav className="w-full mb-3">
+      <header>
+        <div className="flex items-center">
+          <BackButton href="/dashboard/settings/categories-list" />
+          <h1 className="ml-2 text-2xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
+            Edit Category
+          </h1>
+        </div>
+      </header>
+      <nav className="w-full mb-3 text-light-text1 dark:text-dark-text1">
         <ol className="flex">
           <li>
-            <Link
-              to="/dashboard/settings"
-              className="text-white hover:text-primary"
-            >
+            <Link to="/dashboard/settings" className="hover:text-primary">
               Settings
             </Link>
           </li>
+          <span className="mx-2 text-gray-500">/</span>
           <li>
-            <span className="mx-2 text-gray-500">/</span>
-          </li>
-          <li className="text-gray-500">
             <Link
               to="/dashboard/settings/categories-list"
-              className="text-white hover:text-primary"
+              className="hover:text-primary"
             >
               Categories List
             </Link>
           </li>
-          <li>
-            <span className="mx-2 text-gray-500">/</span>
+          <span className="mx-2 text-gray-500">/</span>
+          <li className="text-light-text2 dark:text-dark-text2">
+            Edit Category
           </li>
-          <li className="text-gray-500">Edit Category</li>
         </ol>
       </nav>
-      <hr className="border-gray-700 dark:border-gray-600" />
+
+      <hr className="mt-3 mb-8 border-gray-400 dark:border-gray-600" />
       <button
         type="button"
         onClick={deleteCategoryHandler}
-        className="px-3.5 py-2 w-max ml-auto mt-3 rounded-lg border border-dashed border-rose-400 text-rose-400 bg-rose-400 dark:bg-gray-900 dark:text-rose-400 text-sm font-semibold"
+        className="px-3.5 py-2 w-max ml-auto mt-3 rounded-lg border border-dashed border-rose-400 text-rose-400 bg-white dark:bg-gray-900 dark:text-rose-400 text-sm font-semibold"
       >
         Delete Category
       </button>
@@ -151,15 +142,15 @@ export default function EditCategory() {
                 <div className="">
                   <div className="relative mb-4">
                     <label htmlFor="name">
-                      <div className="mb-2 font-semibold text-slate-300">
+                      <p className="mb-2 font-semibold text-light-text1 dark:text-dark-text2 ">
                         Name
-                      </div>
+                      </p>
                       <input
                         type="text"
                         name="name"
                         defaultValue={categoryData.data?.name}
                         {...register("name")}
-                        className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
+                        className="border-2 dark:border-0 bg-light-base2 dark:bg-dark-base2 placeholder-light-text2 text-light-text1 dark:text-dark-text1 text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
                         placeholder="Name"
                       />
@@ -172,24 +163,32 @@ export default function EditCategory() {
                 <div className="md:pl-4">
                   <div className="mt-6 text-slate-300">
                     <label htmlFor="isActive">
-                      <div className="font-semibold">Active</div>
-                      <input
-                        type="radio"
-                        name="isActive"
-                        value="true"
-                        defaultChecked={categoryData.data?.isActive}
-                        {...register("isActive")}
-                      />{" "}
-                      Yes
-                      <input
-                        type="radio"
-                        name="isActive"
-                        value="false"
-                        defaultChecked={!categoryData.data?.isActive}
-                        {...register("isActive")}
-                        className="ml-5"
-                      />{" "}
-                      No
+                      <p className="mb-2 font-semibold text-light-text1 dark:text-dark-text2">
+                        Active
+                      </p>
+                      <div className="flex">
+                        <input
+                          type="radio"
+                          name="isActive"
+                          value="true"
+                          defaultChecked={categoryData.data?.isActive}
+                          {...register("isActive")}
+                        />
+                        <p className="ml-2 text-light-text1 dark:text-dark-text2">
+                          Yes
+                        </p>
+                        <input
+                          type="radio"
+                          name="isActive"
+                          value="false"
+                          defaultChecked={!categoryData.data?.isActive}
+                          {...register("isActive")}
+                          className="ml-5"
+                        />
+                        <p className="ml-2 text-light-text1 dark:text-dark-text2">
+                          No
+                        </p>
+                      </div>
                     </label>
                     <p className="text-rose-400">{errors?.isActive?.message}</p>
                   </div>
@@ -198,7 +197,7 @@ export default function EditCategory() {
               <div className="flex justify-center mt-5">
                 <button
                   type="submit"
-                  className="px-3.5 py-3 mt-5 w-1/4 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#e66e59]"
+                  className="px-3.5 py-3 mt-5 md:w-1/4  rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#e66e59]"
                 >
                   Save Changes
                 </button>

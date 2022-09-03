@@ -34,7 +34,7 @@ export default function InitialSetup() {
   }, [restaurantId]);
 
   useEffect(() => {
-    if (categories) {
+    if (categories && categories.data.length > 0) {
       dispatch(
         setCategory(categories.data.map(({ name, id }) => ({ name, id }))),
       );
