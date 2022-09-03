@@ -11,9 +11,16 @@ export default function FeatureCard({ icon, subtitle, title }) {
           {subtitle}
         </p>
       </div>
-      <h2 className="my-3 text-3xl font-semibold text-light-text1 dark:text-dark-text1">
-        {title}
-      </h2>
+      {title && (
+        <h2 className="my-3 text-3xl font-semibold text-light-text1 dark:text-dark-text1">
+          {title}
+        </h2>
+      )}
+      {!title && (
+        <div className="my-3 animate-pulse">
+          <div className="w-1/3 h-8 mt-4 rounded bg-slate-300 dark:bg-slate-700" />
+        </div>
+      )}
     </Card>
   );
 }

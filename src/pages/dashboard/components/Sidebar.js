@@ -1,6 +1,6 @@
 import { BsGearFill } from "react-icons/bs";
 import { MdLogout } from "react-icons/md";
-import { FaChartPie, FaHome } from "react-icons/fa";
+import { FaChartPie } from "react-icons/fa";
 import { GiCook } from "react-icons/gi";
 import { TiThListOutline } from "react-icons/ti";
 import "./Sidebar.scss";
@@ -17,11 +17,17 @@ function DashboardSideBar() {
   const dispatch = useDispatch();
   const { newOrder } = DashboardSocket();
   const menus = [
+    // {
+    //   name: "Home",
+    //   icon: FaHome,
+    //   link: "/dashboard/home",
+    //   roles: ["owner", "chef", "manager"],
+    // },
     {
-      name: "Home",
-      icon: FaHome,
-      link: "/dashboard/home",
-      roles: ["owner", "chef", "manager"],
+      name: "Analytics",
+      icon: FaChartPie,
+      link: "/dashboard/analytics",
+      roles: ["owner"],
     },
     {
       name: "Orders",
@@ -35,12 +41,6 @@ function DashboardSideBar() {
       icon: GiCook,
       link: "/dashboard/kitchen",
       roles: ["owner", "chef", "manager"],
-    },
-    {
-      name: "Analytics",
-      icon: FaChartPie,
-      link: "/dashboard/analytics",
-      roles: ["owner"],
     },
     {
       name: "Settings",

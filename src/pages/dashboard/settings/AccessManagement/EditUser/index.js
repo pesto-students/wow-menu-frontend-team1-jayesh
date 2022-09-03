@@ -27,6 +27,17 @@ export default function EditUser() {
 
   const { response, callApi } = useAxios();
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+  const watchRoleType = watch("role", "manager");
+
   useEffect(() => {
     if (!loading && userData === null) {
       setLoading(true);
@@ -39,24 +50,10 @@ export default function EditUser() {
     }
     if (loading && userData === null) {
       setUserData(response);
+      setValue("role", response?.data?.role);
       setLoading(false);
     }
   }, [response, userData]);
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    watch,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-  const watchRoleType = watch("role", "chef");
-
-  useEffect(() => {
-    reset();
-  }, [response]); // eslint-disable-line
 
   const submitForm = (data) => {
     console.log(data);
@@ -215,7 +212,6 @@ export default function EditUser() {
                           type="radio"
                           name="isAdmin"
                           value="false"
-                          checked
                           defaultChecked={!userData.data?.isAdmin}
                           {...register("isAdmin")}
                           className="ml-5"

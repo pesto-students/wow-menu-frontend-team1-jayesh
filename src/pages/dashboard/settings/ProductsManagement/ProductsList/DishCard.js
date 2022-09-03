@@ -38,7 +38,7 @@ function DishCard(
           alt={name}
         />
       )}
-      <p className="font-bold tracking-wide text-center mt-24text-lg text-light-text1 dark:text-dark-text1">
+      <p className="mt-20 text-lg font-bold tracking-wide text-center text-light-text1 dark:text-dark-text1">
         {name}
       </p>
       <div className="text-lg text-center text-primary">₹{price}</div>
