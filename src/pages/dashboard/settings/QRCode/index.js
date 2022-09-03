@@ -1,14 +1,21 @@
-import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { jsPDF } from "jspdf";
 import { AiOutlineCloudDownload } from "react-icons/ai";
 import { QRCodeSVG } from "qrcode.react";
 import BackButton from "../../../../shared/components/BackButton";
+import Button from "../../../../shared/components/Button";
+import RestaurantService from "../../../../services/restaurant";
+import { setRestaurant } from "../../../../store/reducers/restaurantReducer";
 
 export default function QRCode() {
+  const dispatch = useDispatch();
   const restaurantId = useSelector((state) => state.restaurant.details.id);
   const tables = useSelector((state) => state.restaurant.details.totalTables);
+  const { loading, response, updateRestaurant } = RestaurantService();
   const urls = [];
   for (let i = 0; i < tables; i += 1) {
     urls.push(`${restaurantId}/${i + 1}`);
@@ -27,6 +34,27 @@ export default function QRCode() {
     doc.text(`Table ${idx + 1}`, 80, 185);
     doc.save(`Table ${idx + 1}`);
   };
+
+  const handleAddTable = () => {
+    updateRestaurant(restaurantId, { totalTables: tables + 1 });
+  };
+  const handleRemoveTable = () => {
+    if (tables === 1) {
+      Swal.fire({
+        text: "Atleast 1 table need to be present",
+        icon: "error",
+        confirmButtonColor: "#EA7C69",
+      });
+      return;
+    }
+    updateRestaurant(restaurantId, { totalTables: tables - 1 });
+  };
+
+  useEffect(() => {
+    if (response && response.data) {
+      dispatch(setRestaurant(response.data));
+    }
+  }, [response]);
 
   return (
     <motion.main
@@ -58,6 +86,14 @@ export default function QRCode() {
         </ol>
       </nav>
       <hr className="mt-3 mb-8 border-gray-400 dark:border-gray-600" />
+      <div className="flex justify-end mb-4">
+        <Button className="mr-2" onClick={handleAddTable} disabled={loading}>
+          Add Table
+        </Button>
+        <Button onClick={handleRemoveTable} disabled={loading}>
+          Remove Table
+        </Button>
+      </div>
       <div className="grid gap-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
         {urls.map((url, idx) => {
           return (
@@ -73,19 +109,31 @@ export default function QRCode() {
                 <div className="flex justify-center">
                   <QRCodeSVG
                     id={`Table${idx}`}
-                    value={`https://wow-menu.netlify.app/${url}`}
+                    value={`${
+                      process.env.NODE_ENV === "development"
+                        ? "http://localhost:3000/"
+                        : "https://wow-menu.netlify.app/"
+                    }${url}`}
                     size={128}
                     level="L"
                     includeMargin
                   />
                 </div>
                 <a
-                  href={`https://wow-menu.netlify.app/${url}`}
+                  href={`${
+                    process.env.NODE_ENV === "development"
+                      ? "http://localhost:3000/"
+                      : "https://wow-menu.netlify.app/"
+                  }${url}`}
                   target="_blank"
                   rel="noreferrer"
                   className="text-primary hover:underline hover:underline-offset-2"
                 >
-                  <p className="mt-2 text-xs text-center break-all">{`https://wow-menu.netlify.app/${url}`}</p>
+                  <p className="mt-2 text-xs text-center break-all">{`${
+                    process.env.NODE_ENV === "development"
+                      ? "http://localhost:3000/"
+                      : "https://wow-menu.netlify.app/"
+                  }${url}`}</p>
                 </a>
                 <p className="mt-2 mb-5 text-lg font-medium text-center text-light-text1 dark:text-dark-text1">{`Table ${
                   idx + 1

@@ -2,7 +2,6 @@ import { useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import ListLoader from "../components/ListLoader";
 import noOrder from "../../../assets/images/noOrder.svg";
-import Card from "../../../shared/components/Card";
 
 const classes = {
   base: "relative grid w-full grid-cols-2 md:grid-cols-3 gap-2 px-3 py-5 text-lg my-7 text-light-text1 dark:text-dark-text1",
@@ -91,12 +90,14 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
         </>
       )}
       {!loading && orders.length === 0 && (
-        <Card className="my-3 bg-light-base2 dark:bg-dark-base2 text-light-text1 dark:text-dark-text2">
-          <img className="w-48 mx-auto" src={noOrder} alt="No Order" />
-          <h3 className="mt-3 text-lg font-medium text-center">
-            No Orders yet
-          </h3>
-        </Card>
+        <div className="flex items-center justify-center h-full bg-light-base2 dark:bg-dark-base2 text-light-text1 dark:text-dark-text2">
+          <div>
+            <img className="w-48 mx-auto" src={noOrder} alt="No Order" />
+            <h3 className="mt-3 text-lg font-medium text-center">
+              No Orders yet
+            </h3>
+          </div>
+        </div>
       )}
     </aside>
   );

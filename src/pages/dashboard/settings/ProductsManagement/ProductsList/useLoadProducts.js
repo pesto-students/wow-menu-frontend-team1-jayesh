@@ -1,25 +1,24 @@
 import { useState, useEffect } from "react";
 import ProductService from "../../../../../services/products";
 
-export default function useLoadProduct(page = 1, filterQuery) {
+export default function useLoadProduct(search, page = 1, filterQuery) {
   const [products, setProducts] = useState([]);
   const [hasMore, setHasMore] = useState(false);
-  const { response, loading, error, getProducts } = ProductService();
+  const { response, loading, error, getProducts, updateProductState } =
+    ProductService();
 
   useEffect(() => {
     setProducts([]);
-  }, [filterQuery]);
+  }, [search, filterQuery]); // ,
 
   useEffect(() => {
-    if (filterQuery) {
-      getProducts(page, filterQuery);
-    } else {
-      getProducts(page);
-    }
-  }, [page, filterQuery]);
+    const query = {};
+    if (search.length > 0) query.name = search;
+    getProducts(page, { ...filterQuery, ...query });
+  }, [search, page, filterQuery]);
 
   useEffect(() => {
-    if (response) {
+    if (response && Array.isArray(response.data)) {
       setProducts((prevProducts) => {
         const updatedProducts = [...prevProducts, ...response.data];
         return updatedProducts.filter(
@@ -27,8 +26,30 @@ export default function useLoadProduct(page = 1, filterQuery) {
         );
       });
       setHasMore(response.data.length > 0);
+    } else if (response && !Array.isArray(response.data)) {
+      setProducts((prevProducts) => {
+        const updatedProducts = prevProducts.map((item) => {
+          if (item.id === response.data.id) return response.data;
+          return item;
+        });
+        return updatedProducts;
+      });
     }
   }, [response]);
 
-  return { loading, error, products, hasMore };
+  const handleChangeActive = (id, query) => {
+    updateProductState(id, query);
+  };
+  const handleChangeAvailable = (id, query) => {
+    updateProductState(id, query);
+  };
+
+  return {
+    loading,
+    error,
+    products,
+    hasMore,
+    handleChangeActive,
+    handleChangeAvailable,
+  };
 }

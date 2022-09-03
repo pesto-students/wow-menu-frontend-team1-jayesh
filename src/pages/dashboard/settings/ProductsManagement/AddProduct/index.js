@@ -6,20 +6,23 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { MdArrowBackIosNew } from "react-icons/md";
-import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { useSelector } from "react-redux";
-import useAxios from "../../../../../shared/hooks/useAxios";
 import UploadImage from "../../../components/UploadImage";
-import storage from "../../../../../utils/firebase";
+import CategoriesService from "../../../../../services/categories";
+import ProductService from "../../../../../services/products";
+import FirebaseService from "../../../../../services/firebase";
 
 const schema = yup.object().shape({
-  name: yup.string().required("Name is required"),
+  name: yup
+    .string()
+    .max(15, "Name must be within 15 characters")
+    .required("Name is required"),
   price: yup
     .number()
     .typeError("You must specify a number")
     .required("Price is required"),
   category: yup.string().required("Category is required"),
-  description: yup.string().required("Description is required"),
+  description: yup.string(), // .required("Description is required")
   // imageUrl: yup.string().required("Image URL is required"),
   isVeg: yup
     .boolean()
@@ -35,25 +38,16 @@ const schema = yup.object().shape({
 
 export default function AddProduct() {
   const navigate = useNavigate();
-  const { response, callApi } = useAxios();
   const [file, setFile] = useState(null);
-  const [percent, setPercent] = useState(0);
-  const [url, setUrl] = useState("");
   const [data, setData] = useState(null);
-  const [categoriesData, setCategoriesData] = useState();
-  const restaurantID = useSelector((state) => state.restaurant.id);
+  const { response: categoriesData, getCategories } = CategoriesService();
+  const { postProduct } = ProductService();
+  const { url, uploadFile } = FirebaseService();
+  const restaurantId = useSelector((state) => state.restaurant.id);
 
   useEffect(() => {
-    if (!categoriesData) {
-      callApi({
-        apiMethod: "get",
-        apiUrl: `/categories?restaurant=${restaurantID}`,
-        params: {},
-        errorToastMessage: "Failed to fetch categories data!",
-      });
-      setCategoriesData(response);
-    }
-  }, [response]);
+    getCategories({ restaurantId });
+  }, []);
 
   const {
     register,
@@ -64,65 +58,19 @@ export default function AddProduct() {
   });
 
   useEffect(() => {
-    if (percent > 0) {
-      // eslint-disable-next-line
-      console.log(`${percent}% Uploaded`);
-    }
-  }, [percent]);
-
-  useEffect(() => {
-    if (data) {
+    if (url && data) {
       data.imageUrl = url;
-      callApi({
-        apiMethod: "post",
-        apiUrl: "/menu-items",
-        params: {},
-        apiBody: { ...data },
-        successToastMessage: "Product was added successfully!",
-        navigationLink: "/dashboard/settings/products-list",
-      });
+      postProduct(data);
     }
   }, [url]);
 
-  const upload = (name) => {
-    if (file) {
-      const storageRef = ref(
-        storage,
-        `/files/${name}${new Date().toISOString()}`,
-      );
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const percentUpload = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
-          );
-          // update progress
-          setPercent(percentUpload);
-        },
-        (err) => console.error(err),
-
-        () => {
-          // download url
-          getDownloadURL(uploadTask.snapshot.ref).then((urlPath) => {
-            setUrl(urlPath);
-          });
-        },
-      );
-    }
-  };
-
   const submitForm = (formData) => {
     setData(formData);
-    upload(formData.name);
-    // callApi({
-    //   apiMethod: "post",
-    //   apiUrl: "/menu-items",
-    //   params: {},
-    //   apiBody: { ...data },
-    //   successToastMessage: "Product was added successfully!",
-    //   navigationLink: "/dashboard/settings/products-list",
-    // });
+    if (file) {
+      uploadFile(file, formData.name);
+    } else {
+      postProduct(formData);
+    }
   };
 
   return (
