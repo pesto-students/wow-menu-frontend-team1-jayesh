@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { HiOutlineMail } from "react-icons/hi";
+// import { HiOutlineMail } from "react-icons/hi";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FaRegUser } from "react-icons/fa";
-import { GiCook } from "react-icons/gi";
+// import { GiCook } from "react-icons/gi";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -16,14 +16,14 @@ import useAxios from "../../shared/hooks/useAxios";
 import user from "../../assets/images/user.svg";
 
 const schema = yup.object().shape({
-  userType: yup.string().required("User type is required"),
-  emailId: yup
-    .string()
-    .email("Email is invalid")
-    .when("userType", {
-      is: "owner",
-      then: yup.string().required("Email is required"),
-    }),
+  // userType: yup.string().required("User type is required"),
+  // emailId: yup
+  //   .string()
+  //   .email("Email is invalid")
+  //   .when("userType", {
+  //     is: "owner",
+  //     then: yup.string().required("Email is required"),
+  //   }),
   username: yup.string().when("userType", {
     is: "user",
     then: yup.string().required("Username is required"),
@@ -45,22 +45,24 @@ function Login() {
   const {
     register,
     handleSubmit,
-    watch,
+    // watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const watchUserType = watch("userType", "owner");
+  // const watchUserType = watch("userType", "owner");
 
   const submitForm = (data) => {
     const apiBody = {
-      ...(data.userType === "owner" && { emailId: data.emailId }),
-      ...(data.userType === "user" && { username: data.username }),
+      // ...(data.userType === "owner" && { emailId: data.emailId }),
+      // ...(data.userType === "user" && { username: data.username }),
+      username: data.username,
       password: data.password,
     };
     callApi({
       apiMethod: "post",
-      apiUrl: `/login/${data.userType}`,
+      // apiUrl: `/login/${data.userType}`,
+      apiUrl: "/login",
       params: {},
       apiBody,
       successToastMessage: "Successfully logged in!",
@@ -137,7 +139,7 @@ function Login() {
             </h2>
             <img className="h-32 mx-auto my-6" src={user} alt="" />
             <form onSubmit={handleSubmit(submitForm)}>
-              <div className={`${errors?.userType?.message ? "mb-2" : "mb-4"}`}>
+              {/* <div className={`${errors?.userType?.message ? "mb-2" : "mb-4"}`}>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 pointer-events-none">
                     <GiCook />
@@ -165,8 +167,8 @@ function Login() {
                 {errors.userType && (
                   <p className="text-rose-400"> {errors.userType.message} </p>
                 )}
-              </div>
-              {watchUserType === "owner" && (
+              </div> */}
+              {/* {watchUserType === "owner" && (
                 <div
                   className={`${errors?.emailId?.message ? "mb-2" : "mb-4"}`}
                 >
@@ -187,29 +189,27 @@ function Login() {
                     <p className="text-rose-400"> {errors.emailId.message} </p>
                   )}
                 </div>
-              )}
-              {watchUserType === "user" && (
-                <div
-                  className={`${errors?.username?.message ? "mb-2" : "mb-4"}`}
-                >
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 pointer-events-none">
-                      <FaRegUser />
-                    </div>
-                    <input
-                      type="text"
-                      name="username"
-                      {...register("username")}
-                      className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-sm block w-full pl-10 p-2.5 
-                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
-                      placeholder="Username"
-                    />
+              )} */}
+              {/* {watchUserType === "user" && ( */}
+              <div className={`${errors?.username?.message ? "mb-2" : "mb-4"}`}>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 pointer-events-none">
+                    <FaRegUser />
                   </div>
-                  {errors.username && (
-                    <p className="text-rose-400"> {errors.username.message} </p>
-                  )}
+                  <input
+                    type="text"
+                    name="username"
+                    {...register("username")}
+                    className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-sm block w-full pl-10 p-2.5 
+                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
+                    placeholder="Email/Username"
+                  />
                 </div>
-              )}
+                {errors.username && (
+                  <p className="text-rose-400"> {errors.username.message} </p>
+                )}
+              </div>
+              {/* // )} */}
               <div className={`${errors?.password?.message ? "mb-2" : "mb-4"}`}>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 pointer-events-none">
