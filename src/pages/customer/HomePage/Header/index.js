@@ -1,4 +1,3 @@
-import moment from "moment";
 import { useSelector } from "react-redux";
 import IconSet from "./IconSet";
 
@@ -11,7 +10,7 @@ function Header() {
           {name}
         </h1>
         <p className="text-light-text2 dark:text-dark-text2">
-          {moment().format("dddd, Do YYYY")}
+          {new Date().toDateString()}
         </p>
       </div>
       <IconSet />

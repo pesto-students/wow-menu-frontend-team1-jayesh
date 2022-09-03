@@ -3,6 +3,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Card from "../../../../../shared/components/Card";
 import Switch from "./Switch";
+import noImg from "../../../../../assets/images/noImg.png";
 
 function DishCard(
   {
@@ -24,18 +25,20 @@ function DishCard(
       ref={ref}
       className="relative flex flex-col w-auto px-4 pb-12 mt-24 overflow-visible transition duration-200 transform rounded-md cursor-pointer hover:scale-105 dark:border-light-text1 bg-light-base2 dark:bg-dark-base2 gap-y-3"
     >
-      {image && image !== "" && (
+      {image ? (
         <img
           className="absolute inset-x-0 w-32 h-32 mx-auto border-2 rounded-full bg-dark-text2 dark:bg-light-text1 border-dark-text2 dark:border-light-text1 -top-12"
           src={image}
           alt={name}
         />
+      ) : (
+        <img
+          className="absolute inset-x-0 w-32 h-32 mx-auto border-2 rounded-full bg-dark-text2 dark:bg-light-text1 border-dark-text2 dark:border-light-text1 -top-12"
+          src={noImg}
+          alt={name}
+        />
       )}
-      <p
-        className={`${
-          image ? "mt-24" : "mt-6"
-        } text-lg font-bold tracking-wide text-center text-light-text1 dark:text-dark-text1`}
-      >
+      <p className="font-bold tracking-wide text-center mt-24text-lg text-light-text1 dark:text-dark-text1">
         {name}
       </p>
       <div className="text-lg text-center text-primary">₹{price}</div>

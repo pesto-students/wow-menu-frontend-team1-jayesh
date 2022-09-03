@@ -254,6 +254,7 @@ export default function RestaurantDetails() {
                 <select
                   name="state"
                   {...register("address.state")}
+                  defaultValue={restaurantData.data?.address?.state}
                   className="border-2 dark:border-0 bg-light-base2 dark:bg-dark-base2 placeholder-light-text2 text-light-text1 dark:text-dark-text1 text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary cursor-pointer"
                   placeholder="Select State"
@@ -270,9 +271,6 @@ export default function RestaurantDetails() {
                       <option
                         key={option.key}
                         value={option.name}
-                        selected={
-                          option.name === restaurantData.data?.address?.state
-                        }
                         className="py-2 cursor-pointer bg-light-base2 dark:bg-dark-base2 text-light-text1 dark:text-dark-text1 text-md"
                       >
                         {option.name}
