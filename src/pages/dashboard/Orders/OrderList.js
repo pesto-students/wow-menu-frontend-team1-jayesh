@@ -5,7 +5,7 @@ import noOrder from "../../../assets/images/noOrder.svg";
 import Card from "../../../shared/components/Card";
 
 const classes = {
-  base: "relative grid w-full grid-cols-4 xl:grid-cols-6 lg:grid-cols-5 gap-2 px-3 py-5 text-lg rounded my-7 text-light-text1 dark:text-dark-text1 ",
+  base: "relative grid w-full grid-cols-4 xl:grid-cols-6 lg:grid-cols-5 gap-2 px-3 py-7 text-lg rounded text-light-text1 dark:text-dark-text1 ",
   bg: {
     Pending: "bg-accent-orange/30",
     "In progress": "bg-gray-500/30",
@@ -61,7 +61,7 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
                 viewport={{ once: true }}
                 exit={{ x: -30, opacity: 0 }}
                 key={order.id}
-                className={`rounded-lg ${classes.bg[order.status]} `}
+                className={`rounded-lg my-3.5 ${classes.bg[order.status]} `}
               >
                 <button
                   ref={orders.length === idx + 1 ? loadMoreElementRef : null}
@@ -110,11 +110,13 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
         </>
       )}
       {!loading && orders.length === 0 && (
-        <Card className="my-3 bg-light-base2 dark:bg-dark-base2 text-light-text1 dark:text-dark-text2">
-          <img className="w-48 mx-auto" src={noOrder} alt="No Order" />
-          <h3 className="mt-3 text-lg font-medium text-center">
-            No Orders yet
-          </h3>
+        <Card className="flex items-center justify-center my-3 grow bg-light-base2 dark:bg-dark-base2 text-light-text1 dark:text-dark-text2">
+          <div>
+            <img className="w-64 mx-auto" src={noOrder} alt="No Order" />
+            <h3 className="mt-3 text-lg font-medium text-center">
+              No Orders yet
+            </h3>
+          </div>
         </Card>
       )}
     </>

@@ -7,17 +7,20 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { useSelector } from "react-redux";
-import useAxios from "../../../../../shared/hooks/useAxios";
 import UploadImage from "../../../components/UploadImage";
-import storage from "../../../../../utils/firebase";
+import CategoriesService from "../../../../../services/categories";
+import ProductService from "../../../../../services/products";
+import FirebaseService from "../../../../../services/firebase";
 
 const schema = yup.object().shape({
-  name: yup.string().required("Name is required"),
+  name: yup
+    .string()
+    .max(15, "Name must be within 15 characters")
+    .required("Name is required"),
   price: yup.number().required("Price is required"),
   category: yup.string().required("Category is required"),
-  description: yup.string().required("Description is required"),
+  description: yup.string(), // .required("Description is required")
   // imageUrl: yup.string().required("Image URL is required"),
   isVeg: yup.boolean().required(),
   spicy: yup.string().required("Field is required"),
@@ -28,125 +31,52 @@ const schema = yup.object().shape({
 export default function EditProduct() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [loading, setLoading] = useState(false);
-  const [productData, setProductData] = useState(null);
   const [file, setFile] = useState(null);
-  const [percent, setPercent] = useState(0);
-  const [url, setUrl] = useState("");
   const [data, setData] = useState(null);
-  const [categoriesData, setCategoriesData] = useState(null);
-  const restaurantID = useSelector((state) => state.restaurant.id);
-
-  const { response, callApi } = useAxios();
-
-  useEffect(() => {
-    if (!loading && productData === null) {
-      setLoading(true);
-      callApi({
-        apiMethod: "get",
-        apiUrl: `/menu-items/${id}`,
-        params: {},
-        errorToastMessage: "Failed to fetch product data!",
-      });
-    }
-    if (loading && productData === null) {
-      setProductData(response);
-      setLoading(false);
-    }
-  }, [response, productData]);
+  const { response: categoriesData, getCategories } = CategoriesService();
+  const {
+    response: productData,
+    getProductById,
+    updateProduct,
+    deleteProduct,
+  } = ProductService();
+  const { url, replaceFile } = FirebaseService();
+  const restaurantId = useSelector((state) => state.restaurant.id);
 
   useEffect(() => {
-    if (!loading && productData !== null && categoriesData === null) {
-      setLoading(true);
-      callApi({
-        apiMethod: "get",
-        apiUrl: `/categories?restaurant=${restaurantID}`,
-        params: {},
-        errorToastMessage: "Failed to fetch categories data!",
-      });
-    }
-    if (loading && productData !== null) {
-      setCategoriesData(response);
-      setLoading(false);
-    }
-  }, [response, productData]);
+    getProductById(id);
+    getCategories({ restaurantId });
+  }, []);
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+  } = useForm({ resolver: yupResolver(schema) });
 
   useEffect(() => {
     reset();
-  }, [response]);
+  }, [productData]);
 
   useEffect(() => {
-    if (percent > 0) {
-      // eslint-disable-next-line
-      console.log(`${percent}% Uploaded`);
-    }
-  }, [percent]);
-
-  useEffect(() => {
-    if (data) {
+    if (url && data) {
       data.imageUrl = url;
-      callApi({
-        apiMethod: "patch",
-        apiUrl: `/menu-items/${id}`,
-        params: {},
-        apiBody: data,
-        successToastMessage: "Product details were saved successfully!",
-        navigationLink: "/dashboard/settings/products-list",
-      });
+      updateProduct(id, data);
     }
   }, [url]);
 
-  const upload = (name) => {
+  const submitForm = (formData) => {
+    setData(formData);
     if (file) {
-      const storageRef = ref(
-        storage,
-        `/files/${name}${new Date().toISOString()}`,
-      );
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const percentUpload = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
-          );
-          // update progress
-          setPercent(percentUpload);
-        },
-        (err) => console.error(err),
-
-        () => {
-          // download url
-          getDownloadURL(uploadTask.snapshot.ref).then((urlPath) => {
-            setUrl(urlPath);
-          });
-        },
-      );
+      replaceFile(productData.data.imageUrl, file, formData.name);
+    } else {
+      updateProduct(id, formData);
     }
   };
 
-  const submitForm = (formData) => {
-    setData(formData);
-    upload(formData.name);
-  };
-
   const deleteProductHandler = () => {
-    callApi({
-      apiMethod: "delete",
-      apiUrl: `/menu-items/${id}`,
-      params: {},
-      apiBody: {},
-      successToastMessage: "Product was deleted successfully!",
-      navigationLink: "/dashboard/settings/products-list",
-    });
+    deleteProduct(productData.data.imageUrl, id);
   };
 
   return (
@@ -280,25 +210,20 @@ export default function EditProduct() {
                       <select
                         name="category"
                         {...register("category")}
-                        defaultValue={productData.data?.category}
+                        value={productData.data?.category}
                         className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary cursor-pointer"
                         placeholder="Select Category"
                       >
-                        <option
-                          className="py-2 bg-gray-700 cursor-pointer text-md"
-                          selected
-                        >
+                        <option className="py-2 bg-gray-700 cursor-pointer text-md">
                           -- Select Category --
                         </option>
                         {categoriesData?.data?.map((option) => {
                           return (
                             <option
                               key={option.id}
-                              defaultValue={option.id}
                               value={option.id}
                               className="py-2 bg-gray-700 cursor-pointer text-md"
-                              selected={option.id === productData.category}
                             >
                               {option.name}
                             </option>

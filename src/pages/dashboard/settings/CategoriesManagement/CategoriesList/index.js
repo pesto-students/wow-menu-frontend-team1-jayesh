@@ -73,10 +73,7 @@ function CategoriesList() {
       <hr className="border-gray-700 dark:border-gray-600" />
 
       <div className="flex justify-end px-3.5 py-1 w-full my-3">
-        <CategoryFilterBar
-          filterBy={filterBy}
-          updateFilter={handleUpdateFilter}
-        />
+        <CategoryFilterBar updateFilter={handleUpdateFilter} />
       </div>
       <div className="grid gap-6 mt-2 overflow-y-auto xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 h-max">
         {loading ? (

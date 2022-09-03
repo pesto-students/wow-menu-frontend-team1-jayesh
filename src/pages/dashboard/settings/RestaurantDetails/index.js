@@ -6,9 +6,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { MdArrowBackIosNew } from "react-icons/md";
+import BackButton from "../../../../shared/components/BackButton";
 import RestaurantService from "../../../../services/restaurant";
 import { setRestaurant } from "../../../../store/reducers/restaurantReducer";
+import states from "./States";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -17,12 +18,22 @@ const schema = yup.object().shape({
     .number()
     .typeError("You must specify a number")
     .required("GST Percentage is required"),
-  gstNumber: yup.string().required("GST Number is required"),
-  address: yup.string().required("Address is required"),
-  totalTables: yup
-    .number()
-    .typeError("You must specify a number")
-    .required("Total Tables number is required"),
+  gstNumber: yup
+    .string()
+    .matches(
+      /^\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}$/,
+      "Please eneter a valid GST Number",
+    )
+    .required("GST Number is required"),
+  address: yup.object().shape({
+    street: yup.string().required("Street Address is required"),
+    state: yup.string().required("State is required"),
+    pincode: yup.number().required("Pincode is required"),
+  }),
+  // totalTables: yup
+  //   .number()
+  //   .typeError("You must specify a number")
+  //   .required("Total Tables number is required"),
 });
 
 export default function RestaurantDetails() {
@@ -81,41 +92,38 @@ export default function RestaurantDetails() {
       transition={{ duration: 0.2 }}
       className="flex flex-col flex-1 p-4 pl-28"
     >
-      <div className="flex justify-start mb-3">
-        <button
-          type="button"
-          onClick={() => navigate("/dashboard/settings")}
-          className="px-3.5 mr-2 py-1 w-max rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#e66e59]"
-        >
-          <MdArrowBackIosNew />
-        </button>
-        <h3 className="text-2xl font-semibold leading-loose text-slate-800 dark:text-white">
-          Restaurant Details
-        </h3>
-      </div>
-      <nav className="w-full mb-3">
+      <header>
+        <div className="flex items-center">
+          <BackButton href="/dashboard/settings" />
+          <h1 className="flex ml-2 text-3xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
+            Restaurant <span className="hidden ml-2 sm:block">Details</span>
+          </h1>
+        </div>
+      </header>
+      <nav className="w-full text-light-text1 dark:text-dark-text1">
         <ol className="flex">
           <li>
-            <Link
-              to="/dashboard/settings"
-              className="text-white hover:text-primary"
-            >
+            <Link to="/dashboard/settings" className="hover:text-primary">
               Settings
             </Link>
           </li>
           <li>
-            <span className="mx-2 text-gray-500">/</span>
+            <span className="mx-2">/</span>
           </li>
-          <li className="text-gray-500">Restaurant Details</li>
+          <li className="text-light-text2 dark:text-dark-text2">
+            Restaurant Details
+          </li>
         </ol>
       </nav>
-      <hr className="border-gray-700 dark:border-gray-600" />
+      <hr className="mt-3 mb-8 border-gray-400 dark:border-gray-600" />
       <form onSubmit={handleSubmit(submitForm)}>
         <div className="grid mt-5 md:grid-cols-2">
           <div className="">
             <div className="relative mb-4">
               <label htmlFor="name">
-                <div className="mb-2 font-semibold text-slate-300">Name</div>
+                <p className="mb-2 font-semibold text-light-text1 dark:text-dark-text2 ">
+                  Name
+                </p>
                 {loading ? (
                   <div className="animate-pulse">
                     <div className="h-10 rounded-md bg-slate-300 dark:bg-slate-700" />
@@ -126,7 +134,7 @@ export default function RestaurantDetails() {
                     name="name"
                     defaultValue={restaurantData.data?.name}
                     {...register("name")}
-                    className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
+                    className="border-2 dark:border-0 bg-light-base2 dark:bg-dark-base2 placeholder-light-text2 text-light-text1 dark:text-dark-text1 text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
                     placeholder="Name"
                   />
@@ -138,9 +146,9 @@ export default function RestaurantDetails() {
             </div>
             <div className="relative mb-4">
               <label htmlFor="gstPercentage">
-                <div className="mb-2 font-semibold text-slate-300">
+                <p className="mb-2 font-semibold text-light-text1 dark:text-dark-text2 ">
                   GST Percentage
-                </div>
+                </p>
                 {loading ? (
                   <div className="animate-pulse">
                     <div className="h-10 rounded-md bg-slate-300 dark:bg-slate-700" />
@@ -151,7 +159,7 @@ export default function RestaurantDetails() {
                     name="gstPercentage"
                     defaultValue={restaurantData.data?.gstPercentage}
                     {...register("gstPercentage")}
-                    className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
+                    className="border-2 dark:border-0 bg-light-base2 dark:bg-dark-base2 placeholder-light-text2 text-light-text1 dark:text-dark-text1 text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
                     placeholder="GST Percentage"
                   />
@@ -161,36 +169,13 @@ export default function RestaurantDetails() {
                 <p className="text-rose-400">{errors.gstPercentage.message}</p>
               )}
             </div>
-            <div className="relative mb-4">
-              <label htmlFor="address">
-                <div className="mb-2 font-semibold text-slate-300">Address</div>
-                {loading ? (
-                  <div className="animate-pulse">
-                    <div className="h-16 rounded-md bg-slate-300 dark:bg-slate-700" />
-                  </div>
-                ) : (
-                  <textarea
-                    type="text"
-                    name="address"
-                    defaultValue={restaurantData.data?.address}
-                    {...register("address")}
-                    className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
-                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
-                    placeholder="Address"
-                  />
-                )}
-              </label>
-              {errors.address && (
-                <p className="text-rose-400"> {errors.address.message} </p>
-              )}
-            </div>
           </div>
           <div className="md:pl-4">
             <div className="relative mb-4">
               <label htmlFor="phoneNumber">
-                <div className="mb-2 font-semibold text-slate-300">
+                <p className="mb-2 font-semibold text-light-text1 dark:text-dark-text2 ">
                   Phone Number
-                </div>
+                </p>
                 {loading ? (
                   <div className="animate-pulse">
                     <div className="h-10 rounded-md bg-slate-300 dark:bg-slate-700" />
@@ -201,7 +186,7 @@ export default function RestaurantDetails() {
                     name="phoneNumber"
                     defaultValue={restaurantData.data?.phoneNumber}
                     {...register("phoneNumber")}
-                    className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
+                    className="border-2 dark:border-0 bg-light-base2 dark:bg-dark-base2 placeholder-light-text2 text-light-text1 dark:text-dark-text1 text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
                     placeholder="Phone Number"
                   />
@@ -213,9 +198,9 @@ export default function RestaurantDetails() {
             </div>
             <div className="relative mb-4">
               <label htmlFor="gstNumber">
-                <div className="mb-2 font-semibold text-slate-300">
+                <p className="mb-2 font-semibold text-light-text1 dark:text-dark-text2 ">
                   GST Number
-                </div>
+                </p>
                 {loading ? (
                   <div className="animate-pulse">
                     <div className="h-10 rounded-md bg-slate-300 dark:bg-slate-700" />
@@ -226,7 +211,7 @@ export default function RestaurantDetails() {
                     name="gstNumber"
                     defaultValue={restaurantData.data?.gstNumber}
                     {...register("gstNumber")}
-                    className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
+                    className="border-2 dark:border-0 bg-light-base2 dark:bg-dark-base2 placeholder-light-text2 text-light-text1 dark:text-dark-text1 text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
                     placeholder="GST Number"
                   />
@@ -236,33 +221,104 @@ export default function RestaurantDetails() {
                 <p className="text-rose-400">{errors?.gstNumber?.message}</p>
               )}
             </div>
-            <div className="relative mb-4">
-              <label htmlFor="totalTables">
-                <div className="mb-2 font-semibold text-slate-300">
-                  Total Tables
+          </div>
+          <div className="relative col-span-2 mb-4">
+            <label htmlFor="street">
+              <p className="mb-2 font-semibold text-light-text1 dark:text-dark-text2 ">
+                Street Address
+              </p>
+
+              {loading ? (
+                <div className="animate-pulse">
+                  <div className="h-16 rounded-md bg-slate-300 dark:bg-slate-700" />
                 </div>
-                {loading ? (
-                  <div className="animate-pulse">
-                    <div className="h-10 rounded-md bg-slate-300 dark:bg-slate-700" />
-                  </div>
-                ) : (
-                  <input
-                    type="text"
-                    name="totalTables"
-                    defaultValue={restaurantData.data?.totalTables}
-                    {...register("totalTables")}
-                    className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-md block w-full pl-3 p-2.5 
+              ) : (
+                <textarea
+                  type="text"
+                  name="street"
+                  defaultValue={restaurantData.data?.address?.street}
+                  {...register("address.street")}
+                  className="border-2 dark:border-0 bg-light-base2 dark:bg-dark-base2 placeholder-light-text2 text-light-text1 dark:text-dark-text1 text-sm rounded-md block w-full pl-3 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
-                    placeholder="Total Tables"
-                  />
-                )}
-              </label>
-              {errors.totalTables && (
-                <p className="text-rose-400">{errors?.totalTables?.message}</p>
+                  placeholder="Street Address"
+                />
               )}
-            </div>
+            </label>
+            {errors.address && (
+              <p className="text-rose-400">{errors.address?.street?.message}</p>
+            )}
+          </div>
+          <div className="relative mb-4">
+            <label htmlFor="state">
+              <p className="mb-2 font-semibold text-light-text1 dark:text-dark-text2 ">
+                State
+              </p>
+
+              {loading ? (
+                <div className="animate-pulse">
+                  <div className="h-16 rounded-md bg-slate-300 dark:bg-slate-700" />
+                </div>
+              ) : (
+                <select
+                  name="state"
+                  {...register("address.state")}
+                  value={restaurantData.data?.address?.state}
+                  className="border-2 dark:border-0 bg-light-base2 dark:bg-dark-base2 placeholder-light-text2 text-light-text1 dark:text-dark-text1 text-sm rounded-md block w-full pl-3 p-2.5 
+                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary cursor-pointer"
+                  placeholder="Select State"
+                >
+                  <option
+                    defaultValue=""
+                    className="py-2 cursor-pointer bg-light-base2 dark:bg-dark-base2 text-light-text1 dark:text-dark-text1 text-md"
+                    disabled
+                  >
+                    -- Select State --
+                  </option>
+                  {states.map((option) => {
+                    return (
+                      <option
+                        key={option.key}
+                        value={option.name}
+                        className="py-2 cursor-pointer bg-light-base2 dark:bg-dark-base2 text-light-text1 dark:text-dark-text1 text-md"
+                      >
+                        {option.name}
+                      </option>
+                    );
+                  })}
+                </select>
+              )}
+            </label>
+            {errors.address && (
+              <p className="text-rose-400"> {errors.address.state?.message} </p>
+            )}
+          </div>
+          <div className="relative mb-4 md:pl-4">
+            <label htmlFor="pincode">
+              <p className="mb-2 font-semibold text-light-text1 dark:text-dark-text2 ">
+                Pincode
+              </p>
+              {loading ? (
+                <div className="animate-pulse">
+                  <div className="h-16 rounded-md bg-slate-300 dark:bg-slate-700" />
+                </div>
+              ) : (
+                <input
+                  type="number"
+                  name="pincode"
+                  defaultValue={restaurantData.data?.address?.pincode}
+                  {...register("address.pincode")}
+                  className="border-2 dark:border-0 bg-light-base2 dark:bg-dark-base2 placeholder-light-text2 text-light-text1 dark:text-dark-text1 text-sm rounded-md block w-full pl-3 p-2.5 
+                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
+                  placeholder="Pincode"
+                />
+              )}
+            </label>
+            {errors.address && (
+              <p className="text-rose-400"> {errors.address.pincode} </p>
+            )}
           </div>
         </div>
+
         <div className="flex justify-center mt-5">
           <button
             type="submit"

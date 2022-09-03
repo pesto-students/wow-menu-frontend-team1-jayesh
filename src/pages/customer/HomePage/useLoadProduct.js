@@ -13,6 +13,7 @@ export default function useLoadProduct(page = 1, category) {
   useEffect(() => {
     getProducts(page, {
       category: category.id,
+      isActive: true,
     });
   }, [page, category]);
 

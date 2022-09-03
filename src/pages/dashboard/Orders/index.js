@@ -50,7 +50,7 @@ function Orders() {
       className="relative w-screen h-screen overflow-hidden bg-light-base1 dark:bg-dark-base1"
     >
       <div className="flex ml-28">
-        <main className="relative h-screen pr-4 overflow-x-hidden overflow-y-auto grow">
+        <main className="relative flex flex-col h-screen pr-4 overflow-x-hidden overflow-y-auto grow">
           <Header name="Orders" />
           <div className="absolute top-4 right-4">
             <Filter
