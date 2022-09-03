@@ -1,10 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-// import { HiOutlineMail } from "react-icons/hi";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FaRegUser } from "react-icons/fa";
-// import { GiCook } from "react-icons/gi";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -16,18 +15,7 @@ import useAxios from "../../shared/hooks/useAxios";
 import user from "../../assets/images/user.svg";
 
 const schema = yup.object().shape({
-  // userType: yup.string().required("User type is required"),
-  // emailId: yup
-  //   .string()
-  //   .email("Email is invalid")
-  //   .when("userType", {
-  //     is: "owner",
-  //     then: yup.string().required("Email is required"),
-  //   }),
-  username: yup.string().when("userType", {
-    is: "user",
-    then: yup.string().required("Username is required"),
-  }),
+  username: yup.string().required("Username is required"),
   password: yup
     .string()
     .required("Password is required")
@@ -35,6 +23,14 @@ const schema = yup.object().shape({
 });
 
 function Login() {
+  const [passwordType, setPasswordType] = useState("password");
+  const togglePassword = () => {
+    if (passwordType === "password") {
+      setPasswordType("text");
+      return;
+    }
+    setPasswordType("password");
+  };
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -45,23 +41,18 @@ function Login() {
   const {
     register,
     handleSubmit,
-    // watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
-  // const watchUserType = watch("userType", "owner");
 
   const submitForm = (data) => {
     const apiBody = {
-      // ...(data.userType === "owner" && { emailId: data.emailId }),
-      // ...(data.userType === "user" && { username: data.username }),
       username: data.username,
       password: data.password,
     };
     callApi({
       apiMethod: "post",
-      // apiUrl: `/login/${data.userType}`,
       apiUrl: "/login",
       params: {},
       apiBody,
@@ -92,8 +83,6 @@ function Login() {
             <div className="flex">
               <svg
                 id="wow"
-                // width="auto"
-                // height="95"
                 viewBox="0 0 117 59"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -109,8 +98,6 @@ function Login() {
               <svg
                 className="w-auto sm:h-[10vw] md:h-[10vh] lg:h-[95px] h-[12vw]"
                 id="menu"
-                // width="auto"
-                // height="95"
                 viewBox="0 0 129 58"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -133,64 +120,11 @@ function Login() {
             transition={{ duration: 0.4 }}
             className="relative w-2/3 p-6 bg-gray-900 rounded-lg h-max gap-y-6"
           >
-            {/* <div className="flex flex-col w-full p-8 mt-10 bg-gray-800 bg-opacity-50 rounded-lg lg:w-2/6 md:w-1/2 md:ml-auto md:mt-0"> */}
             <h2 className="mb-5 text-2xl font-bold text-center text-white">
               Login
             </h2>
             <img className="h-32 mx-auto my-6" src={user} alt="" />
             <form onSubmit={handleSubmit(submitForm)}>
-              {/* <div className={`${errors?.userType?.message ? "mb-2" : "mb-4"}`}>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 pointer-events-none">
-                    <GiCook />
-                  </div>
-                  <select
-                    name="userType"
-                    {...register("userType")}
-                    className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-sm block w-full pl-10 p-2.5 
-                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary cursor-pointer"
-                  >
-                    <option
-                      value="owner"
-                      className="py-2 bg-gray-700 cursor-pointer text-md"
-                    >
-                      Login as Owner
-                    </option>
-                    <option
-                      value="user"
-                      className="py-2 bg-gray-700 cursor-pointer text-md"
-                    >
-                      Login as Manager/Chef
-                    </option>
-                  </select>
-                </div>
-                {errors.userType && (
-                  <p className="text-rose-400"> {errors.userType.message} </p>
-                )}
-              </div> */}
-              {/* {watchUserType === "owner" && (
-                <div
-                  className={`${errors?.emailId?.message ? "mb-2" : "mb-4"}`}
-                >
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 pointer-events-none">
-                      <HiOutlineMail />
-                    </div>
-                    <input
-                      type="email"
-                      name="emailId"
-                      {...register("emailId")}
-                      className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-sm block w-full pl-10 p-2.5 
-                transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
-                      placeholder="Email"
-                    />
-                  </div>
-                  {errors.emailId && (
-                    <p className="text-rose-400"> {errors.emailId.message} </p>
-                  )}
-                </div>
-              )} */}
-              {/* {watchUserType === "user" && ( */}
               <div className={`${errors?.username?.message ? "mb-2" : "mb-4"}`}>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 pointer-events-none">
@@ -209,20 +143,32 @@ function Login() {
                   <p className="text-rose-400"> {errors.username.message} </p>
                 )}
               </div>
-              {/* // )} */}
               <div className={`${errors?.password?.message ? "mb-2" : "mb-4"}`}>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 pointer-events-none">
                     <RiLockPasswordLine />
                   </div>
                   <input
-                    type="password"
+                    type={passwordType}
                     name="password"
                     {...register("password")}
-                    className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-sm block w-full pl-10 p-2.5 
+                    className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-sm block w-full px-10 p-2.5 
                   transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
                     placeholder="Password"
                   />
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 cursor-pointer">
+                    <button
+                      type="button"
+                      className="text-xl"
+                      onClick={togglePassword}
+                    >
+                      {passwordType === "password" ? (
+                        <AiOutlineEyeInvisible />
+                      ) : (
+                        <AiOutlineEye />
+                      )}
+                    </button>
+                  </div>
                 </div>
                 {errors.password && (
                   <p className="text-rose-400"> {errors.password.message} </p>

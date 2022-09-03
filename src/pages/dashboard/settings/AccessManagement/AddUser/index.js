@@ -1,7 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { MdArrowBackIosNew } from "react-icons/md";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -20,6 +23,14 @@ const schema = yup.object().shape({
 });
 
 export default function AddUser() {
+  const [passwordType, setPasswordType] = useState("password");
+  const togglePassword = () => {
+    if (passwordType === "password") {
+      setPasswordType("text");
+      return;
+    }
+    setPasswordType("password");
+  };
   const restaurantId = useSelector((state) => state.restaurant.details.id);
   const navigate = useNavigate();
   const { callApi } = useAxios();
@@ -42,7 +53,13 @@ export default function AddUser() {
   };
 
   return (
-    <div className="flex flex-col flex-1 p-4 pl-28">
+    <motion.div
+      initial={{ y: 10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: -10, opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="flex flex-col flex-1 p-4 pl-28"
+    >
       <div className="flex justify-start mb-3">
         <button
           type="button"
@@ -141,14 +158,29 @@ export default function AddUser() {
                 <div className="mb-2 font-semibold text-gray-600 dark:border-gray-600 dark:text-white">
                   Password
                 </div>
-                <input
-                  type="password"
-                  name="password"
-                  {...register("password")}
-                  className="dark:bg-gray-700 placeholder-gray-500 dark:text-white text-sm rounded-md block w-full pl-3 p-2.5
+                <div className="relative">
+                  <input
+                    type={passwordType}
+                    name="password"
+                    {...register("password")}
+                    className="dark:bg-gray-700 placeholder-gray-500 dark:text-white text-sm rounded-md block w-full pl-3 pr-10 p-2.5
                 transition-colors duration-200 ease-in-out outline-none focus:ring-1 focus:ring-primary"
-                  placeholder="Password"
-                />
+                    placeholder="Password"
+                  />
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 cursor-pointer">
+                    <button
+                      type="button"
+                      className="text-xl"
+                      onClick={togglePassword}
+                    >
+                      {passwordType === "password" ? (
+                        <AiOutlineEyeInvisible />
+                      ) : (
+                        <AiOutlineEye />
+                      )}
+                    </button>
+                  </div>
+                </div>
               </label>
               <p className="text-rose-400"> {errors?.password?.message} </p>
             </div>
@@ -215,6 +247,6 @@ export default function AddUser() {
           </button>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 }

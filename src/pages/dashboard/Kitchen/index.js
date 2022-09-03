@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import Header from "../components/Header";
 import useLoadOrders from "./useLoadOrders";
 import OrderList from "./OrderList";
@@ -40,7 +41,13 @@ export default function Kitchen() {
   }, [orders]);
 
   return (
-    <div className="w-screen overflow-hidden bg-light-base1 dark:bg-dark-base1">
+    <motion.div
+      initial={{ y: 10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: -10, opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="w-screen overflow-hidden bg-light-base1 dark:bg-dark-base1"
+    >
       <div className="flex h-screen ml-28">
         <main className="relative flex flex-col h-full mr-4 overflow-x-hidden grow">
           <Header name="Kitchen" />
@@ -67,6 +74,6 @@ export default function Kitchen() {
           nextPage={handleNextPage}
         />
       </div>
-    </div>
+    </motion.div>
   );
 }

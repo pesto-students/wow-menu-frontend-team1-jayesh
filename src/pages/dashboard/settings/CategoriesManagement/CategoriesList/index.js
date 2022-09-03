@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CategoryCard from "./CategoryCard";
@@ -31,7 +32,13 @@ function CategoriesList() {
   };
 
   return (
-    <div className="flex flex-col flex-1 p-4 pl-28">
+    <motion.div
+      initial={{ y: 10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: -10, opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="flex flex-col flex-1 p-4 pl-28"
+    >
       <div className="flex items-center mb-3">
         <BackButton href="/dashboard/settings" />
         <h1 className="ml-2 text-3xl font-semibold leading-loose text-slate-800 dark:text-white">
@@ -96,7 +103,7 @@ function CategoriesList() {
           </>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
