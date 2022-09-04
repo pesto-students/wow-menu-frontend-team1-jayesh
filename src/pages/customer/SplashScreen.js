@@ -64,7 +64,7 @@ function SplashScreen() {
                 exit={{ opacity: 0 }}
                 className="mt-5 text-2xl font-medium text-center text-light-text1 dark:text-dark-text1"
               >
-                Please Scan the QR Code in the Table
+                Please Scan the QR Code on the Table
               </motion.p>
             )}
           </div>

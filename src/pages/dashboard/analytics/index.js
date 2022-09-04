@@ -11,6 +11,7 @@ import AnalyticService from "../../../services/analytics";
 import BillService from "../../../services/dashboardBill";
 import FeatureCard from "./FeatureCard";
 import Card from "../../../shared/components/Card";
+import noImg from "../../../assets/images/noImg.png";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 function DashboardAnalytics() {
@@ -125,8 +126,8 @@ function DashboardAnalytics() {
             )}
           </Card>
         </main>
-        <aside className="flex flex-col w-full py-4 pr-4 gap-y-4 lg:w-96">
-          <Card className="bg-light-base2 dark:bg-dark-base2">
+        <aside className="flex w-full py-4 pr-4 xl:flex-col gap-y-4 xl:w-96">
+          <Card className="w-1/2 mr-4 xl:w-full xl:mr-0 bg-light-base2 dark:bg-dark-base2">
             <h2 className="mb-5 text-xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
               Most Ordered
             </h2>
@@ -136,11 +137,20 @@ function DashboardAnalytics() {
                 analytics.data &&
                 analytics.data.topItems.map((item) => (
                   <div key={item.id} className="flex items-center my-3 gap-x-4">
-                    <img
-                      className="w-10 h-10 rounded-full"
-                      src={item.imageUrl}
-                      alt={item.name}
-                    />
+                    {item.imageUrl && item.imageUrl.length > 0 ? (
+                      <img
+                        className="w-10 h-10 rounded-full"
+                        src={item.imageUrl}
+                        alt={item.name}
+                      />
+                    ) : (
+                      <img
+                        className="w-10 h-10 rounded-full"
+                        src={noImg}
+                        alt={item.name}
+                      />
+                    )}
+
                     <div className="flex flex-col gap-y-0.5">
                       <div className="text-sm font-medium text-slate-700 dark:text-white">
                         {item.name}
@@ -175,12 +185,12 @@ function DashboardAnalytics() {
               )}
             </div>
           </Card>
-          <Card className="flex flex-col grow bg-light-base2 dark:bg-dark-base2">
+          <Card className="flex flex-col w-1/2 xl:w-full grow bg-light-base2 dark:bg-dark-base2">
             <h2 className="mb-5 text-xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
               Top Categories
             </h2>
             <hr className="mb-3 dark:border-gray-600" />
-            <div className="flex items-center grow">
+            <div className="flex items-center p-8 grow">
               {analytics && analytics.data && (
                 <Doughnut
                   data={{

@@ -63,7 +63,9 @@ export default function ProductService() {
   };
 
   const deleteProduct = (downloadUrl, id) => {
-    deleteFile(downloadUrl);
+    if (downloadUrl) {
+      deleteFile(downloadUrl);
+    }
     callApi({
       apiMethod: "delete",
       apiUrl: `/menu-items/${id}`,

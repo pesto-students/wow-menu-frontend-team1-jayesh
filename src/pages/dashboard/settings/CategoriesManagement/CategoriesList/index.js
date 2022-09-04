@@ -113,7 +113,7 @@ function CategoriesList() {
           </>
         )}
       </div>
-      {categoriesData && categoriesData.data?.length === 0 && (
+      {!loading && categoriesData && categoriesData.data?.length === 0 && (
         <div className="flex items-center justify-center w-full h-full">
           <div>
             <img className="w-64 mx-auto" src={noCategory} alt="No Order" />

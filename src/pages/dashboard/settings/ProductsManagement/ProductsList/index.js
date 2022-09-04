@@ -119,7 +119,7 @@ function ProductsList() {
           </>
         )}
       </div>
-      {products && products?.length === 0 && (
+      {!loading && products && products?.length === 0 && (
         <div className="flex items-center justify-center w-full h-full">
           <div>
             <img className="w-64 mx-auto" src={noProduct} alt="No Order" />
