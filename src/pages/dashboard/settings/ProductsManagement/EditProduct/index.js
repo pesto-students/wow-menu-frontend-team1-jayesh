@@ -16,7 +16,7 @@ import BackButton from "../../../../../shared/components/BackButton";
 const schema = yup.object().shape({
   name: yup
     .string()
-    .max(15, "Name must be within 15 characters")
+    .max(30, "Name must be within 30 characters")
     .required("Name is required"),
   price: yup.number().required("Price is required"),
   category: yup.string().required("Category is required"),

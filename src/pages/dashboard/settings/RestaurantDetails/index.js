@@ -17,6 +17,7 @@ const schema = yup.object().shape({
   gstPercentage: yup
     .number()
     .typeError("You must specify a number")
+    .max(99, "Must be valid percentage")
     .required("GST Percentage is required"),
   gstNumber: yup
     .string()
@@ -28,7 +29,12 @@ const schema = yup.object().shape({
   address: yup.object().shape({
     street: yup.string().required("Street Address is required"),
     state: yup.string().required("State is required"),
-    pincode: yup.number().required("Pincode is required"),
+    pincode: yup
+      .number()
+      .typeError("Invalid Pincode")
+      .min(100000, "Invalid Pincode")
+      .max(999999, "Invalid Pincode")
+      .required("Pincode is required"),
   }),
 });
 
@@ -295,7 +301,7 @@ export default function RestaurantDetails() {
                 </div>
               ) : (
                 <input
-                  type="number"
+                  type="text"
                   name="pincode"
                   defaultValue={restaurantData.data?.address?.pincode}
                   {...register("address.pincode")}
@@ -306,7 +312,7 @@ export default function RestaurantDetails() {
               )}
             </label>
             {errors.address && (
-              <p className="text-rose-400"> {errors.address.pincode} </p>
+              <p className="text-rose-400">{errors.address.pincode?.message}</p>
             )}
           </div>
         </div>

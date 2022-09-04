@@ -63,7 +63,13 @@ function Login() {
   useEffect(() => {
     if (loginResponse?.data?.userDetails) {
       dispatch(loginSuccess(loginResponse));
-      navigate("/dashboard/orders");
+      if (loginResponse?.data?.userDetails.role === "owner") {
+        navigate("/dashboard/analytics");
+      } else if (loginResponse?.data?.userDetails.role === "manager") {
+        navigate("/dashboard/orders");
+      } else {
+        navigate("/dashboard/kitchen");
+      }
       if (loginResponse?.data?.userDetails?.restaurant) {
         dispatch(setRestaurant(loginResponse?.data?.userDetails?.restaurant));
       }

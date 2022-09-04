@@ -28,12 +28,14 @@ function DashboardSideBar() {
       icon: FaChartPie,
       link: "/dashboard/analytics",
       roles: ["owner"],
+      adminAccessRequired: true,
     },
     {
       name: "Orders",
       icon: TiThListOutline,
       link: "/dashboard/orders",
       roles: ["owner", "manager"],
+      adminAccessRequired: false,
       badge: true,
     },
     {
@@ -41,14 +43,21 @@ function DashboardSideBar() {
       icon: GiCook,
       link: "/dashboard/kitchen",
       roles: ["owner", "chef", "manager"],
+      adminAccessRequired: false,
     },
     {
       name: "Settings",
       icon: BsGearFill,
       link: "/dashboard/settings",
       roles: ["owner", "manager"],
+      adminAccessRequired: false,
     },
-    { name: "Logout", icon: MdLogout, roles: ["owner", "chef", "manager"] },
+    {
+      name: "Logout",
+      icon: MdLogout,
+      roles: ["owner", "chef", "manager"],
+      adminAccessRequired: false,
+    },
   ];
   const location = useLocation();
   const activeMenu = location.pathname;
@@ -78,7 +87,8 @@ function DashboardSideBar() {
       <div className="flex flex-col items-end self-end gap-y-4">
         {menus.map(
           (menu) =>
-            menu.roles?.includes(user.userDetails?.role) && (
+            (menu.roles?.includes(user.userDetails?.role) ||
+              (menu.adminAccessRequired && user.userDetails?.isAdmin)) && (
               <div
                 key={menu.name}
                 className={

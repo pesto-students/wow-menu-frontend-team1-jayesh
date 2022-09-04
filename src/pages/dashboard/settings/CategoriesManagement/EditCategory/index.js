@@ -9,7 +9,10 @@ import BackButton from "../../../../../shared/components/BackButton";
 import useAxios from "../../../../../shared/hooks/useAxios";
 
 const schema = yup.object().shape({
-  name: yup.string().required("Name is required"),
+  name: yup
+    .string()
+    .max(30, "Name must be within 30 characters")
+    .required("Name is required"),
   isActive: yup.boolean().typeError("Field is required").required(),
 });
 
