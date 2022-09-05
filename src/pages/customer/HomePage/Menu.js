@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import CardLoader from "../components/CardLoader";
 import MenuCard from "../components/MenuCard";
 import useLoadProduct from "./useLoadProduct";
+import noItems from "../../../assets/images/noItems.svg";
 
 function Menu() {
   const observer = useRef();
@@ -46,6 +47,18 @@ function Menu() {
         <>
           <CardLoader />
           <CardLoader />
+        </>
+      )}
+      {!loading && products.length === 0 && (
+        <>
+          <img
+            src={noItems}
+            alt="No Items Present"
+            className="w-1/2 mx-auto mt-10"
+          />
+          <h3 className="mt-3 text-lg font-medium text-center text-light-text1 dark:text-dark-text2">
+            No Items present
+          </h3>
         </>
       )}
     </div>

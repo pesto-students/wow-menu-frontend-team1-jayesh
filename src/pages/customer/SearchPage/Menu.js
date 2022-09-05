@@ -1,6 +1,7 @@
 import { useRef, useCallback } from "react";
 import MenuCard from "../components/MenuCard";
 import CardLoader from "../components/CardLoader";
+import noItems from "../../../assets/images/noItems.svg";
 
 function Menu({ items, loading, hasMore, nextPage }) {
   const observer = useRef();
@@ -34,6 +35,18 @@ function Menu({ items, loading, hasMore, nextPage }) {
         <>
           <CardLoader />
           <CardLoader />
+        </>
+      )}
+      {!loading && items.length === 0 && (
+        <>
+          <img
+            src={noItems}
+            alt="No Items Present"
+            className="w-1/2 mx-auto mt-10"
+          />
+          <h3 className="mt-3 text-lg font-medium text-center text-light-text1 dark:text-dark-text2">
+            No Items present
+          </h3>
         </>
       )}
     </div>

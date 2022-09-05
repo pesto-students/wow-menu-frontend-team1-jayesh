@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { BiRupee, BiFoodTag } from "react-icons/bi";
+import { BiRupee } from "react-icons/bi";
 import Card from "../../../../shared/components/Card";
 
 const classes = {
@@ -28,17 +28,9 @@ function PreviousOrderCard({ className, items = [] }) {
               <div className="grid grid-cols-3 gap-1 mb-5" key={item.item.id}>
                 <div className="col-span-2">
                   <div className="flex">
-                    <BiFoodTag
-                      className={
-                        item.item.isVeg
-                          ? "text-green-600 mt-1"
-                          : "text-red-800 mt-1"
-                      }
-                      size="18"
-                    />
                     <div className="ml-2">
                       <h2 className={`${classes.title}`}>
-                        {item.quantity} {item.item.name}
+                        {item.quantity} x {item.item.name}
                       </h2>
                       <div className="flex items-center">
                         <BiRupee className={`${classes.subtitle} mr-1`} />
