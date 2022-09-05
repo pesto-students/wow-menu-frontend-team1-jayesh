@@ -9,7 +9,7 @@ export default function DashboardNotification() {
 
   useEffect(() => {
     const listener = (obj) => {
-      toast.info(`Waiter is called at Table ${obj.tableNo}`, {
+      toast.info(`Waiter was called at Table ${obj.tableNo}`, {
         delay: 0,
         autoClose: false,
         theme: "colored",

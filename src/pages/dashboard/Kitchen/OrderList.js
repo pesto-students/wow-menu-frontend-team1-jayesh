@@ -4,7 +4,7 @@ import ListLoader from "../components/ListLoader";
 import noOrder from "../../../assets/images/noOrder.svg";
 
 const classes = {
-  base: "relative grid w-full grid-cols-2 md:grid-cols-3 gap-2 px-3 py-5 text-lg my-7 text-light-text1 dark:text-dark-text1",
+  base: "relative grid w-full grid-cols-2 md:grid-cols-3 gap-2 px-3 py-5 text-lg my-4 text-light-text1 dark:text-dark-text1",
   bg: {
     Pending: "bg-accent-orange/30",
     "In progress": "bg-gray-500/30",
@@ -34,7 +34,7 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
   return (
     <aside className="w-64 h-screen p-2 overflow-x-hidden overflow-y-auto md:p-6 md:w-96 bg-light-base2 dark:bg-dark-base2">
       {orders.length > 0 && (
-        <div className="grid grid-cols-2 gap-2 my-3 text-xl font-semibold md:grid-cols-3 text-light-text1 dark:text-dark-text1">
+        <div className="grid grid-cols-2 gap-2 mt-3 mb-5 text-xl font-semibold md:grid-cols-3 text-light-text1 dark:text-dark-text1">
           <p className="hidden md:block">Order Id</p>
           <p className="flex justify-center">
             Table <span className="hidden ml-1 md:block">No.</span>

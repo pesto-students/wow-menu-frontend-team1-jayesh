@@ -68,9 +68,9 @@ function IterationDetail({ iteration, orderId, updateOrder }) {
           )}
           {iteration.status === "Preparing" && (
             <IconButton
-              theme="outline"
+              theme="primary"
               disabled={loading}
-              className="border border-1 border-primary"
+              className="mt-2 border border-1 border-primary"
               onClick={() => changeStatus(iteration.id)}
             >
               {loading && (
@@ -91,7 +91,7 @@ function IterationDetail({ iteration, orderId, updateOrder }) {
                   />
                 </svg>
               )}
-              <p className="text-base text-primary">Complete</p>
+              <p className="text-base">Complete</p>
             </IconButton>
           )}
         </div>

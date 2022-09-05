@@ -43,18 +43,26 @@ function DashboardAnalytics() {
               title={
                 analytics?.data?.totalRevenue
                   ? `₹ ${analytics?.data?.totalRevenue}`
-                  : ""
+                  : "₹ 0"
               }
               subtitle="Total Revenue"
             />
             <FeatureCard
               icon={<GiHotMeal className="text-accent-red" />}
-              title={analytics?.data?.totalQuantity}
+              title={
+                analytics?.data?.totalQuantity
+                  ? analytics?.data?.totalQuantity
+                  : "0"
+              }
               subtitle="Items Ordered"
             />
             <FeatureCard
               icon={<BiFoodMenu className="text-primary" />}
-              title={analytics?.data?.ordersCount}
+              title={
+                analytics?.data?.ordersCount
+                  ? analytics?.data?.ordersCount
+                  : "0"
+              }
               subtitle="Total Orders"
             />
           </div>
@@ -115,6 +123,16 @@ function DashboardAnalytics() {
                       </tr>
                     );
                   })}
+                {bills && bills.data.length === 0 && (
+                  <tr>
+                    <td
+                      className="px-6 py-4 text-center text-slate-700 dark:text-gray-500"
+                      colSpan={5}
+                    >
+                      No bills have been generated yet.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
             {!bills && (
@@ -161,6 +179,14 @@ function DashboardAnalytics() {
                     </div>
                   </div>
                 ))}
+              {analytics && analytics.data.topItems.length === 0 && (
+                <p
+                  className="px-6 py-4 text-center text-slate-700 dark:text-gray-500"
+                  colSpan={5}
+                >
+                  No orders have been placed yet.
+                </p>
+              )}
               {!analytics && (
                 <>
                   <div className="my-3 animate-pulse">
@@ -190,8 +216,16 @@ function DashboardAnalytics() {
               Top Categories
             </h2>
             <hr className="mb-3 dark:border-gray-600" />
+            {analytics && analytics.data.topCategories.length === 0 && (
+              <p
+                className="px-6 py-4 text-center text-slate-700 dark:text-gray-500"
+                colSpan={5}
+              >
+                No orders have been placed yet.
+              </p>
+            )}
             <div className="flex items-center p-8 grow">
-              {analytics && analytics.data && (
+              {analytics && analytics.data?.topCategories.length > 0 && (
                 <Doughnut
                   data={{
                     labels: analytics.data.topCategories.map((cat) => cat.name),
@@ -213,9 +247,10 @@ function DashboardAnalytics() {
                   }}
                 />
               )}
+
               {!analytics && (
-                <div className="animate-pulse">
-                  <div className="rounded-full w-80 h-80 bg-slate-300 dark:bg-slate-700" />
+                <div className="mx-auto animate-pulse">
+                  <div className="w-64 h-64 rounded-full bg-slate-300 dark:bg-slate-700" />
                 </div>
               )}
             </div>
