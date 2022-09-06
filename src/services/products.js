@@ -57,6 +57,7 @@ export default function ProductService() {
       apiMethod: "patch",
       apiUrl: `/menu-items/${id}`,
       apiBody: { ...data },
+      loadingToastMessage: "Changing status...",
       successToastMessage: "Product was updated successfully!",
       errorToastMessage: error.message,
     });

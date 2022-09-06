@@ -36,7 +36,7 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
   return (
     <>
       {orders.length > 0 && (
-        <div className="grid grid-cols-4 gap-2 my-3 text-xl font-semibold xl:grid-cols-6 lg:grid-cols-5 text-light-text1 dark:text-dark-text1">
+        <div className="grid grid-cols-4 gap-2 mt-3 mb-5 text-xl font-semibold xl:grid-cols-6 lg:grid-cols-5 text-light-text1 dark:text-dark-text1">
           <p className="hidden lg:block">Order Id</p>
           <p className="hidden text-center xl:block">Ordered At</p>
           <p className="flex justify-center">
@@ -61,7 +61,7 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
                 viewport={{ once: true }}
                 exit={{ x: -30, opacity: 0 }}
                 key={order.id}
-                className={`rounded-lg my-3.5 ${classes.bg[order.status]} `}
+                className={`rounded-lg my-2 ${classes.bg[order.status]} `}
               >
                 <button
                   ref={orders.length === idx + 1 ? loadMoreElementRef : null}

@@ -7,9 +7,7 @@ export default function FeatureCard({ icon, subtitle, title }) {
         <div className="flex items-center justify-center w-8 h-8 mr-2 text-2xl rounded bg-light-base1 dark:bg-dark-base1">
           {icon}
         </div>
-        <p className="text-sm text-light-text2 dark:text-dark-text2">
-          {subtitle}
-        </p>
+        <p className="text-sm text-slate-600 dark:text-gray-500">{subtitle}</p>
       </div>
       {title && (
         <h2 className="my-3 text-3xl font-semibold text-light-text1 dark:text-dark-text1">

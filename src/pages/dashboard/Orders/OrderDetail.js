@@ -25,7 +25,7 @@ function OrderDetail({ order, onClose, updateOrder }) {
   return (
     <aside className="absolute h-screen p-2 overflow-x-hidden overflow-y-auto md:p-6 md:relative w-50 md:w-96 bg-light-base2 dark:bg-dark-base2">
       <BsArrowLeft
-        className="text-2xl text-light-text1 dark:text-dark-text1"
+        className="text-2xl cursor-pointer text-light-text1 dark:text-dark-text1"
         onClick={onClose}
       />
       <div className="flex justify-between">
