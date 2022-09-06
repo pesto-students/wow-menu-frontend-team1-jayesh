@@ -57,13 +57,16 @@ export default function ProductService() {
       apiMethod: "patch",
       apiUrl: `/menu-items/${id}`,
       apiBody: { ...data },
+      loadingToastMessage: "Changing status...",
       successToastMessage: "Product was updated successfully!",
       errorToastMessage: error.message,
     });
   };
 
   const deleteProduct = (downloadUrl, id) => {
-    deleteFile(downloadUrl);
+    if (downloadUrl) {
+      deleteFile(downloadUrl);
+    }
     callApi({
       apiMethod: "delete",
       apiUrl: `/menu-items/${id}`,

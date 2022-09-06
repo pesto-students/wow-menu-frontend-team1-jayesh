@@ -1,6 +1,6 @@
 import { BsGearFill } from "react-icons/bs";
 import { MdLogout } from "react-icons/md";
-import { FaChartPie, FaHome } from "react-icons/fa";
+import { FaChartPie } from "react-icons/fa";
 import { GiCook } from "react-icons/gi";
 import { TiThListOutline } from "react-icons/ti";
 import "./Sidebar.scss";
@@ -17,17 +17,25 @@ function DashboardSideBar() {
   const dispatch = useDispatch();
   const { newOrder } = DashboardSocket();
   const menus = [
+    // {
+    //   name: "Home",
+    //   icon: FaHome,
+    //   link: "/dashboard/home",
+    //   roles: ["owner", "chef", "manager"],
+    // },
     {
-      name: "Home",
-      icon: FaHome,
-      link: "/dashboard/home",
-      roles: ["owner", "chef", "manager"],
+      name: "Analytics",
+      icon: FaChartPie,
+      link: "/dashboard/analytics",
+      roles: ["owner"],
+      adminAccessRequired: true,
     },
     {
       name: "Orders",
       icon: TiThListOutline,
       link: "/dashboard/orders",
       roles: ["owner", "manager"],
+      adminAccessRequired: false,
       badge: true,
     },
     {
@@ -35,20 +43,21 @@ function DashboardSideBar() {
       icon: GiCook,
       link: "/dashboard/kitchen",
       roles: ["owner", "chef", "manager"],
-    },
-    {
-      name: "Analytics",
-      icon: FaChartPie,
-      link: "/dashboard/analytics",
-      roles: ["owner"],
+      adminAccessRequired: false,
     },
     {
       name: "Settings",
       icon: BsGearFill,
       link: "/dashboard/settings",
       roles: ["owner", "manager"],
+      adminAccessRequired: false,
     },
-    { name: "Logout", icon: MdLogout, roles: ["owner", "chef", "manager"] },
+    {
+      name: "Logout",
+      icon: MdLogout,
+      roles: ["owner", "chef", "manager"],
+      adminAccessRequired: false,
+    },
   ];
   const location = useLocation();
   const activeMenu = location.pathname;
@@ -78,7 +87,8 @@ function DashboardSideBar() {
       <div className="flex flex-col items-end self-end gap-y-4">
         {menus.map(
           (menu) =>
-            menu.roles?.includes(user.userDetails?.role) && (
+            (menu.roles?.includes(user.userDetails?.role) ||
+              (menu.adminAccessRequired && user.userDetails?.isAdmin)) && (
               <div
                 key={menu.name}
                 className={

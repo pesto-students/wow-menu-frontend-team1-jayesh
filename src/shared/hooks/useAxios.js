@@ -1,8 +1,11 @@
+/* eslint-disable no-console */
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import useDarkMode from "./useDarkMode";
+import { logout } from "../../store/reducers/authReducer";
 
 axios.defaults.baseURL = `${process.env.REACT_APP_BASE_URL}api/`;
 
@@ -13,6 +16,7 @@ const useAxios = ({ url = null, method = null, headers = null } = {}) => {
   const [response, setResponse] = useState(null);
   const [error, setError] = useState("");
   const [loading, setloading] = useState(false);
+  const dispatch = useDispatch();
 
   const callApi = async ({
     apiMethod,
@@ -54,10 +58,14 @@ const useAxios = ({ url = null, method = null, headers = null } = {}) => {
           errorToastMessage || err.response.data.message || err.message,
           {
             delay: 0,
-            autoClose: false,
+            render: errorToastMessage,
+            autoClose: 3000,
             theme,
           },
         );
+        if (err.response.status === 401) {
+          dispatch(logout());
+        }
       } finally {
         setloading(false);
       }

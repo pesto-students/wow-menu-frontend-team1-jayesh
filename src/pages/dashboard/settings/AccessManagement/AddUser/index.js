@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -37,15 +38,22 @@ export default function AddUser() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const watchRoleType = watch("role", "manager");
+
   const submitForm = (data) => {
+    const body = {
+      ...data,
+      isAdmin: data.role === "chef" ? false : data.isAdmin,
+    };
     callApi({
       apiMethod: "post",
       apiUrl: "/signup",
-      apiBody: { ...data, restaurant: restaurantId },
+      apiBody: { ...body, restaurant: restaurantId },
       successToastMessage: "User is added successfully!",
       errorToastMessage: "Something went wrong, Please try again!",
       navigationLink: "/dashboard/settings/access-management",
@@ -193,15 +201,15 @@ export default function AddUser() {
                   <input
                     type="radio"
                     name="role"
-                    value="Chef"
+                    value="chef"
                     {...register("role")}
                   />{" "}
                   <text className="dark:text-gray-400">Chef</text>
                   <input
                     type="radio"
                     name="role"
-                    value="Manager"
-                    checked
+                    value="manager"
+                    defaultChecked
                     {...register("role")}
                     className="ml-5"
                   />{" "}
@@ -210,32 +218,34 @@ export default function AddUser() {
               </label>
               <p className="text-rose-400"> {errors?.role?.message} </p>
             </div>
-            <div className="relative mb-4">
-              <label htmlFor="isAdmin">
-                <div className="mb-2 font-semibold text-gray-600 dark:border-gray-600 dark:text-white">
-                  Admin Access
-                </div>
-                <div className="dark:border-gray-600">
-                  <input
-                    type="radio"
-                    name="isAdmin"
-                    value="true"
-                    {...register("isAdmin")}
-                  />
-                  <text className="dark:text-gray-400">Yes</text>
-                  <input
-                    type="radio"
-                    name="isAdmin"
-                    value="false"
-                    checked
-                    {...register("isAdmin")}
-                    className="ml-5"
-                  />
-                  <text className="dark:text-gray-400">No</text>
-                </div>
-              </label>
-              <p className="text-rose-400"> {errors?.isAdmin?.message} </p>
-            </div>
+            {watchRoleType === "manager" && (
+              <div className="relative mb-4">
+                <label htmlFor="isAdmin">
+                  <div className="mb-2 font-semibold text-gray-600 dark:border-gray-600 dark:text-white">
+                    Admin Access
+                  </div>
+                  <div className="dark:border-gray-600">
+                    <input
+                      type="radio"
+                      name="isAdmin"
+                      value="true"
+                      {...register("isAdmin")}
+                    />
+                    <text className="dark:text-gray-400">Yes</text>
+                    <input
+                      type="radio"
+                      name="isAdmin"
+                      value="false"
+                      defaultChecked
+                      {...register("isAdmin")}
+                      className="ml-5"
+                    />
+                    <text className="dark:text-gray-400">No</text>
+                  </div>
+                </label>
+                <p className="text-rose-400"> {errors?.isAdmin?.message} </p>
+              </div>
+            )}
           </div>
         </div>
         <div className="flex justify-center">

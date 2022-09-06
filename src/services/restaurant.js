@@ -24,6 +24,8 @@ export default function RestaurantService() {
       apiMethod: "patch",
       apiUrl: `${RESTAURANT}/${restaurantId}`,
       apiBody: payload,
+      loadingToastMessage: "Updating...",
+      successToastMessage: "Updated Successfully!",
       errorToastMessage: error.message,
     });
   };

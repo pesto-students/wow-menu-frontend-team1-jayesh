@@ -85,7 +85,7 @@ export default function QRCode() {
           <li className="text-light-text2 dark:text-dark-text2">QR Codes</li>
         </ol>
       </nav>
-      <hr className="mt-3 mb-8 border-gray-400 dark:border-gray-600" />
+      <hr className="mt-3 mb-4 border-gray-400 dark:border-gray-600" />
       <div className="flex justify-end mb-4">
         <Button className="mr-2" onClick={handleAddTable} disabled={loading}>
           Add Table

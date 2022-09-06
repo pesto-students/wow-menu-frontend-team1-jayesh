@@ -55,7 +55,7 @@ function ProductsList() {
     >
       <div className="flex items-center">
         <BackButton href="/dashboard/settings" />
-        <h3 className="flex ml-1 text-2xl font-semibold leading-loose text-slate-800 dark:text-white">
+        <h3 className="flex ml-2 text-2xl font-semibold leading-loose text-slate-800 dark:text-white">
           Products <span className="hidden mx-1 sm:flex">List</span>
         </h3>
         <button
@@ -82,15 +82,15 @@ function ProductsList() {
         </ol>
       </nav>
       <hr className="border-gray-700 dark:border-gray-600" />
-
-      <div className="flex flex-wrap justify-end px-3.5 py-1 w-full my-3">
+      <div className="flex flex-wrap justify-end w-full px-0 py-1 mt-3">
         <SearchInput onInput={handleInput} />
         <ProductFilterBar
           filterBy={filterBy}
           updateFilter={handleUpdateFilter}
         />
       </div>
-      <div className="grid gap-6 px-2 py-4 mt-2 overflow-y-auto xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 h-max">
+
+      <div className="grid gap-6 px-2 pt-0 pb-4 mt-0 overflow-y-auto xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 h-max">
         {products &&
           products?.map((element, idx) => {
             return (
@@ -119,7 +119,7 @@ function ProductsList() {
           </>
         )}
       </div>
-      {products && products?.length === 0 && (
+      {!loading && products && products?.length === 0 && (
         <div className="flex items-center justify-center w-full h-full">
           <div>
             <img className="w-64 mx-auto" src={noProduct} alt="No Order" />
