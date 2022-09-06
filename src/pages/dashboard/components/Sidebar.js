@@ -11,6 +11,7 @@ import { ReactComponent as StoreIcon } from "../../../assets/icons/store.svg";
 import { logout } from "../../../store/reducers/authReducer";
 import { resetRestaurant } from "../../../store/reducers/restaurantReducer";
 import DashboardSocket from "../../../services/dashboardSocket";
+import useAxios from "../../../shared/hooks/useAxios";
 
 function DashboardSideBar() {
   const user = useSelector((state) => state.auth.user);
@@ -63,6 +64,7 @@ function DashboardSideBar() {
   const activeMenu = location.pathname;
   const navigate = useNavigate();
   const [unseenOrder, setUnseenOrder] = useState(0);
+  const { callApi } = useAxios();
 
   useEffect(() => {
     if (newOrder && activeMenu !== menus[1].link) {
@@ -110,6 +112,15 @@ function DashboardSideBar() {
                     if (menu.link) {
                       navigate(menu.link);
                     } else {
+                      const apiBody = {
+                        username: user.userDetails.firstname,
+                      };
+                      callApi({
+                        apiMethod: "post",
+                        apiUrl: "/logout",
+                        params: {},
+                        apiBody,
+                      });
                       dispatch(logout());
                       dispatch(resetRestaurant());
                     }
