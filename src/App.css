@@ -1,0 +1,120 @@
+@import "./assets/scss/fonts.scss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /* font-family: "Barlow", sans-serif; */
+}
+
+/* Custom Scrollbar */
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ea7c69;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  cursor: pointer;
+  background: #ec6750;
+}
+
+.customer::-webkit-scrollbar {
+  display: none;
+}
+
+/* Track */
+.customer::-webkit-scrollbar-track {
+  display: none;
+}
+
+/* Handle */
+.customer::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+/* Handle on hover */
+.customer::-webkit-scrollbar-thumb:hover {
+  display: none;
+}
+
+#wow {
+  animation: fill-wow 0.5s ease forwards 1.2s;
+}
+.dark #menu {
+  animation: fill-menu 0.5s ease forwards 1.2s;
+}
+#menu {
+  animation: fill-menu2 0.5s ease forwards 1.2s;
+}
+#wow path {
+  stroke-dasharray: 911px;
+  stroke-dashoffset: 910px;
+  animation: line-anim 3s ease forwards 0.3s;
+}
+.dark #menu path {
+  stroke: #e0e6e9;
+}
+#menu path {
+  stroke: #3b5162;
+}
+#menu path {
+  stroke-dasharray: 1048px;
+  stroke-dashoffset: 1047px;
+  animation: line-anim 3s ease forwards 0.5s;
+}
+@keyframes line-anim {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes fill-wow {
+  from {
+    fill: transparent;
+  }
+  to {
+    fill: #ea7c69;
+  }
+}
+@keyframes fill-menu {
+  from {
+    fill: transparent;
+  }
+  to {
+    fill: #e0e6e9;
+  }
+}
+@keyframes fill-menu2 {
+  from {
+    fill: transparent;
+  }
+  to {
+    fill: #3b5162;
+  }
+}
+.landscape {
+  display: none;
+  z-index: 0;
+}
+@media only screen and (max-device-width: 915px) and (orientation: landscape) {
+  .landscape {
+    display: flex;
+    z-index: 100;
+  }
+}
