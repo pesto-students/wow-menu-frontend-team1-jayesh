@@ -56,7 +56,7 @@ export default function UserAndTheme() {
           />
         </span>
         <span className="pt-[5px] pl-2">
-          <p className="text-lg font-semibold text-slate-500 dark:text-slate-300">
+          <p className="text-lg font-semibold select-none text-slate-500 dark:text-slate-300">
             {user.userDetails.firstname}
           </p>
         </span>

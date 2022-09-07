@@ -1,14 +1,13 @@
 import { motion } from "framer-motion";
 import { FiChevronLeft } from "react-icons/fi";
-import { jsPDF } from "jspdf";
+import Jspdf from "jspdf";
 import { AiOutlineCloudDownload } from "react-icons/ai";
 import Card from "../../../shared/components/Card";
 import Button from "../../../shared/components/Button";
 
 function BillCard({ className, restaurant, bill }) {
   const handleDownload = () => {
-    // eslint-disable-next-line
-    const doc = new jsPDF();
+    const doc = new Jspdf();
     doc.setFontSize(22);
     doc.text(20, 25, `${restaurant.name}`);
     doc.setFontSize(14);
@@ -24,7 +23,7 @@ function BillCard({ className, restaurant, bill }) {
     doc.setFontSize(14);
     doc.text(20, 67, `DATE: ${new Date().toISOString().substring(0, 10)}`);
     doc.text(100, 67, `TABLE NO: ${bill.tableNo}`);
-    doc.text(20, 74, "BILL NO: 7154");
+    doc.text(20, 74, `BILL NO: ${bill.id.substring(18).toUpperCase()}`);
     if (bill.createdBy) {
       doc.text(100, 74, `HOST: ${bill.createdBy}`);
     }
@@ -136,7 +135,7 @@ function BillCard({ className, restaurant, bill }) {
                   <span className="mr-1 font-medium text-light-text1 dark:text-dark-text1">
                     Bill No:
                   </span>
-                  7154
+                  {bill.id.substring(18).toUpperCase()}
                 </h2>
                 <p>
                   {bill.createdBy && (

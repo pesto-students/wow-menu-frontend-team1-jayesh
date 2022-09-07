@@ -124,7 +124,7 @@ function ProductsList() {
           <div>
             <img className="w-64 mx-auto" src={noProduct} alt="No Order" />
             <h3 className="mt-3 text-lg font-medium text-center text-light-text1 dark:text-dark-text2">
-              No Categories present
+              No Products present
             </h3>
           </div>
         </div>

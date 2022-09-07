@@ -206,9 +206,9 @@ function Login() {
                 )}
               </button>
             </form>
-            <p className="mt-3 text-sm text-center text-white cursor-pointer hover:underline">
+            {/* <p className="mt-3 text-sm text-center text-white cursor-pointer hover:underline">
               Forgot your password?
-            </p>
+            </p> */}
 
             <div className="block w-full mt-3 text-center text-white bottom-6 text-md">
               <span>Don&rsquo;t have an account? </span>

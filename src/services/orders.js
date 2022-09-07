@@ -42,6 +42,8 @@ export default function OrderService() {
     callApi({
       apiUrl: `${ORDERS}/${orderId}/accept`,
       apiMethod: "patch",
+      loadingToastMessage: "Accepting Order...",
+      successToastMessage: "Accepted Order!",
       errorToastMessage: error.message,
     });
   };
@@ -50,6 +52,8 @@ export default function OrderService() {
     callApi({
       apiUrl: `${ORDERS}/${orderId}/complete`,
       apiMethod: "patch",
+      loadingToastMessage: "Marking Order Complete...",
+      successToastMessage: "Order Marked Complete!",
       errorToastMessage: error.message,
     });
   };
@@ -59,6 +63,8 @@ export default function OrderService() {
       apiUrl: `${ORDERS}/${orderId}/iteration/${iterationId}`,
       apiMethod: "patch",
       apiBody: { status },
+      loadingToastMessage: "Updating Order Status...",
+      successToastMessage: "Order Status Updated!",
       errorToastMessage: error.message,
     });
   };

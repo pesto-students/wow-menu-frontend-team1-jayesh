@@ -53,7 +53,7 @@ function PlaceOrderCard({ className }) {
     if (response) {
       dispatch(setOrder(response.data));
       dispatch(resetCart());
-      navigate("/home");
+      navigate("/status");
       Swal.fire({
         title: "Sweet!!",
         icon: "success",
