@@ -55,7 +55,6 @@ export default function AddUser() {
       apiUrl: "/signup",
       apiBody: { ...body, restaurant: restaurantId },
       successToastMessage: "User is added successfully!",
-      errorToastMessage: "Something went wrong, Please try again!",
       navigationLink: "/dashboard/settings/access-management",
     });
   };
