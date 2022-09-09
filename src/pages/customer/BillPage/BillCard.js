@@ -7,6 +7,7 @@ import Button from "../../../shared/components/Button";
 
 function BillCard({ className, restaurant, bill }) {
   const handleDownload = () => {
+    // new document is created and text are added in x and y position of the document
     const doc = new Jspdf();
     doc.setFontSize(22);
     doc.text(20, 25, `${restaurant.name}`);

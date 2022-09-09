@@ -14,8 +14,6 @@ export default function InitialSetup() {
   const dispatch = useDispatch();
   const { restaurantId, table } = useParams();
   const [success, setSuccess] = useState(false);
-  // const restaurantId = "63077d6ac31f771aaca9c858";
-  // const table = 7;
 
   const {
     loading,

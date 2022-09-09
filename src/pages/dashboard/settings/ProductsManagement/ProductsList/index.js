@@ -31,11 +31,14 @@ function ProductsList() {
     setSearch(searchText);
     setPage(1);
   };
+  // infinity scroll
   const loadMoreElementRef = useCallback(
     (node) => {
       if (loading) return;
+      // the ref is disconnted from the current element
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
+        // the last item is visible in screen
         if (entries[0].isIntersecting && hasMore) {
           setPage((prevPage) => prevPage + 1);
         }
