@@ -2,7 +2,6 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import PageNotFound from "../../pages/404";
 import DashboardAnalytics from "../../pages/dashboard/analytics";
-import DashboardHome from "../../pages/dashboard/home";
 import DashboardOrders from "../../pages/dashboard/Orders";
 import DashboardSettings from "../../pages/dashboard/settings";
 import Customer from "../../pages/customer";
@@ -47,7 +46,6 @@ function AnimatedRoutes() {
         <Route path="login" element={<Login />} />
         <Route element={<ProtectedRoute />}>
           <Route path="dashboard" element={<Dashboard />}>
-            <Route path="home" element={<DashboardHome />} />
             <Route path="orders" element={<DashboardOrders />} />
             <Route path="kitchen" element={<DashboardKitchen />} />
             <Route path="analytics" element={<DashboardAnalytics />} />

@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import BackButton from "../../../../../shared/components/BackButton";
-import useAxios from "../../../../../shared/hooks/useAxios";
+import CategoriesService from "../../../../../services/categories";
 
 const schema = yup.object().shape({
   name: yup
@@ -19,17 +19,18 @@ const schema = yup.object().shape({
 export default function EditCategory() {
   const { id } = useParams();
   const [categoryData, setCategoryData] = useState([]);
-
   const {
     response: categoryDetailsResponse,
     loading: categoryDetailsLoading,
     error: categoryDetailsError,
-    callApi,
-  } = useAxios({
-    url: `/categories/${id}?`,
-    method: "get",
-    headers: { accept: "*/*" },
-  });
+    getCategoryById,
+    updateCategory,
+    deleteCategory,
+  } = CategoriesService();
+
+  useEffect(() => {
+    getCategoryById(id);
+  }, []);
 
   useEffect(() => {
     if (categoryDetailsResponse !== null) {
@@ -51,25 +52,11 @@ export default function EditCategory() {
   }, [categoryData]);
 
   const submitForm = (data) => {
-    callApi({
-      apiMethod: "patch",
-      apiUrl: `/categories/${id}`,
-      params: {},
-      apiBody: data,
-      successToastMessage: "Category details were saved successfully!",
-      navigationLink: "/dashboard/settings/categories-list",
-    });
+    updateCategory(id, data);
   };
 
   const deleteCategoryHandler = () => {
-    callApi({
-      apiMethod: "delete",
-      apiUrl: `/categories/${id}`,
-      params: {},
-      apiBody: {},
-      successToastMessage: "Category was deleted successfully!",
-      navigationLink: "/dashboard/settings/categories-list",
-    });
+    deleteCategory(id);
   };
 
   return (

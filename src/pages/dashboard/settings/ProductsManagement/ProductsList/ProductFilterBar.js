@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaChevronDown } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import useAxios from "../../../../../shared/hooks/useAxios";
+import CategoriesService from "../../../../../services/categories";
 
 function ProductFilterBar({ filterBy, updateFilter }) {
-  const { response, callApi } = useAxios();
+  const { response, getCategories } = CategoriesService();
   const [categoriesData, setCategoriesData] = useState();
   const [filter, setFilter] = useState(false);
   const [categoryName, setCategoryName] = useState(null);
@@ -20,16 +20,16 @@ function ProductFilterBar({ filterBy, updateFilter }) {
       ...(status.isAvailable !== "" && { isAvailable: status.isAvailable }),
     });
   };
-  const restaurantID = useSelector((state) => state.restaurant.id);
+  const restaurantId = useSelector((state) => state.restaurant.id);
 
   useEffect(() => {
     if (!categoriesData) {
-      callApi({
-        apiMethod: "get",
-        apiUrl: `/categories?restaurant=${restaurantID}`,
-        params: {},
-        errorToastMessage: "Failed to fetch categories data!",
-      });
+      getCategories({ restaurantId, active: "" });
+    }
+  }, [response]);
+
+  useEffect(() => {
+    if (response) {
       setCategoriesData(response);
     }
   }, [response]);
@@ -37,10 +37,6 @@ function ProductFilterBar({ filterBy, updateFilter }) {
   return (
     <>
       <motion.button
-        // initial={{ scale: 0.5, opacity: 0 }}
-        // animate={{ scale: 1, opacity: 1 }}
-        // exit={{ scale: 0.5, opacity: 0 }}
-        // transition={{ duration: 0.25 }}
         type="button"
         className="relative flex items-center justify-center p-2 px-3 mx-2 my-1 border rounded shadow-sm select-none md:my-0 bg-light-base3 border-dark-text2 text-light-text1 dark:bg-dark-base3 dark:border-light-text1 dark:text-dark-text1"
         onClick={() => setFilter(!filter)}

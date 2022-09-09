@@ -9,8 +9,8 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import useAxios from "../../shared/hooks/useAxios";
 import user from "../../assets/images/user.svg";
+import UserService from "../../services/user";
 
 const schema = yup.object().shape({
   firstname: yup.string().required("First name is required"),
@@ -23,6 +23,7 @@ const schema = yup.object().shape({
 });
 
 function Signup() {
+  const { loading: signupLoading, signupOwner } = UserService();
   const [passwordType, setPasswordType] = useState("password");
   const togglePassword = () => {
     if (passwordType === "password") {
@@ -31,7 +32,6 @@ function Signup() {
     }
     setPasswordType("password");
   };
-  const { loading: signupLoading, callApi } = useAxios();
   const {
     register,
     handleSubmit,
@@ -42,15 +42,7 @@ function Signup() {
 
   const submitForm = (data) => {
     const apiBody = { ...data, role: "owner" };
-    callApi({
-      apiMethod: "post",
-      apiUrl: "/signup",
-      params: {},
-      apiBody,
-      successToastMessage:
-        "Signup was successfull, Please check your email to verify your account!",
-      navigationLink: "/login",
-    });
+    signupOwner(apiBody);
   };
 
   return (

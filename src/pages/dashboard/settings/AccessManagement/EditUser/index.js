@@ -2,13 +2,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { MdArrowBackIosNew } from "react-icons/md";
 import { AiOutlineUserDelete } from "react-icons/ai";
-import useAxios from "../../../../../shared/hooks/useAxios";
+import BackButton from "../../../../../shared/components/BackButton";
+import UserService from "../../../../../services/user";
 
 const schema = yup.object().shape({
   firstname: yup.string().required("Firstname is required"),
@@ -18,12 +18,16 @@ const schema = yup.object().shape({
 });
 
 export default function EditUser() {
-  const navigate = useNavigate();
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState(null);
-
-  const { loading: userLoading, response, callApi } = useAxios();
+  const {
+    loading: userLoading,
+    response,
+    getUser,
+    updateUser,
+    removeUser,
+  } = UserService();
 
   const {
     register,
@@ -39,12 +43,7 @@ export default function EditUser() {
   useEffect(() => {
     if (!loading && userData === null) {
       setLoading(true);
-      callApi({
-        apiMethod: "get",
-        apiUrl: `/user/${id}`,
-        params: {},
-        errorToastMessage: "Failed to fetch user data!",
-      });
+      getUser(id);
     }
     if (loading && userData === null) {
       setUserData(response);
@@ -58,22 +57,11 @@ export default function EditUser() {
       ...data,
       isAdmin: data.role === "chef" ? false : data.isAdmin,
     };
-    callApi({
-      apiMethod: "patch",
-      apiUrl: `/user/${id}`,
-      apiBody: body,
-      successToastMessage: "User details were saved successfully!",
-      navigationLink: "/dashboard/settings/access-management",
-    });
+    updateUser(id, body);
   };
 
   const deleteUserHandler = () => {
-    callApi({
-      apiMethod: "delete",
-      apiUrl: `/user/${id}`,
-      successToastMessage: "User was removed successfully!",
-      navigationLink: "/dashboard/settings/access-management",
-    });
+    removeUser(id);
   };
 
   return (
@@ -84,18 +72,14 @@ export default function EditUser() {
       transition={{ duration: 0.2 }}
       className="flex flex-col flex-1 p-4 pl-28"
     >
-      <div className="flex justify-start mb-3">
-        <button
-          type="button"
-          onClick={() => navigate("/dashboard/settings/access-management")}
-          className="px-3.5 mr-2 py-1 w-max rounded bg-primary text-white text-sm font-semibold hover:bg-[#e66e59]"
-        >
-          <MdArrowBackIosNew />
-        </button>
-        <h3 className="text-2xl font-semibold leading-loose text-slate-800 dark:text-white">
-          Edit User
-        </h3>
-      </div>
+      <header>
+        <div className="flex items-center">
+          <BackButton href="/dashboard/settings/access-management" />
+          <h1 className="ml-2 text-2xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
+            Edit User
+          </h1>
+        </div>
+      </header>
       <nav className="w-full mb-3">
         <ol className="flex">
           <li>

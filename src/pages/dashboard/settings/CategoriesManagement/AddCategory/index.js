@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import BackButton from "../../../../../shared/components/BackButton";
-import useAxios from "../../../../../shared/hooks/useAxios";
+import CategoriesService from "../../../../../services/categories";
 
 const schema = yup.object().shape({
   name: yup
@@ -16,7 +16,7 @@ const schema = yup.object().shape({
 });
 
 export default function AddCategory() {
-  const { loading, callApi } = useAxios();
+  const { loading, postCategory } = CategoriesService();
   const {
     register,
     handleSubmit,
@@ -25,14 +25,7 @@ export default function AddCategory() {
     resolver: yupResolver(schema),
   });
   const submitForm = (data) => {
-    callApi({
-      apiMethod: "post",
-      apiUrl: "/categories",
-      params: {},
-      apiBody: { ...data },
-      successToastMessage: "Category was added successfully!",
-      navigationLink: "/dashboard/settings/categories-list",
-    });
+    postCategory(data);
   };
 
   return (

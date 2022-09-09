@@ -11,8 +11,8 @@ import * as yup from "yup";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../store/reducers/authReducer";
 import { setRestaurant } from "../../store/reducers/restaurantReducer";
-import useAxios from "../../shared/hooks/useAxios";
 import user from "../../assets/images/user.svg";
+import UserService from "../../services/user";
 
 const schema = yup.object().shape({
   username: yup.string().required("Username is required"),
@@ -23,6 +23,11 @@ const schema = yup.object().shape({
 });
 
 function Login() {
+  const {
+    response: loginResponse,
+    loading: loginLoading,
+    userLogin,
+  } = UserService();
   const [passwordType, setPasswordType] = useState("password");
   const togglePassword = () => {
     if (passwordType === "password") {
@@ -33,11 +38,6 @@ function Login() {
   };
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {
-    response: loginResponse,
-    loading: loginLoading,
-    callApi,
-  } = useAxios();
   const {
     register,
     handleSubmit,
@@ -51,13 +51,7 @@ function Login() {
       username: data.username,
       password: data.password,
     };
-    callApi({
-      apiMethod: "post",
-      apiUrl: "/login",
-      params: {},
-      apiBody,
-      successToastMessage: "Successfully logged in!",
-    });
+    userLogin(apiBody);
   };
 
   useEffect(() => {

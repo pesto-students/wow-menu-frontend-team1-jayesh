@@ -11,19 +11,14 @@ import { ReactComponent as StoreIcon } from "../../../assets/icons/store.svg";
 import { logout } from "../../../store/reducers/authReducer";
 import { resetRestaurant } from "../../../store/reducers/restaurantReducer";
 import DashboardSocket from "../../../services/dashboardSocket";
-import useAxios from "../../../shared/hooks/useAxios";
+import UserService from "../../../services/user";
 
 function DashboardSideBar() {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
+  const { userLogout } = UserService();
   const { newOrder } = DashboardSocket();
   const menus = [
-    // {
-    //   name: "Home",
-    //   icon: FaHome,
-    //   link: "/dashboard/home",
-    //   roles: ["owner", "chef", "manager"],
-    // },
     {
       name: "Analytics",
       icon: FaChartPie,
@@ -64,8 +59,15 @@ function DashboardSideBar() {
   const activeMenu = location.pathname;
   const navigate = useNavigate();
   const [unseenOrder, setUnseenOrder] = useState(0);
-  const { callApi } = useAxios();
 
+  const handleLogout = () => {
+    const apiBody = {
+      username: user.userDetails.firstname,
+    };
+    userLogout(apiBody);
+    dispatch(logout());
+    dispatch(resetRestaurant());
+  };
   useEffect(() => {
     if (newOrder && activeMenu !== menus[1].link) {
       setUnseenOrder((lastOrder) => lastOrder + 1);
@@ -112,17 +114,7 @@ function DashboardSideBar() {
                     if (menu.link) {
                       navigate(menu.link);
                     } else {
-                      const apiBody = {
-                        username: user.userDetails.firstname,
-                      };
-                      callApi({
-                        apiMethod: "post",
-                        apiUrl: "/logout",
-                        params: {},
-                        apiBody,
-                      });
-                      dispatch(logout());
-                      dispatch(resetRestaurant());
+                      handleLogout();
                     }
                   }}
                 >

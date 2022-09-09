@@ -1,15 +1,15 @@
 /* eslint-disable no-console */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
-import { MdArrowBackIosNew } from "react-icons/md";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import useAxios from "../../../../../shared/hooks/useAxios";
+import UserService from "../../../../../services/user";
+import BackButton from "../../../../../shared/components/BackButton";
 
 const schema = yup.object().shape({
   firstname: yup.string().required("Firstname is required"),
@@ -24,6 +24,7 @@ const schema = yup.object().shape({
 });
 
 export default function AddUser() {
+  const { loading, signupUser } = UserService();
   const [passwordType, setPasswordType] = useState("password");
   const togglePassword = () => {
     if (passwordType === "password") {
@@ -33,8 +34,6 @@ export default function AddUser() {
     setPasswordType("password");
   };
   const restaurantId = useSelector((state) => state.restaurant.details.id);
-  const navigate = useNavigate();
-  const { loading, callApi } = useAxios();
   const {
     register,
     handleSubmit,
@@ -50,13 +49,7 @@ export default function AddUser() {
       ...data,
       isAdmin: data.role === "chef" ? false : data.isAdmin,
     };
-    callApi({
-      apiMethod: "post",
-      apiUrl: "/signup",
-      apiBody: { ...body, restaurant: restaurantId },
-      successToastMessage: "User is added successfully!",
-      navigationLink: "/dashboard/settings/access-management",
-    });
+    signupUser(restaurantId, body);
   };
 
   return (
@@ -67,18 +60,14 @@ export default function AddUser() {
       transition={{ duration: 0.2 }}
       className="flex flex-col flex-1 p-4 pl-28"
     >
-      <div className="flex justify-start mb-3">
-        <button
-          type="button"
-          onClick={() => navigate("/dashboard/settings/access-management")}
-          className="px-3.5 mr-2 py-1 w-max rounded bg-primary text-white text-sm font-semibold hover:bg-[#e66e59]"
-        >
-          <MdArrowBackIosNew />
-        </button>
-        <h3 className="text-2xl font-semibold leading-loose text-slate-800 dark:text-white">
-          Add User
-        </h3>
-      </div>
+      <header>
+        <div className="flex items-center">
+          <BackButton href="/dashboard/settings/access-management" />
+          <h1 className="ml-2 text-2xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
+            Add User
+          </h1>
+        </div>
+      </header>
       <nav className="w-full mb-3">
         <ol className="flex">
           <li>
