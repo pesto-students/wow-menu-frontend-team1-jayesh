@@ -111,11 +111,11 @@ export default function EditCategory() {
         </ol>
       </nav>
 
-      <hr className="mt-3 mb-8 border-gray-400 dark:border-gray-600" />
+      <hr className="mt-3 border-gray-400 dark:border-gray-600" />
       <button
         type="button"
         onClick={deleteCategoryHandler}
-        className="px-3.5 py-2 w-max ml-auto mt-3 rounded-lg border border-dashed border-rose-400 text-rose-400 bg-white dark:bg-gray-900 dark:text-rose-400 text-sm font-semibold"
+        className="px-3.5 py-2 w-max ml-auto mt-3 rounded border border-dashed border-rose-400 text-rose-400 bg-white dark:bg-gray-900 dark:text-rose-400 text-sm font-semibold"
       >
         Delete Category
       </button>

@@ -66,7 +66,7 @@ export default function UsersList() {
       <button
         type="button"
         onClick={notify}
-        className="px-3.5 py-2 w-max ml-auto my-3 rounded-lg border border-dashed border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold flex"
+        className="px-3.5 py-2 w-max ml-auto my-3 rounded border border-dashed border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold flex"
       >
         <AiOutlineUserAdd size={20} className="mr-2" /> Add New User
       </button>

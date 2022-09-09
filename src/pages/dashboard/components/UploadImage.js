@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { BsCardImage } from "react-icons/bs";
 
 export default function UploadImage({ storeFile, uploadedUrl }) {
+  const logo = useRef(null);
   const [src, setSrc] = useState(uploadedUrl);
   const handleImageSelection = () => {
-    const pic = document.getElementById("logo");
+    const pic = logo.current;
     if (pic.files[0]) {
       setSrc(URL.createObjectURL(pic.files[0]));
       storeFile(pic.files[0]);
@@ -23,7 +24,7 @@ export default function UploadImage({ storeFile, uploadedUrl }) {
         </div>
       )}
       <input
-        id="logo"
+        ref={logo}
         type="file"
         accept="image/*"
         className="absolute inset-0 opacity-0 cursor-pointer"

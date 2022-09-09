@@ -74,7 +74,7 @@ export default function AddCategory() {
           </li>
         </ol>
       </nav>
-      <hr className="mt-3 mb-8 border-gray-400 dark:border-gray-600" />
+      <hr className="mt-3 border-gray-400 dark:border-gray-600" />
       <form onSubmit={handleSubmit(submitForm)}>
         <div className="grid mt-5 md:grid-cols-2">
           <div className="">
