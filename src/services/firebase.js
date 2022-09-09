@@ -42,44 +42,60 @@ export default function FirebaseService() {
   };
 
   const getPathStorageFromUrl = (downloadUrl) => {
-    const baseUrl =
-      "https://firebasestorage.googleapis.com/v0/b/workflow-19f2c.appspot.com/o/";
-
-    let imagePath = downloadUrl.replace(baseUrl, "");
-    const indexOfEndPath = imagePath.indexOf("?");
-    imagePath = imagePath.substring(0, indexOfEndPath);
-    imagePath = imagePath.replace("%2F", "/");
-    imagePath = imagePath.replaceAll("%20", " ");
-    imagePath = imagePath.replaceAll("%3A", ":");
-    return imagePath;
+    try {
+      const baseUrl =
+        "https://firebasestorage.googleapis.com/v0/b/workflow-19f2c.appspot.com/o/";
+      if (!downloadUrl.includes(baseUrl)) {
+        return null;
+      }
+      let imagePath = downloadUrl.replace(baseUrl, "");
+      const indexOfEndPath = imagePath.indexOf("?");
+      imagePath = imagePath.substring(0, indexOfEndPath);
+      imagePath = imagePath.replace("%2F", "/");
+      imagePath = imagePath.replaceAll("%20", " ");
+      imagePath = imagePath.replaceAll("%3A", ":");
+      return imagePath;
+    } catch (e) {
+      return null;
+    }
   };
 
   const deleteFile = (downloadUrl) => {
+    // eslint-disable-next-line
+    console.log(downloadUrl);
     setloading(true);
     const path = getPathStorageFromUrl(downloadUrl);
-    const fileRef = ref(storage, path);
-    deleteObject(fileRef)
-      .then(() => {
-        setloading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setloading(false);
-      });
+    // eslint-disable-next-line
+    console.log(path);
+    if (path) {
+      const fileRef = ref(storage, path);
+      deleteObject(fileRef)
+        .then(() => {
+          setloading(false);
+        })
+        .catch((err) => {
+          setError(err.message);
+          setloading(false);
+        });
+    }
   };
 
   const replaceFile = (downloadUrl, newfile, name) => {
     setloading(true);
     const path = getPathStorageFromUrl(downloadUrl);
-    const fileRef = ref(storage, path);
-    deleteObject(fileRef)
-      .then(() => {
-        uploadFile(newfile, name);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setloading(false);
-      });
+    if (path) {
+      const fileRef = ref(storage, path);
+      deleteObject(fileRef)
+        .then(() => {
+          uploadFile(newfile, name);
+        })
+        .catch((err) => {
+          setError(err.message);
+          setloading(false);
+        });
+    } else {
+      uploadFile(newfile, name);
+    }
   };
 
   return { loading, error, percent, url, uploadFile, deleteFile, replaceFile };
