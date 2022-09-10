@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import initialSetup from "./initialSetup";
+import qrScan from "../../assets/images/scan-qr.gif";
 
 function SplashScreen() {
   const navigate = useNavigate();
@@ -58,14 +59,21 @@ function SplashScreen() {
               </svg>
             </div>
             {!loading && (!success || error) && (
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="mt-5 text-2xl font-medium text-center text-light-text1 dark:text-dark-text1"
-              >
-                Please Scan the QR Code on the Table
-              </motion.p>
+              <>
+                <img
+                  src={qrScan}
+                  className="mx-auto mt-4 w-[20rem]"
+                  alt="QR Code"
+                />
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="mt-0 text-2xl font-medium text-center text-light-text1 dark:text-dark-text1"
+                >
+                  Please Scan the QR Code on the Table
+                </motion.p>
+              </>
             )}
           </div>
         </motion.div>

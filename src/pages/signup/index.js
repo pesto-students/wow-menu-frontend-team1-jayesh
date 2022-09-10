@@ -55,11 +55,9 @@ function Signup() {
             exit={{ opacity: 0.5, transition: { duration: 0.1 } }}
             className="flex items-center justify-center h-full p-4"
           >
-            <div className="flex">
+            <div className="flex dark">
               <svg
                 id="wow"
-                // width="auto"
-                // height="95"
                 viewBox="0 0 117 59"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

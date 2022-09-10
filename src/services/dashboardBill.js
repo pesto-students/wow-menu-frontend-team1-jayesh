@@ -8,7 +8,6 @@ export default function BillService() {
     callApi({
       apiMethod: "get",
       apiUrl: `${BILL}`,
-      // apiBody: { order: orderId },
       errorToastMessage: error.message,
     });
   };

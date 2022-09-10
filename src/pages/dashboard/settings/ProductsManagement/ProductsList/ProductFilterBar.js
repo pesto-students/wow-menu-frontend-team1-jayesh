@@ -38,7 +38,7 @@ function ProductFilterBar({ filterBy, updateFilter }) {
     <>
       <motion.button
         type="button"
-        className="relative flex items-center justify-center p-2 px-3 mx-2 my-1 border rounded shadow-sm select-none md:my-0 bg-light-base3 border-dark-text2 text-light-text1 dark:bg-dark-base3 dark:border-light-text1 dark:text-dark-text1"
+        className="relative flex items-center justify-center p-2 px-3 mx-2 my-1 border rounded shadow-sm select-none bg-light-base3 border-dark-text2 text-light-text1 dark:bg-dark-base3 dark:border-light-text1 dark:text-dark-text1"
         onClick={() => setFilter(!filter)}
       >
         <FaChevronDown className="mr-2 text-base text-light-text1 dark:text-dark-text1" />
@@ -74,12 +74,8 @@ function ProductFilterBar({ filterBy, updateFilter }) {
         )}
       </motion.button>
       <motion.button
-        // initial={{ scale: 0.5, opacity: 0 }}
-        // animate={{ scale: 1, opacity: 1 }}
-        // exit={{ scale: 0.5, opacity: 0 }}
-        // transition={{ duration: 0.25 }}
         type="button"
-        className="relative flex items-center justify-center p-2 px-3 mx-2 border rounded shadow-sm select-none bg-light-base3 border-dark-text2 text-light-text1 dark:bg-dark-base3 dark:border-light-text1 dark:text-dark-text1"
+        className="relative flex items-center justify-center p-2 px-3 mx-2 my-1 border rounded shadow-sm select-none bg-light-base3 border-dark-text2 text-light-text1 dark:bg-dark-base3 dark:border-light-text1 dark:text-dark-text1"
         onClick={() => setActiveFilter(!activeFilter)}
       >
         <FaChevronDown className="mr-2 text-base text-light-text1 dark:text-dark-text1" />
@@ -121,12 +117,8 @@ function ProductFilterBar({ filterBy, updateFilter }) {
         )}
       </motion.button>
       <motion.button
-        // initial={{ scale: 0.5, opacity: 0 }}
-        // animate={{ scale: 1, opacity: 1 }}
-        // exit={{ scale: 0.5, opacity: 0 }}
-        // transition={{ duration: 0.25 }}
         type="button"
-        className="relative flex items-center justify-center p-2 px-3 mx-2 my-1 border rounded shadow-sm select-none sm:my-0 bg-light-base3 border-dark-text2 text-light-text1 dark:bg-dark-base3 dark:border-light-text1 dark:text-dark-text1"
+        className="relative flex items-center justify-center p-2 px-3 mx-2 my-1 border rounded shadow-sm select-none bg-light-base3 border-dark-text2 text-light-text1 dark:bg-dark-base3 dark:border-light-text1 dark:text-dark-text1"
         onClick={() => setAvailableFilter(!availableFilter)}
       >
         <FaChevronDown className="mr-2 text-base text-light-text1 dark:text-dark-text1" />

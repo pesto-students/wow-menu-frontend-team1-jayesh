@@ -75,20 +75,10 @@ function CategoriesList() {
 
       <hr className="mt-3 mb-0 border-gray-400 dark:border-gray-600" />
 
-      {/* <<<<<<< HEAD
-      <div className="flex justify-end w-full px-0 py-1 my-3">
-        <CategoryFilterBar
-          filterBy={filterBy}
-          updateFilter={handleUpdateFilter}
-        />
-      </div>
-      <div className="grid gap-6 mt-0 overflow-y-auto xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 h-max">
-======= */}
       <div className="flex justify-end px-3.5 py-1 w-full my-3">
         <CategoryFilterBar updateFilter={handleUpdateFilter} />
       </div>
       <div className="grid gap-6 p-3.5 pt-0 mt-0 overflow-y-auto xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 h-max">
-        {/* >>>>>>> develop */}
         {loading ? (
           <>
             <CategoryCardSkeleton />
