@@ -35,7 +35,7 @@ function OrderList({ onSelected, loading, hasMore, orders, nextPage }) {
     [loading, hasMore],
   );
   return (
-    <aside className="w-64 h-screen p-2 overflow-x-hidden overflow-y-auto md:p-6 md:w-96 bg-light-base2 dark:bg-dark-base2">
+    <aside className="w-64 min-w-[16rem] h-screen p-2 overflow-x-hidden overflow-y-auto md:p-6 md:w-96 md:min-w-[24rem] bg-light-base2 dark:bg-dark-base2">
       {orders.length > 0 && (
         <div className="grid grid-cols-2 gap-2 mt-3 mb-5 text-xl font-semibold md:grid-cols-3 text-light-text1 dark:text-dark-text1">
           <p className="hidden md:block">Order Id</p>

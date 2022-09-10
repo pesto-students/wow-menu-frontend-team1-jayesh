@@ -55,7 +55,7 @@ function IterationDetail({ iteration, orderId, updateOrder }) {
           );
         })}
         {iteration.instruction && (
-          <div className="p-2 rounded bg-light-base2 dark:bg-dark-base2">
+          <div className="p-2 break-words rounded w-86 bg-light-base2 dark:bg-dark-base2">
             {iteration.instruction}
           </div>
         )}

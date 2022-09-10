@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import BillCard from "./BillCard";
 import PaymentCard from "./PaymentCard";
@@ -26,6 +26,7 @@ function BillPage() {
   const restaurant = useSelector((state) => state.restaurant.details);
   const billDetails = useSelector((state) => state.bill.details);
   const billloading = useSelector((state) => state.bill.loading);
+  const [billPaid, setBillPaid] = useState(false);
   const { response: paymentData, getPaymentDetails } = RazorpayService();
 
   const openPayModal = async () => {
@@ -49,6 +50,7 @@ function BillPage() {
         order_id: paymentData.data.id,
         handler(res) {
           if (res.razorpay_order_id) {
+            setBillPaid(true);
             Swal.fire({
               text: "Payment Received",
               icon: "success",
@@ -106,7 +108,7 @@ function BillPage() {
           </Card>
         )}
       </motion.div>
-      {billDetails && <PaymentCard payOnline={openPayModal} />}
+      {billDetails && !billPaid && <PaymentCard payOnline={openPayModal} />}
     </>
   );
 }
