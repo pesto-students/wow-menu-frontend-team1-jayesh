@@ -1,14 +1,15 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FaRegUser } from "react-icons/fa";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { loginSuccess } from "../../store/reducers/authReducer";
 import { setRestaurant } from "../../store/reducers/restaurantReducer";
 import user from "../../assets/images/user.svg";
@@ -22,7 +23,16 @@ const schema = yup.object().shape({
     .min(8, "Password is too short - should be 8 chars minimum."),
 });
 
+// A custom hook that builds on useLocation to parse
+// the query string for you.
+function useQuery() {
+  const { search } = useLocation();
+
+  return useMemo(() => new URLSearchParams(search), [search]);
+}
+
 function Login() {
+  const query = useQuery();
   const {
     response: loginResponse,
     loading: loginLoading,
@@ -53,6 +63,31 @@ function Login() {
     };
     userLogin(apiBody);
   };
+
+  useEffect(() => {
+    if (query.get("success")) {
+      if (query.get("success").toString() === "true") {
+        toast.success("Your account has been verified!", {
+          autoClose: 3000,
+        });
+      }
+      if (query.get("success").toString() === "false") {
+        if (query.get("errorCode")?.toString() === "3") {
+          toast.info("User is already verified!", {
+            autoClose: 3000,
+          });
+        } else if (query.get("errorCode")?.toString() === "2") {
+          toast.warn("Invalid URL!", {
+            autoClose: 3000,
+          });
+        } else {
+          toast.warn("Unknown error!", {
+            autoClose: 3000,
+          });
+        }
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (loginResponse?.data?.userDetails) {
