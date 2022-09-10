@@ -44,7 +44,7 @@ export default function AddProduct() {
   const restaurantId = useSelector((state) => state.restaurant.id);
 
   useEffect(() => {
-    getCategories({ restaurantId });
+    getCategories({ restaurantId, active: "" });
   }, []);
 
   const {

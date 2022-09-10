@@ -44,7 +44,7 @@ export default function EditProduct() {
 
   useEffect(() => {
     getProductById(id);
-    getCategories({ restaurantId });
+    getCategories({ restaurantId, active: "" });
   }, []);
 
   const {
