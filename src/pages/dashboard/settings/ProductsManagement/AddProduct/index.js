@@ -22,8 +22,7 @@ const schema = yup.object().shape({
     .typeError("You must specify a number")
     .required("Price is required"),
   category: yup.string().required("Category is required"),
-  description: yup.string(), // .required("Description is required")
-  // imageUrl: yup.string().required("Image URL is required"),
+  description: yup.string(),
   isVeg: yup
     .boolean()
     .typeError("Field is required")
@@ -45,7 +44,7 @@ export default function AddProduct() {
   const restaurantId = useSelector((state) => state.restaurant.id);
 
   useEffect(() => {
-    getCategories({ restaurantId });
+    getCategories({ restaurantId, active: "" });
   }, []);
 
   const {
@@ -110,7 +109,7 @@ export default function AddProduct() {
         </ol>
       </nav>
 
-      <hr className="mt-3 mb-8 border-gray-400 dark:border-gray-600" />
+      <hr className="mt-3 border-gray-400 dark:border-gray-600" />
       <form onSubmit={handleSubmit(submitForm)}>
         <div className="grid mt-5 md:grid-cols-2">
           <div className="">

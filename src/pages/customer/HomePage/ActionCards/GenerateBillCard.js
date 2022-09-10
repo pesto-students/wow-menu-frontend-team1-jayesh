@@ -10,7 +10,6 @@ import { resetCart } from "../../../../store/reducers/cartReducer";
 import { resetOrder } from "../../../../store/reducers/orderReducer";
 import CustomerBillService from "../../../../services/customerBill";
 
-// style for different props
 const classes = {
   base: "absolute inset-x-0 bottom-0 pt-10 pb-20 bg-light-base3 dark:bg-dark-base3",
 };
@@ -18,7 +17,6 @@ const classes = {
 function GenerateBillCard({ className }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const bill = useSelector((state) => state.bill);
   const { response, loading, error, getBill } = CustomerBillService();
 
   const handleGenerateBill = () => {

@@ -97,14 +97,7 @@ export default function QRCode() {
       <div className="grid gap-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
         {urls.map((url, idx) => {
           return (
-            <motion.div
-              // initial={{ scale: 0.5, opacity: 0 }}
-              // animate={{ scale: 1, opacity: 1 }}
-              // exit={{ scale: 0.5, opacity: 0 }}
-              // transition={{ duration: 0.25 }}
-              key={url}
-              className="flex justify-center"
-            >
+            <motion.div key={url} className="flex justify-center">
               <div className="relative p-6 border border-gray-300 rounded md:p-12 dark:border-gray-700 bg-light-base3 dark:bg-dark-base2 border-1">
                 <div className="flex justify-center">
                   <QRCodeSVG

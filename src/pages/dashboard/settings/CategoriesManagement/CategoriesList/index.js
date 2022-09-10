@@ -50,7 +50,7 @@ function CategoriesList() {
           onClick={() => {
             navigate("../settings/add-category");
           }}
-          className="flex px-3.5 py-2 w-max ml-auto my-3 rounded-lg border border-dashed border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold"
+          className="flex px-3.5 py-2 w-max ml-auto my-3 rounded border border-dashed border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold"
         >
           <span className="hidden mr-2 sm:block">Add</span>
           <span className="block mr-2 sm:hidden">+</span>

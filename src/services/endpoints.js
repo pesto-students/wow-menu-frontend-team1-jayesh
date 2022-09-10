@@ -7,6 +7,10 @@ const ANALYTICS = "restaurant-info";
 const RAZORPAY = "razorpay";
 const CALL_WAITER = "callWaiter";
 const PAY_BY_CASH = "payByCash";
+const LOGIN = "login";
+const LOGOUT = "logout";
+const SIGNUP = "signup";
+const USER = "user";
 
 export {
   RESTAURANT,
@@ -18,4 +22,8 @@ export {
   CALL_WAITER,
   PAY_BY_CASH,
   ANALYTICS,
+  LOGIN,
+  LOGOUT,
+  SIGNUP,
+  USER,
 };

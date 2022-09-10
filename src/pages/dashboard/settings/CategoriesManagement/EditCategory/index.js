@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import BackButton from "../../../../../shared/components/BackButton";
-import useAxios from "../../../../../shared/hooks/useAxios";
+import CategoriesService from "../../../../../services/categories";
 
 const schema = yup.object().shape({
   name: yup
@@ -19,17 +19,18 @@ const schema = yup.object().shape({
 export default function EditCategory() {
   const { id } = useParams();
   const [categoryData, setCategoryData] = useState([]);
-
   const {
     response: categoryDetailsResponse,
     loading: categoryDetailsLoading,
     error: categoryDetailsError,
-    callApi,
-  } = useAxios({
-    url: `/categories/${id}?`,
-    method: "get",
-    headers: { accept: "*/*" },
-  });
+    getCategoryById,
+    updateCategory,
+    deleteCategory,
+  } = CategoriesService();
+
+  useEffect(() => {
+    getCategoryById(id);
+  }, []);
 
   useEffect(() => {
     if (categoryDetailsResponse !== null) {
@@ -51,25 +52,11 @@ export default function EditCategory() {
   }, [categoryData]);
 
   const submitForm = (data) => {
-    callApi({
-      apiMethod: "patch",
-      apiUrl: `/categories/${id}`,
-      params: {},
-      apiBody: data,
-      successToastMessage: "Category details were saved successfully!",
-      navigationLink: "/dashboard/settings/categories-list",
-    });
+    updateCategory(id, data);
   };
 
   const deleteCategoryHandler = () => {
-    callApi({
-      apiMethod: "delete",
-      apiUrl: `/categories/${id}`,
-      params: {},
-      apiBody: {},
-      successToastMessage: "Category was deleted successfully!",
-      navigationLink: "/dashboard/settings/categories-list",
-    });
+    deleteCategory(id);
   };
 
   return (
@@ -111,11 +98,11 @@ export default function EditCategory() {
         </ol>
       </nav>
 
-      <hr className="mt-3 mb-8 border-gray-400 dark:border-gray-600" />
+      <hr className="mt-3 border-gray-400 dark:border-gray-600" />
       <button
         type="button"
         onClick={deleteCategoryHandler}
-        className="px-3.5 py-2 w-max ml-auto mt-3 rounded-lg border border-dashed border-rose-400 text-rose-400 bg-white dark:bg-gray-900 dark:text-rose-400 text-sm font-semibold"
+        className="px-3.5 py-2 w-max ml-auto mt-3 rounded border border-dashed border-rose-400 text-rose-400 bg-white dark:bg-gray-900 dark:text-rose-400 text-sm font-semibold"
       >
         Delete Category
       </button>

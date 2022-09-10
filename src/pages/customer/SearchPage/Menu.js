@@ -5,11 +5,14 @@ import noItems from "../../../assets/images/noItems.svg";
 
 function Menu({ items, loading, hasMore, nextPage }) {
   const observer = useRef();
+  // infinity scroll
   const loadMoreElementRef = useCallback(
     (node) => {
       if (loading) return;
+      // the ref is disconnted from the current element
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
+        // the last item is visible in screen
         if (entries[0].isIntersecting && hasMore) nextPage();
       });
       if (node) observer.current.observe(node);

@@ -44,7 +44,7 @@ export default function EditProduct() {
 
   useEffect(() => {
     getProductById(id);
-    getCategories({ restaurantId });
+    getCategories({ restaurantId, active: "" });
   }, []);
 
   const {
@@ -120,12 +120,12 @@ export default function EditProduct() {
         </ol>
       </nav>
 
-      <hr className="mt-3 mb-8 border-gray-400 dark:border-gray-600" />
+      <hr className="mt-3 border-gray-400 dark:border-gray-600" />
       <button
         type="button"
         onClick={deleteProductHandler}
         disabled={loading}
-        className="px-3.5 py-2 w-max ml-auto mt-3 rounded-lg border border-dashed border-rose-400 text-rose-400 bg-white dark:bg-gray-900 dark:text-rose-400 text-sm font-semibold"
+        className="px-3.5 py-2 w-max ml-auto mt-3 rounded border border-dashed border-rose-400 text-rose-400 bg-white dark:bg-gray-900 dark:text-rose-400 text-sm font-semibold"
       >
         <div className="flex">
           <RiDeleteBinLine size={19} className="mr-1" /> Delete Product
@@ -369,7 +369,7 @@ export default function EditProduct() {
               <button
                 type="submit"
                 disabled={loading}
-                className="px-3.5 py-3 mt-5 w-1/4 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#e66e59] disabled:bg-primary/30"
+                className="px-3.5 py-3 mt-5 w-1/4 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#e66e59] disabled:opacity-50"
               >
                 {loading && (
                   <svg

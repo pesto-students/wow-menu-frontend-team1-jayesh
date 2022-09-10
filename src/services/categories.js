@@ -13,6 +13,47 @@ export default function CategoriesService() {
       errorToastMessage: error.message,
     });
   };
+  const getCategoryById = (id) => {
+    callApi({
+      apiMethod: "get",
+      apiUrl: `${CATEGORIES}/${id}`,
+    });
+  };
+  const postCategory = (payload) => {
+    callApi({
+      apiMethod: "post",
+      apiUrl: `${CATEGORIES}`,
+      apiBody: { ...payload },
+      successToastMessage: "Category was added successfully!",
+      navigationLink: "/dashboard/settings/categories-list",
+    });
+  };
+  const updateCategory = (id, payload) => {
+    callApi({
+      apiMethod: "patch",
+      apiUrl: `${CATEGORIES}/${id}`,
+      apiBody: payload,
+      successToastMessage: "Category details were saved successfully!",
+      navigationLink: "/dashboard/settings/categories-list",
+    });
+  };
+  const deleteCategory = (id) => {
+    callApi({
+      apiMethod: "delete",
+      apiUrl: `${CATEGORIES}/${id}`,
+      successToastMessage: "Category was deleted successfully!",
+      navigationLink: "/dashboard/settings/categories-list",
+    });
+  };
 
-  return { loading, error, response, getCategories };
+  return {
+    loading,
+    error,
+    response,
+    getCategories,
+    getCategoryById,
+    postCategory,
+    updateCategory,
+    deleteCategory,
+  };
 }

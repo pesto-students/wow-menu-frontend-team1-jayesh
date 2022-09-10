@@ -4,23 +4,21 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { FaRegEdit } from "react-icons/fa";
-import { MdArrowBackIosNew } from "react-icons/md";
-import useAxios from "../../../../../shared/hooks/useAxios";
 import UserListSkeleton from "./UserListSkeleton";
+import BackButton from "../../../../../shared/components/BackButton";
+import UserService from "../../../../../services/user";
 
 export default function UsersList() {
+  const { response, loading, error, getUsers } = UserService();
   const restaurantId = useSelector((state) => state.restaurant.details.id);
-  const { response, loading, error } = useAxios({
-    method: "get",
-    url: "/users",
-    headers: { accept: "*/*" },
-  });
   const [usersData, setUsersData] = useState([]);
   const navigate = useNavigate();
   const notify = () => {
     navigate("../settings/access-management/add");
   };
-
+  useEffect(() => {
+    getUsers();
+  }, []);
   useEffect(() => {
     if (response && restaurantId) {
       setUsersData(response);
@@ -34,15 +32,10 @@ export default function UsersList() {
       transition={{ duration: 0.2 }}
       className="flex flex-col flex-1 p-4 pl-28"
     >
-      <div className="flex justify-start mb-3">
-        <button
-          type="button"
-          onClick={() => navigate("/dashboard/settings")}
-          className="px-3.5 mr-2 py-1 w-max rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[#e66e59]"
-        >
-          <MdArrowBackIosNew />
-        </button>
-        <h3 className="text-2xl font-semibold leading-loose text-slate-800 dark:text-white">
+      <div className="flex items-center justify-start mb-3">
+        <BackButton href="/dashboard/settings" />
+
+        <h3 className="ml-2 text-2xl font-semibold leading-loose text-slate-800 dark:text-white">
           Users
         </h3>
       </div>
@@ -66,7 +59,7 @@ export default function UsersList() {
       <button
         type="button"
         onClick={notify}
-        className="px-3.5 py-2 w-max ml-auto my-3 rounded-lg border border-dashed border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold flex"
+        className="px-3.5 py-2 w-max ml-auto my-3 rounded border border-dashed border-primary text-white bg-primary dark:bg-gray-900 dark:text-primary text-sm font-semibold flex"
       >
         <AiOutlineUserAdd size={20} className="mr-2" /> Add New User
       </button>

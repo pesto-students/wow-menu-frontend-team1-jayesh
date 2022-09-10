@@ -2,7 +2,7 @@ import { BrowserRouter } from "react-router-dom";
 import "./App.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AnimatedRoutes from "./shared/components/AnimatedRoutes";
+import AnimatedRoutes from "./routes/AnimatedRoutes";
 import useDarkMode from "./shared/hooks/useDarkMode";
 
 function App() {

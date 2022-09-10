@@ -36,9 +36,6 @@ function BillPage() {
       );
       return;
     }
-    // const paymentData = await axios.get(
-    //   `https://wow-menu-staging.herokuapp.com/api/razorpay/${billDetails.id}`,
-    // );
     getPaymentDetails(billDetails.id);
   };
 

@@ -1,33 +1,32 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import PageNotFound from "../../pages/404";
-import DashboardAnalytics from "../../pages/dashboard/analytics";
-import DashboardHome from "../../pages/dashboard/home";
-import DashboardOrders from "../../pages/dashboard/Orders";
-import DashboardSettings from "../../pages/dashboard/settings";
-import Customer from "../../pages/customer";
-import SplashScreen from "../../pages/customer/SplashScreen";
-import CustomerMenu from "../../pages/customer/HomePage";
-import CustomerOrder from "../../pages/customer/OrderPage";
-import CustomerOrderStatus from "../../pages/customer/StatusPage";
-import CustomerBillPage from "../../pages/customer/BillPage";
-import CustomerSearchPage from "../../pages/customer/SearchPage";
-import DashboardKitchen from "../../pages/dashboard/Kitchen";
-import Dashboard from "../../pages/dashboard";
-import Signup from "../../pages/signup";
-import Login from "../../pages/login";
-import QRCode from "../../pages/dashboard/settings/QRCode";
-import ProductsList from "../../pages/dashboard/settings/ProductsManagement/ProductsList";
-import EditProduct from "../../pages/dashboard/settings/ProductsManagement/EditProduct";
-import AddProduct from "../../pages/dashboard/settings/ProductsManagement/AddProduct";
-import CategoriesList from "../../pages/dashboard/settings/CategoriesManagement/CategoriesList";
-import AddCategory from "../../pages/dashboard/settings/CategoriesManagement/AddCategory";
-import EditCategory from "../../pages/dashboard/settings/CategoriesManagement/EditCategory";
-import UsersList from "../../pages/dashboard/settings/AccessManagement/UsersList";
-import AddUser from "../../pages/dashboard/settings/AccessManagement/AddUser";
-import EditUser from "../../pages/dashboard/settings/AccessManagement/EditUser";
+import PageNotFound from "../pages/404";
+import DashboardAnalytics from "../pages/dashboard/analytics";
+import DashboardOrders from "../pages/dashboard/Orders";
+import DashboardSettings from "../pages/dashboard/settings";
+import Customer from "../pages/customer";
+import SplashScreen from "../pages/customer/SplashScreen";
+import CustomerMenu from "../pages/customer/HomePage";
+import CustomerOrder from "../pages/customer/OrderPage";
+import CustomerOrderStatus from "../pages/customer/StatusPage";
+import CustomerBillPage from "../pages/customer/BillPage";
+import CustomerSearchPage from "../pages/customer/SearchPage";
+import DashboardKitchen from "../pages/dashboard/Kitchen";
+import Dashboard from "../pages/dashboard";
+import Signup from "../pages/signup";
+import Login from "../pages/login";
+import QRCode from "../pages/dashboard/settings/QRCode";
+import ProductsList from "../pages/dashboard/settings/ProductsManagement/ProductsList";
+import EditProduct from "../pages/dashboard/settings/ProductsManagement/EditProduct";
+import AddProduct from "../pages/dashboard/settings/ProductsManagement/AddProduct";
+import CategoriesList from "../pages/dashboard/settings/CategoriesManagement/CategoriesList";
+import AddCategory from "../pages/dashboard/settings/CategoriesManagement/AddCategory";
+import EditCategory from "../pages/dashboard/settings/CategoriesManagement/EditCategory";
+import UsersList from "../pages/dashboard/settings/AccessManagement/UsersList";
+import AddUser from "../pages/dashboard/settings/AccessManagement/AddUser";
+import EditUser from "../pages/dashboard/settings/AccessManagement/EditUser";
 import ProtectedRoute from "./ProtectedRoute";
-import RestaurantDeatils from "../../pages/dashboard/settings/RestaurantDetails";
+import RestaurantDeatils from "../pages/dashboard/settings/RestaurantDetails";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -47,7 +46,6 @@ function AnimatedRoutes() {
         <Route path="login" element={<Login />} />
         <Route element={<ProtectedRoute />}>
           <Route path="dashboard" element={<Dashboard />}>
-            <Route path="home" element={<DashboardHome />} />
             <Route path="orders" element={<DashboardOrders />} />
             <Route path="kitchen" element={<DashboardKitchen />} />
             <Route path="analytics" element={<DashboardAnalytics />} />

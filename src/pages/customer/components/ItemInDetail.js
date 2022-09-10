@@ -67,13 +67,15 @@ function ItemInDetail() {
           ${classes.bg}
       `}
       >
-        <div className="flex justify-center">
-          <img
-            className="w-3/6 rounded-lg text-light-text2"
-            src={item.imageUrl}
-            alt={item.name}
-          />
-        </div>
+        {item.imageUrl && (
+          <div className="flex justify-center">
+            <img
+              className="w-3/6 rounded-lg text-light-text2"
+              src={item.imageUrl}
+              alt={item.name}
+            />
+          </div>
+        )}
         <div className="grid grid-cols-3 gap-1 mt-4">
           <div className="col-span-2">
             <div className="flex">
