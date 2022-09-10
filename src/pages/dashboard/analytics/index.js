@@ -36,7 +36,6 @@ function DashboardAnalytics() {
       <div className="flex flex-wrap ml-28">
         <main className="relative flex flex-col h-screen gap-4 pr-4 overflow-x-hidden overflow-y-auto grow">
           <Header name="Analytics" />
-          {/* {analytics && analytics.data && ( */}
           <div className="grid gap-4 sm:grid-cols-3">
             <FeatureCard
               icon={<HiOutlineCurrencyRupee className="text-accent-violet" />}
@@ -66,7 +65,6 @@ function DashboardAnalytics() {
               subtitle="Total Orders"
             />
           </div>
-          {/* )} */}
           <Card className="mb-4 grow bg-light-base2 dark:bg-dark-base2">
             <h2 className="mb-5 text-xl font-semibold leading-loose text-light-text1 dark:text-dark-text1">
               Billing Report

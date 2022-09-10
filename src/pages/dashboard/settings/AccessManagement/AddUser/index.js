@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useState } from "react";
 import { Link } from "react-router-dom";

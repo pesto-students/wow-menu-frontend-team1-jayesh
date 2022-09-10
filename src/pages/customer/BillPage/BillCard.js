@@ -112,7 +112,6 @@ function BillCard({ className, restaurant, bill }) {
             <p className="text-center text-light-text1 dark:text-dark-text1">
               Phone: {restaurant.phoneNumber}
             </p>
-            {/* <hr /> */}
             <h2 className="mt-5 mb-3 text-xl font-semibold text-center text-light-text1 dark:text-dark-text1">
               TAX INVOICE
             </h2>
@@ -179,7 +178,6 @@ function BillCard({ className, restaurant, bill }) {
                 </div>
               );
             })}
-            {/* <hr /> */}
             <div className="flex justify-between mt-5 text-light-text1 dark:text-dark-text1">
               <p className="font-medium text-light-text1 dark:text-dark-text1">
                 Subtotal
@@ -204,7 +202,6 @@ function BillCard({ className, restaurant, bill }) {
                 {parseFloat(bill.sgst).toFixed(2)}
               </p>
             </div>
-            {/* <hr /> */}
             <div className="flex justify-between mt-5 mb-3">
               <p className="text-lg font-semibold text-light-text1 dark:text-dark-text1">
                 Total

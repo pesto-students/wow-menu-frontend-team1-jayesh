@@ -51,13 +51,6 @@ function DashboardSettings() {
       link: "qrcode",
       adminAccessRequired: false,
     },
-    // {
-    //   id: 6,
-    //   icon: <BsShieldLock />,
-    //   title: "Security",
-    //   subtitle: "Configure Kitchen",
-    //   link: "access-management",
-    // },
   ];
   return (
     <motion.main

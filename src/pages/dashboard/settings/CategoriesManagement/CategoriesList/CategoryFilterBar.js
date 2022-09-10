@@ -11,10 +11,6 @@ function CategoryFilterBar({ updateFilter }) {
 
   return (
     <motion.button
-      // initial={{ scale: 0.5, opacity: 0 }}
-      // animate={{ scale: 1, opacity: 1 }}
-      // exit={{ scale: 0.5, opacity: 0 }}
-      // transition={{ duration: 0.25 }}
       type="button"
       className="relative flex items-center justify-center min-w-[192px] mr-0 p-2 px-3 border rounded shadow-sm select-none bg-light-base3 border-dark-text2 text-light-text1 dark:bg-dark-base3 dark:border-light-text1 dark:text-dark-text1"
       onClick={() => setActiveFilter(!activeFilter)}

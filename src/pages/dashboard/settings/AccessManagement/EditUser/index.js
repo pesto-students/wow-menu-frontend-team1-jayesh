@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";

@@ -55,7 +55,7 @@ const useAxios = ({ url = null, method = null, headers = null } = {}) => {
       } catch (err) {
         setError(err);
         toast.error(
-          errorToastMessage || err.response.data.message || err.message,
+          errorToastMessage || err.response.data?.message || err.message,
           {
             delay: 0,
             render: errorToastMessage,

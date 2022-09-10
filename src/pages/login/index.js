@@ -80,7 +80,7 @@ function Login() {
             exit={{ opacity: 0.5, transition: { duration: 0.1 } }}
             className="flex items-center justify-center h-full p-4"
           >
-            <div className="flex">
+            <div className="flex dark">
               <svg
                 id="wow"
                 viewBox="0 0 117 59"
@@ -116,7 +116,6 @@ function Login() {
           <motion.div
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            // exit={{ y: -10, opacity: 0 }}
             transition={{ duration: 0.4 }}
             className="relative w-2/3 p-6 bg-gray-900 rounded-lg h-max gap-y-6"
           >
@@ -200,9 +199,6 @@ function Login() {
                 )}
               </button>
             </form>
-            {/* <p className="mt-3 text-sm text-center text-white cursor-pointer hover:underline">
-              Forgot your password?
-            </p> */}
 
             <div className="block w-full mt-3 text-center text-white bottom-6 text-md">
               <span>Don&rsquo;t have an account? </span>

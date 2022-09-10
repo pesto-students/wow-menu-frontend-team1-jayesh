@@ -66,41 +66,6 @@ function FilterPopup({ onClose, onSelect, selectedOption }) {
                 onInput={() => handleInput("")}
               />
             </div>
-            {/* <hr className="my-2 border-light-base2 dark:border-dark-base2" />
-            <p className="pl-2 text-lg font-semibold text-light-text1 dark:text-dark-text1">
-              Spicy
-            </p>
-            <div className="flex items-center justify-between p-2 form-check">
-              <p className="pl-2 text-light-text1 dark:text-dark-text1">Low</p>
-              <input
-                className="w-6 h-6 rounded cursor-pointer accent-primary"
-                type="checkbox"
-                name="spicyLow"
-              />
-            </div>
-            <div className="flex items-center justify-between p-2 form-check">
-              <p className="flex pl-2 text-light-text1 dark:text-dark-text1">
-                Medium
-                <GiChiliPepper className="mt-1 ml-1 text-red-600" size="16" />
-              </p>
-              <input
-                className="w-6 h-6 rounded cursor-pointer accent-primary"
-                type="checkbox"
-                name="spicyMedium"
-              />
-            </div>
-            <div className="flex items-center justify-between p-2 form-check">
-              <p className="flex pl-2 text-light-text1 dark:text-dark-text1">
-                High
-                <GiChiliPepper className="mt-1 ml-1 text-red-600" size="16" />
-                <GiChiliPepper className="mt-1 ml-1 text-red-600" size="16" />
-              </p>
-              <input
-                className="w-6 h-6 rounded cursor-pointer accent-primary"
-                type="checkbox"
-                name="spicyHigh"
-              />
-            </div> */}
           </div>
         </Card>
       </motion.div>
