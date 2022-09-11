@@ -43,7 +43,7 @@ export default function OrderService() {
       apiUrl: `${ORDERS}/${orderId}/accept`,
       apiMethod: "patch",
       loadingToastMessage: "Accepting Order...",
-      successToastMessage: "Accepted Order!",
+      successToastMessage: "Order Accepted!",
       errorToastMessage: error.message,
     });
   };
@@ -53,7 +53,7 @@ export default function OrderService() {
       apiUrl: `${ORDERS}/${orderId}/complete`,
       apiMethod: "patch",
       loadingToastMessage: "Marking Order Complete...",
-      successToastMessage: "Order Marked Complete!",
+      successToastMessage: "Marked Order Complete!",
       errorToastMessage: error.message,
     });
   };

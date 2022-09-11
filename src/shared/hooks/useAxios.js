@@ -41,7 +41,10 @@ const useAxios = ({ url = null, method = null, headers = null } = {}) => {
       try {
         setloading(true);
         const responseData = await toast.promise(axios(config), {
-          pending: { render: loadingToastMessage, theme },
+          pending: {
+            render: loadingToastMessage || (successToastMessage ? " " : null),
+            theme,
+          },
           success: {
             render: successToastMessage,
             autoClose: 2000,

@@ -91,7 +91,7 @@ export default function AddCategory() {
             </div>
           </div>
           <div className="md:pl-4">
-            <div className="mt-6">
+            <div className="">
               <label htmlFor="isActive">
                 <p className="mb-2 font-semibold text-light-text1 dark:text-dark-text2">
                   Active
