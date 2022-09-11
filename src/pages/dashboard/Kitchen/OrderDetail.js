@@ -15,7 +15,7 @@ function OrderDetail({ order, updateOrder }) {
   const completeAll = () => {
     completeAllIterations(order.id);
   };
-  const isPreparing = order.iterations.filter(
+  const isPreparing = order?.iterations.filter(
     (iteration) => iteration.status === "Preparing",
   );
   return (
@@ -24,7 +24,7 @@ function OrderDetail({ order, updateOrder }) {
         Order #{order.id.substring(18).toUpperCase()}
       </h1>
       <div className="pb-20 overflow-x-hidden overflow-y-auto grow">
-        {order.iterations
+        {order?.iterations
           .sort(
             (itr1, itr2) =>
               statuses.indexOf(itr1.status) - statuses.indexOf(itr2.status),

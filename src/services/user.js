@@ -34,7 +34,7 @@ export default function UserService() {
       apiMethod: "post",
       apiUrl: `${SIGNUP}`,
       apiBody: { ...payload, restaurant: restaurantId },
-      successToastMessage: "User is added successfully!",
+      successToastMessage: "User added successfully!",
       navigationLink: "/dashboard/settings/access-management",
     });
   };
