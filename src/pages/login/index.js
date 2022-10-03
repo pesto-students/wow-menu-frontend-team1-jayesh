@@ -171,6 +171,7 @@ function Login() {
                     className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-sm block w-full pl-10 p-2.5 
                 transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
                     placeholder="Email/Username"
+                    defaultValue="demo@gmail.com"
                   />
                 </div>
                 {errors.username && (
@@ -189,6 +190,7 @@ function Login() {
                     className="bg-gray-700 placeholder-gray-500 text-white text-sm rounded-sm block w-full px-10 p-2.5 
                   transition-colors duration-200 ease-in-out outline-none focus:bg-transparent focus:ring-1 focus:ring-primary"
                     placeholder="Password"
+                    defaultValue="password12"
                   />
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 cursor-pointer">
                     <button
