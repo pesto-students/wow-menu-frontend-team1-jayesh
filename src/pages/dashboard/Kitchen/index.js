@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Header from "../components/Header";
 import useLoadOrders from "./useLoadOrders";
@@ -9,7 +9,6 @@ import ListLoader from "../components/ListLoader";
 import noOrder from "../../../assets/images/noOrder.svg";
 
 export default function Kitchen() {
-  const firstRenderRef = useRef(true);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [page, setPage] = useState(1);
   const [filterBy, setFilterBy] = useState("");
@@ -36,12 +35,12 @@ export default function Kitchen() {
   };
 
   useEffect(() => {
-    if (firstRenderRef.current && orders.length > 0) {
+    if (orders && orders.length > 0 && orders[0].id) {
       setSelectedOrderId(orders[0].id);
-      firstRenderRef.current = false;
+    } else {
+      setSelectedOrderId(null);
     }
   }, [orders]);
-
   return (
     <motion.div
       initial={{ y: 10, opacity: 0 }}
@@ -60,7 +59,7 @@ export default function Kitchen() {
               options={["In progress", "Complete"]}
             />
           </div>
-          {selectedOrderId && (
+          {selectedOrder && (
             <OrderDetail
               order={selectedOrder}
               onClose={clearSelected}
