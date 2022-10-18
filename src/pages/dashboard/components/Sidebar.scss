@@ -1,0 +1,6 @@
+@tailwind components;
+@layer components {
+  .sidebar-tooltip {
+    @apply absolute w-auto p-2 ml-11 mt-7 text-xs font-bold text-white transition-all duration-100 origin-left scale-0 bg-gray-900 rounded-md shadow-md min-w-max left-14;
+  }
+}
